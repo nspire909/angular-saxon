@@ -14,7 +14,7 @@ jobs:
     if: ${{ github.event_name != 'pull_request' }}
     steps:
       - uses: actions/checkout@v2
-        name: Checkout [master]
+        name: Checkout [main]
         with:
           fetch-depth: 0
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
@@ -35,6 +35,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
+      - run: git fetch --no-tags --prune --depth=5 origin master
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v2
       - uses: actions/setup-node@v1
@@ -42,7 +43,7 @@ jobs:
           node-version: '14'
       - run: npm install
       - run: npx nx-cloud start-ci-run
-      - run: npx nx affected --target=build --parallel --max-parallel=3
+      - run: npx nx affected --target=build --parallel --max-parallel=3 -- --base=origin/master
       - run: npx nx affected --target=test --parallel --max-parallel=2
       - run: npx nx-cloud stop-all-agents
   agents:
