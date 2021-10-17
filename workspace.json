@@ -1,7 +1,60 @@
 {
   "version": 2,
-  "projects": {},
+  "projects": {
+    "karaoke-renamer": {
+      "root": "apps/karaoke-renamer",
+      "sourceRoot": "apps/karaoke-renamer/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/karaoke-renamer",
+            "main": "apps/karaoke-renamer/src/main.ts",
+            "tsConfig": "apps/karaoke-renamer/tsconfig.app.json",
+            "assets": ["apps/karaoke-renamer/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/karaoke-renamer/src/environments/environment.ts",
+                  "with": "apps/karaoke-renamer/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "karaoke-renamer:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/karaoke-renamer/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/karaoke-renamer"],
+          "options": {
+            "jestConfig": "apps/karaoke-renamer/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    }
+  },
   "cli": {
-    "defaultCollection": "@nrwl/workspace"
-  }
+    "defaultCollection": "@nrwl/node"
+  },
+  "defaultProject": "karaoke-renamer"
 }

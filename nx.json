@@ -12,14 +12,10 @@
   },
   "tasksRunnerOptions": {
     "default": {
-      "runner": "@nrwl/workspace/tasks-runners/default",
+      "runner": "@nrwl/nx-cloud",
       "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e"
-        ]
+        "cacheableOperations": ["build", "lint", "test", "e2e"],
+        "accessToken": "YWE0M2M0ZGQtNjczYS00ODdmLWE3ZmUtOTNiOTRlNDcwZDYyfHJlYWQtd3JpdGU="
       }
     }
   },
@@ -31,5 +27,9 @@
       }
     ]
   },
-  "projects": {}
+  "projects": {
+    "karaoke-renamer": {
+      "tags": []
+    }
+  }
 }
