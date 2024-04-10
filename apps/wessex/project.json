@@ -1,0 +1,81 @@
+{
+  "name": "wessex",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "app",
+  "sourceRoot": "apps/wessex/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/wessex",
+        "index": "apps/wessex/src/index.html",
+        "browser": "apps/wessex/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/wessex/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": ["apps/wessex/src/favicon.ico", "apps/wessex/src/assets"],
+        "styles": ["apps/wessex/src/styles.scss"],
+        "scripts": [],
+        "server": "apps/wessex/src/main.server.ts",
+        "prerender": true,
+        "ssr": {
+          "entry": "apps/wessex/server.ts"
+        }
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "wessex:build:production"
+        },
+        "development": {
+          "buildTarget": "wessex:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "wessex:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/wessex/jest.config.ts"
+      }
+    }
+  }
+}
