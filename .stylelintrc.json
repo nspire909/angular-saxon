@@ -1,0 +1,26 @@
+{
+  "extends": ["stylelint-config-standard-scss"],
+  "rules": {
+    "scss/at-rule-no-unknown": [
+      true,
+      {
+        "ignoreAtRules": ["tailwind", "apply", "variants", "responsive", "screen"]
+      }
+    ],
+    "function-name-case": [
+      "lower",
+      {
+        "ignoreFunctions": ["sassToJs"]
+      }
+    ],
+    "selector-pseudo-element-no-unknown": [
+      true,
+      {
+        "ignorePseudoElements": ["ng-deep"]
+      }
+    ],
+    "no-empty-source": null,
+    "scss/double-slash-comment-whitespace-inside": null,
+    "no-descending-specificity": null
+  }
+}

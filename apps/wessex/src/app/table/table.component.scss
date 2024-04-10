@@ -1,0 +1,234 @@
+@use '@angular/material' as mat;
+
+.sticky-toggle-group {
+  margin: 8px;
+}
+
+::ng-deep .dense-table {
+  @include mat.form-field-density(-5);
+  @include mat.button-density(-5);
+  @include mat.table-density(-5);
+  @include mat.paginator-density(-5);
+  @include mat.checkbox-density(-5);
+}
+
+.container {
+  width: fit-content;
+  overflow: auto;
+}
+
+.ng-scrollbar {
+  --scrollbar-thickness: 8;
+  --scrollbar-hover-thickness: 12;
+  --scrollbar-border-radius: 12px;
+
+  &:has(table) {
+    max-height: 400px;
+    max-width: 1200px;
+  }
+}
+
+.mat-mdc-table-sticky-border-elem-right {
+  border-left: var(--mat-table-row-item-outline-width, 1px) var(--mat-table-row-item-outline-color, rgb(0 0 0 / 12%))
+    solid;
+}
+
+.mat-mdc-table-sticky-border-elem-left {
+  border-right: var(--mat-table-row-item-outline-width, 1px) var(--mat-table-row-item-outline-color, rgb(0 0 0 / 12%))
+    solid;
+}
+
+tr.detail-row {
+  height: 0;
+}
+
+tr.summary-row:not(.expanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.summary-row:not(.expanded-row):active {
+  background: #efefef;
+}
+
+.summary-row td {
+  height: 36px;
+  border-bottom-width: 0;
+}
+
+.element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.element-diagram {
+  min-width: 80px;
+  border: 2px solid black;
+  padding: 8px;
+  font-weight: lighter;
+  margin: 8px 0;
+  height: 104px;
+}
+
+.element-symbol {
+  font-weight: bold;
+  font-size: 40px;
+  line-height: normal;
+}
+
+.element-description {
+  padding: 16px;
+}
+
+.element-description-attribution {
+  opacity: 0.5;
+}
+
+::ng-deep .ng-scrollbar .ng-scrollbar-sticky {
+  z-index: 101 !important;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.hidden {
+  display: none;
+}
+
+/* stylelint-disable-next-line selector-class-pattern */
+.mdc-data-table__cell:has(> a) {
+  padding: 0;
+  cursor: pointer;
+
+  &.none {
+    cursor: unset;
+  }
+
+  > a {
+    padding: 0 16px;
+    color: inherit;
+    text-decoration: auto;
+  }
+}
+
+.mat-mdc-header-row.filter-row {
+  height: 58px;
+  background-color: var(--mdc-filled-text-field-container-color);
+
+  > .mat-mdc-header-cell {
+    border-bottom-width: 0;
+  }
+}
+
+.column-list {
+  max-height: 70vh;
+  overflow: auto;
+  border-radius: 4px;
+  padding: 1rem;
+  box-shadow:
+    0 11px 15px -7px rgb(0 0 0 / 20%),
+    0 24px 38px 3px rgb(0 0 0 / 14%),
+    0 9px 46px 8px rgb(0 0 0 / 12%);
+  background-color: white;
+  color: rgb(0 0 0 / 87%);
+}
+
+.column-item {
+  height: 48px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 1px;
+  padding: 0 16px 0 8px;
+
+  mat-icon {
+    margin-right: 16px;
+  }
+
+  mat-checkbox {
+    line-height: 48px;
+    color: rgb(0 0 0 / 87%);
+    font-size: 14px;
+    font-weight: 400;
+  }
+}
+
+.column-item > mat-icon:hover {
+  cursor: grab;
+  border-top: solid 1px rgb(0 0 0 / 12%);
+  border-bottom: solid 1px rgb(0 0 0 / 12%);
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow:
+    0 5px 5px -3px rgb(0 0 0 / 20%),
+    0 8px 10px 1px rgb(0 0 0 / 14%),
+    0 3px 14px 2px rgb(0 0 0 / 12%);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.column-item:last-child {
+  border: none;
+}
+
+.column-list.cdk-drop-list-dragging .column-item:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.sticky-menu {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: rgb(255 255 255);
+  padding-right: 16px;
+}
+
+th:has(mat-form-field) {
+  padding: 0;
+
+  mat-form-field {
+    position: absolute;
+    display: inline-block;
+    inset: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+::ng-deep .mat-mdc-form-field-error-wrapper {
+  padding: 0;
+}
+
+// ?????? Optionally hide subscript-wrapper and make filter row height: 36px; instead of 58 (36 + 22)
+// ::ng-deep .filter-row .mat-mdc-form-field-subscript-wrapper {
+//   display: none;
+// }

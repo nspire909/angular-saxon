@@ -1,0 +1,238 @@
+{
+  "breadcrumbs.enabled": true,
+  "cSpell.enabledLanguageIds": [
+    "cucumber",
+    "scss",
+    "json",
+    "jsonc",
+    "csharp",
+    "go",
+    "javascript",
+    "javascriptreact",
+    "markdown",
+    "php",
+    "plaintext",
+    "typescript",
+    "typescriptreact",
+    "yml",
+    "sql"
+  ],
+  "cSpell.ignorePaths": [
+    "**/.angular/**",
+    "**/.git/**",
+    "**/.nx/**",
+    "**/.yarn/**",
+    "**/dist/**",
+    "**/yarn.lock"
+  ],
+  "cSpell.words": [
+    "accessorial",
+    "accessorials",
+    "Aggs",
+    "autocompletes",
+    "autofocus",
+    "basehref",
+    "breakbulk",
+    "builtins",
+    "Cacheable",
+    "cafile",
+    "Chainable",
+    "classlist",
+    "CLIN",
+    "CLINs",
+    "codegen",
+    "datepicker",
+    "datepickers",
+    "datetime",
+    "denormalized",
+    "devkit",
+    "DoDAAC",
+    "DoDAACs",
+    "dropzone",
+    "dtod",
+    "Esbuild",
+    "exceljs",
+    "fastify",
+    "flatrack",
+    "genc",
+    "httpd",
+    "IRCS",
+    "jsonpath",
+    "keycodes",
+    "keyvalue",
+    "linehaul",
+    "localdev",
+    "localmicrodev",
+    "luxon",
+    "maxlength",
+    "microservices",
+    "Millis",
+    "minlength",
+    "mintty",
+    "mixins",
+    "mton",
+    "mtons",
+    "nestjs",
+    "nrwl",
+    "oidc",
+    "PCFN",
+    "pocs",
+    "prefs",
+    "prepopulate",
+    "Proxied",
+    "referencedata",
+    "reqs",
+    "RHEL",
+    "SCAC",
+    "SCACs",
+    "SDDC",
+    "serializers",
+    "sidenav",
+    "snapng",
+    "snapui",
+    "STIG",
+    "stylelint",
+    "Subzones",
+    "tabindex",
+    "TERMAC",
+    "TERMACs",
+    "TODOs",
+    "typeahead",
+    "unassignable",
+    "unpatched",
+    "UNSUBMITTED",
+    "vesselschedule",
+    "VOYDOC",
+    "VSTAT",
+    "websockets",
+    "Yubikey"
+  ],
+  "css.validate": false,
+  "cucumberautocomplete.steps": [
+    "apps/*/src/e2e/**/*.ts"
+  ],
+  "cucumber.features": [
+    "apps/*/src/e2e/**/*.feature"
+  ],
+  "cucumber.glue": [
+    "apps/*/src/e2e/common/*.steps.ts",
+    "apps/*/src/e2e/**/*.ts"
+  ],
+  "diffEditor.ignoreTrimWhitespace": false,
+  "diffEditor.maxComputationTime": 0,
+  "editor.fontFamily": "'Fira Code', Menlo, Monaco, 'Courier New', monoscape",
+  "editor.fontLigatures": true,
+  "editor.formatOnSave": true,
+  "editor.guides.bracketPairs": true,
+  "editor.linkedEditing": true,
+  "editor.minimap.showSlider": "always",
+  "editor.mouseWheelZoom": true,
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": true
+  },
+  "editor.quickSuggestionsDelay": 2000,
+  "editor.rulers": [
+    120,
+    140
+  ],
+  "editor.tabSize": 2,
+  "editor.wordWrap": "on",
+  "eslint.nodePath": ".yarn/sdks",
+  "eslint.validate": [
+    "typescript",
+    "typescriptreact",
+    "javascript",
+    "javascriptreact",
+    "json",
+    "jsonc",
+    "json5",
+    "yaml",
+    "toml",
+    "html"
+  ],
+  "explorer.incrementalNaming": "smart",
+  "explorer.openEditors.sortOrder": "alphabetical",
+  "files.associations": {
+    "*.json": "jsonc"
+  },
+  "files.exclude": {
+    ".angular": true,
+    ".nx": true,
+    "yarn.lock": true
+  },
+  "formatFiles.excludedFolders": [
+    ".angular",
+    ".git",
+    ".nx",
+    "dist"
+  ],
+  "html.format.wrapAttributes": "preserve",
+  "jest.autoRun": {
+    "watch": false
+  },
+  "js/ts.implicitProjectConfig.checkJs": true,
+  "npm.packageManager": "yarn",
+  "npm.scriptExplorerAction": "run",
+  "prettier.prettierPath": ".yarn/sdks/prettier/index.cjs",
+  "redhat.telemetry.enabled": false,
+  "scss.validate": false,
+  "search.exclude": {
+    "**/.yarn": true,
+    "**/.pnp.*": true
+  },
+  "stylelint.configBasedir": "tools/stylelint-vscode-hack/node_modules",
+  "stylelint.configFile": ".stylelintrc.json",
+  "stylelint.customSyntax": "postcss-scss",
+  "stylelint.packageManager": "yarn",
+  "stylelint.stylelintPath": "tools/stylelint-vscode-hack/node_modules/stylelint",
+  "stylelint.validate": [
+    "css",
+    "scss"
+  ],
+  "svg.preview.background": "white",
+  "terminal.integrated.defaultProfile.windows": "Git Bash",
+  "terminal.integrated.scrollback": 1000000,
+  "todo-tree.general.tags": [
+    "BUG",
+    "HACK",
+    "FIXME",
+    "TODO",
+    "XXX",
+    "[ ]",
+    "[x]"
+  ],
+  "todo-tree.regex.regex": "(//|#|<!--|;|/\\*|^|^\\s*(-|\\d+.))\\s*($TAGS)",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "typescript.tsdk": ".yarn/sdks/typescript/lib",
+  "typescript.updateImportsOnFileMove.enabled": "never",
+  "vsicons.dontShowNewVersionMessage": true,
+  "vsicons.presets.angular": true,
+  "vsicons.projectDetection.disableDetect": true,
+  "workbench.editor.decorations.badges": true,
+  "workbench.editor.decorations.colors": true,
+  "workbench.editor.highlightModifiedTabs": true,
+  "workbench.iconTheme": "vscode-icons",
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}

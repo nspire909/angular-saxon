@@ -1,8 +1,25 @@
 {
   "recommendations": [
-    "nrwl.angular-console",
-    "esbenp.prettier-vscode",
+    "angular.ng-template",
+    "aaron-bond.better-comments",
+    "streetsidesoftware.code-spell-checker",
+    "cucumberopen.cucumber-official",
+    "usernamehw.errorlens",
+    "dbaeumer.vscode-eslint",
+    "grapecity.gc-excelviewer",
+    "jbockle.jbockle-format-files",
+    "eamodio.gitlens",
     "firsttris.vscode-jest-runner",
-    "ms-playwright.playwright"
+    "nrwl.angular-console",
+    "ms-playwright.playwright",
+    "ckolkman.vscode-postgres",
+    "esbenp.prettier-vscode",
+    "simontest.simontest",
+    "mtxr.sqltools",
+    "mtxr.sqltools-driver-pg",
+    "stylelint.vscode-stylelint",
+    "ms-vscode.vscode-speech",
+    "vscode-icons-team.vscode-icons",
+    "arcanis.vscode-zipfs"
   ]
 }
