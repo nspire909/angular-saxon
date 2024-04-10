@@ -259,6 +259,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@angular-saxon/components@workspace:dist/libs/components":
+  version: 0.0.0-use.local
+  resolution: "@angular-saxon/components@workspace:dist/libs/components"
+  dependencies:
+    tslib: "npm:^2.3.0"
+  peerDependencies:
+    "@angular/common": ^17.3.0
+    "@angular/core": ^17.3.0
+  languageName: unknown
+  linkType: soft
+
 "@angular-saxon/source@workspace:.":
   version: 0.0.0-use.local
   resolution: "@angular-saxon/source@workspace:."
