@@ -60,6 +60,7 @@
     "@typescript-eslint/eslint-plugin": "^7.6.0",
     "@typescript-eslint/parser": "^7.6.0",
     "autoprefixer": "^10.4.0",
+    "browserslist": "^4.23.0",
     "cypress": "^13.7.2",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
@@ -82,5 +83,8 @@
     "ts-node": "10.9.2",
     "typescript": "~5.4.5"
   },
-  "packageManager": "yarn@4.1.1"
+  "packageManager": "yarn@4.1.1",
+  "workspaces": [
+    "dist/libs/components"
+  ]
 }

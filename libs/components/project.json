@@ -1,6 +1,6 @@
 {
   "name": "components",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "$schema": "../../.yarn/unplugged/nx-virtual-9c9b0ed63d/node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/components/src",
   "prefix": "lib",
   "projectType": "library",

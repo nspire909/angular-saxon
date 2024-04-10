@@ -1,6 +1,6 @@
 {
   "name": "wessex-e2e",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "$schema": "../../.yarn/unplugged/nx-virtual-9c9b0ed63d/node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "sourceRoot": "apps/wessex-e2e/src",
   "implicitDependencies": ["wessex"],

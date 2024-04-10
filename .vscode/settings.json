@@ -17,14 +17,7 @@
     "yml",
     "sql"
   ],
-  "cSpell.ignorePaths": [
-    "**/.angular/**",
-    "**/.git/**",
-    "**/.nx/**",
-    "**/.yarn/**",
-    "**/dist/**",
-    "**/yarn.lock"
-  ],
+  "cSpell.ignorePaths": ["**/.angular/**", "**/.git/**", "**/.nx/**", "**/.yarn/**", "**/dist/**", "**/yarn.lock"],
   "cSpell.words": [
     "accessorial",
     "accessorials",
@@ -73,6 +66,7 @@
     "mton",
     "mtons",
     "nestjs",
+    "ngsx",
     "nrwl",
     "oidc",
     "PCFN",
@@ -108,16 +102,9 @@
     "Yubikey"
   ],
   "css.validate": false,
-  "cucumberautocomplete.steps": [
-    "apps/*/src/e2e/**/*.ts"
-  ],
-  "cucumber.features": [
-    "apps/*/src/e2e/**/*.feature"
-  ],
-  "cucumber.glue": [
-    "apps/*/src/e2e/common/*.steps.ts",
-    "apps/*/src/e2e/**/*.ts"
-  ],
+  "cucumberautocomplete.steps": ["apps/*/src/e2e/**/*.ts"],
+  "cucumber.features": ["apps/*/src/e2e/**/*.feature"],
+  "cucumber.glue": ["apps/*/src/e2e/common/*.steps.ts", "apps/*/src/e2e/**/*.ts"],
   "diffEditor.ignoreTrimWhitespace": false,
   "diffEditor.maxComputationTime": 0,
   "editor.fontFamily": "'Fira Code', Menlo, Monaco, 'Courier New', monoscape",
@@ -133,10 +120,7 @@
     "strings": true
   },
   "editor.quickSuggestionsDelay": 2000,
-  "editor.rulers": [
-    120,
-    140
-  ],
+  "editor.rulers": [120, 140],
   "editor.tabSize": 2,
   "editor.wordWrap": "on",
   "eslint.nodePath": ".yarn/sdks",
@@ -162,12 +146,7 @@
     ".nx": true,
     "yarn.lock": true
   },
-  "formatFiles.excludedFolders": [
-    ".angular",
-    ".git",
-    ".nx",
-    "dist"
-  ],
+  "formatFiles.excludedFolders": [".angular", ".git", ".nx", "dist"],
   "html.format.wrapAttributes": "preserve",
   "jest.autoRun": {
     "watch": false
@@ -187,22 +166,11 @@
   "stylelint.customSyntax": "postcss-scss",
   "stylelint.packageManager": "yarn",
   "stylelint.stylelintPath": "tools/stylelint-vscode-hack/node_modules/stylelint",
-  "stylelint.validate": [
-    "css",
-    "scss"
-  ],
+  "stylelint.validate": ["css", "scss"],
   "svg.preview.background": "white",
   "terminal.integrated.defaultProfile.windows": "Git Bash",
   "terminal.integrated.scrollback": 1000000,
-  "todo-tree.general.tags": [
-    "BUG",
-    "HACK",
-    "FIXME",
-    "TODO",
-    "XXX",
-    "[ ]",
-    "[x]"
-  ],
+  "todo-tree.general.tags": ["BUG", "HACK", "FIXME", "TODO", "XXX", "[ ]", "[x]"],
   "todo-tree.regex.regex": "(//|#|<!--|;|/\\*|^|^\\s*(-|\\d+.))\\s*($TAGS)",
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "typescript.tsdk": ".yarn/sdks/typescript/lib",

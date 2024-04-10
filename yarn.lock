@@ -306,6 +306,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:^7.6.0"
     "@typescript-eslint/parser": "npm:^7.6.0"
     autoprefixer: "npm:^10.4.0"
+    browserslist: "npm:^4.23.0"
     cypress: "npm:^13.7.2"
     eslint: "npm:^8.57.0"
     eslint-config-prettier: "npm:^9.1.0"
