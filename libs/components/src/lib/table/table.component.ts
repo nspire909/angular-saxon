@@ -34,25 +34,26 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NgScrollbar, ScrollViewport } from 'ngx-scrollbar';
 import { Subscription, map, skip, take } from 'rxjs';
-import { MatMultiSortHeader } from '../common/mat-multi-sort-header/mat-multi-sort-header.component';
+import { NgsxMultiSortHeaderComponent } from '../common/mat-multi-sort-header/mat-multi-sort-header.component';
 import { MatMultiSortTableDataSource } from '../common/mat-multi-sort-header/mat-multi-sort-table-data-source';
-import { MatMultiSort } from '../common/mat-multi-sort-header/mat-multi-sort.directive';
+import { NgsxMultiSortDirective } from '../common/mat-multi-sort-header/mat-multi-sort.directive';
 import { OverflowTooltipDirective } from '../common/overflow-tooltip.directive';
-import { TypedMatCellDef } from '../common/typed-mat-cell-def.directive';
-import { TypedMatRowDef } from '../common/typed-mat-row-def.directive';
+import { TypedMatCellDefDirective } from '../common/typed-mat-cell-def.directive';
+import { TypedMatRowDefDirective } from '../common/typed-mat-row-def.directive';
 import { Column, PeriodicElement, TableOptions, defaultTableOptions } from '../data/data';
 import { TableStore } from './table.store';
+import { assertPresent } from '../common/type.utility';
 
 @Component({
   standalone: true,
   imports: [
-    MatMultiSortHeader,
-    MatMultiSort,
+    NgsxMultiSortDirective,
+    NgsxMultiSortHeaderComponent,
     OverflowTooltipDirective,
     ReactiveFormsModule,
     AsyncPipe,
-    TypedMatCellDef,
-    TypedMatRowDef,
+    TypedMatCellDefDirective,
+    TypedMatRowDefDirective,
     RouterLink,
     JsonPipe,
     DragDropModule,
@@ -78,7 +79,7 @@ import { TableStore } from './table.store';
     CdkMenu,
     CdkMenuItem,
   ],
-  selector: 'be-table',
+  selector: 'ngsx-table',
   styleUrl: 'table.component.scss',
   templateUrl: 'table.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -98,7 +99,7 @@ export class TableComponent {
   protected readonly destroyRef = inject(DestroyRef);
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
-  @ViewChild(MatMultiSort) sort: MatMultiSort | null = null;
+  @ViewChild(NgsxMultiSortDirective) sort: NgsxMultiSortDirective | null = null;
 
   dataSource = new MatMultiSortTableDataSource<PeriodicElement>();
 
@@ -143,7 +144,7 @@ export class TableComponent {
   filterColumns = computed(() => [...this.displayedColumns()].map((x) => x + '-filter'));
 
   removeEmpty = <T>(obj: Record<string, T | string>): Record<string, T | string> =>
-    Object.fromEntries(Object.entries(obj).filter(([_, v]) => v !== null && v !== undefined && v !== ''));
+    Object.fromEntries(Object.entries(obj).filter(([, v]) => v !== null && v !== undefined && v !== ''));
 
   constructor() {
     let sortSub: Subscription | undefined;
@@ -157,7 +158,7 @@ export class TableComponent {
           this.store.$filter = columns;
 
           sortSub?.unsubscribe();
-          sortSub = this.sort?.sortChangeMulti
+          sortSub = this.sort?.matMultiSortChange
             .pipe(
               takeUntilDestroyed(this.destroyRef),
               map((sorts) => ({
@@ -277,29 +278,29 @@ export class TableComponent {
     }
   }
 
-  pinColumn(column: any, direction?: 'left' | 'right') {
+  pinColumn(column: Column<PeriodicElement>, direction?: 'left' | 'right') {
     this.columns.update((columns) => {
       const previousIndex = columns.indexOf(column);
       if (direction === 'left' && this.store.$pinned().get(column.columnDef) !== 'left') {
         const currentIndex = columns.filter((c) => this.store.$pinned().get(c.columnDef) === 'left').length;
 
-        columns.splice(currentIndex, 0, { ...columns.splice(previousIndex, 1)[0]!, pinned: 'left' });
+        columns.splice(currentIndex, 0, { ...assertPresent(columns.splice(previousIndex, 1)[0]), pinned: 'left' });
       } else if (direction === 'right' && this.store.$pinned().get(column.columnDef) !== 'right') {
         const currentIndex =
           columns.length - columns.filter((c) => this.store.$pinned().get(c.columnDef) === 'right').length - 1;
-        columns.splice(currentIndex, 0, { ...columns.splice(previousIndex, 1)[0]!, pinned: 'right' });
+        columns.splice(currentIndex, 0, { ...assertPresent(columns.splice(previousIndex, 1)[0]), pinned: 'right' });
       } else if (!direction) {
         if (this.store.$pinned().get(column.columnDef) === 'left') {
           const currentIndex = columns.filter((c) => this.store.$pinned().get(c.columnDef) === 'left').length - 1;
           columns.splice(currentIndex, 0, {
-            ...columns.splice(previousIndex, 1)[0]!,
+            ...assertPresent(columns.splice(previousIndex, 1)[0]),
             pinned: '',
           });
         } else if (this.store.$pinned().get(column.columnDef) === 'right') {
           const currentIndex =
             columns.length - columns.filter((c) => this.store.$pinned().get(c.columnDef) === 'right').length;
           columns.splice(currentIndex, 0, {
-            ...columns.splice(previousIndex, 1)[0]!,
+            ...assertPresent(columns.splice(previousIndex, 1)[0]),
             pinned: '',
           });
         }
@@ -354,7 +355,7 @@ export class TableComponent {
           : 0);
 
       columns.splice(event.currentIndex + currentOffset, 0, {
-        ...columns.splice(event.previousIndex + previousOffset, 1)[0]!,
+        ...assertPresent(columns.splice(event.previousIndex + previousOffset, 1)[0]),
         pinned: event.container.id === 'pinned-left' ? 'left' : event.container.id === 'pinned-right' ? 'right' : '',
       });
       return [...columns];
@@ -365,11 +366,11 @@ export class TableComponent {
   tableDrop(event: CdkDragDrop<string[]>) {
     this.columns.update((columns) => {
       // This gets the correct indexes based on hidden columns
-      const a = this.displayedColumns()[event.previousIndex]!;
-      const previous = columns.find((b) => b.columnDef === a)!;
+      const a = assertPresent(this.displayedColumns()[event.previousIndex]);
+      const previous = assertPresent(columns.find((b) => b.columnDef === a));
       const previousIndex = columns.indexOf(previous);
-      const d = this.displayedColumns()[event.currentIndex]!;
-      const current = columns.find((b) => b.columnDef === d)!;
+      const d = assertPresent(this.displayedColumns()[event.currentIndex]);
+      const current = assertPresent(columns.find((b) => b.columnDef === d));
       const currentIndex = columns.indexOf(current);
 
       // Swap pinned values
@@ -377,7 +378,7 @@ export class TableComponent {
       current.pinned = previous.pinned;
       previous.pinned = temp;
 
-      columns.splice(currentIndex, 0, columns.splice(previousIndex, 1)[0]!);
+      columns.splice(currentIndex, 0, assertPresent(columns.splice(previousIndex, 1)[0]));
       return [...columns];
     });
   }

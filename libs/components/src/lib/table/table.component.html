@@ -75,7 +75,7 @@
         <table
           mat-table
           [dataSource]="dataSource"
-          [matMultiSort]="options().multiSort"
+          [ngsxMultiSort]="options().multiSort"
           multiTemplateDataRows
           #table="matTable"
           cdkDropList
@@ -119,9 +119,9 @@
                 [cdkDragDisabled]="column.pinned === 'left' || column.pinned === 'right'"
               >
                 <div class="flex flex-row justify-between items-center">
-                  <div mat-multi-sort-header #matSortHeader class="flex-1">
+                  <ngsx-multi-sort-header #matSortHeader class="flex-1">
                     {{ column.header }}
-                  </div>
+                  </ngsx-multi-sort-header>
                   <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                     <mat-icon>more_vert</mat-icon>
                   </button>
@@ -194,7 +194,7 @@
                     align-items: center;
                   "
                 >
-                  <span [ibsOverflowTooltip]="!options().cellWrapping">
+                  <span [ngsxOverflowTooltip]="!options().cellWrapping">
                     {{ column.cell(row) }}
                   </span>
                 </a>
@@ -216,7 +216,7 @@
                       [formControl]="filter().controls[column.columnDef]!"
                       [name]="column.columnDef"
                     />
-                    <mat-error matTooltip [ibsOverflowTooltip]><span> Required </span></mat-error>
+                    <mat-error matTooltip [ngsxOverflowTooltip]><span> Required </span></mat-error>
                   </mat-form-field>
                 }
               </th>

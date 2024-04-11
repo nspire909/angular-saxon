@@ -1,3 +1,4 @@
+import { ELEMENT_DATA, TableComponent, assertPresent, getColumns } from '@angular-saxon/components';
 import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
@@ -7,8 +8,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
-import { ELEMENT_DATA, getColumns } from './data/data';
-import { TableComponent } from './table/table.component';
 
 @Component({
   standalone: true,
@@ -48,7 +47,7 @@ export class AppComponent {
 
   addData() {
     const randomElementIndex = Math.floor(Math.random() * ELEMENT_DATA.length);
-    this.data.update((data) => [...data, ELEMENT_DATA[randomElementIndex]!]);
+    this.data.update((data) => [...data, assertPresent(ELEMENT_DATA[randomElementIndex])]);
   }
 
   removeData() {

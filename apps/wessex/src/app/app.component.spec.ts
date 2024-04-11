@@ -8,5 +8,7 @@ describe('AppComponent', () => {
     }).compileComponents();
   });
 
-  it('should do nothing', () => {});
+  it('should do nothing', () => {
+    return;
+  });
 });

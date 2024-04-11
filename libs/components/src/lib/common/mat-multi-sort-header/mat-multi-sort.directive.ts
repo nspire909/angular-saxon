@@ -2,17 +2,17 @@ import { Directive, EventEmitter, Output, booleanAttribute, effect, input } from
 import { MatSort, MatSortable, Sort, SortDirection } from '@angular/material/sort';
 
 @Directive({
-  selector: '[matMultiSort]',
-  exportAs: 'matMultiSort',
+  selector: '[ngsxMultiSort]',
+  exportAs: 'ngsxMultiSort',
   standalone: true,
 })
-export class MatMultiSort extends MatSort {
-  isMulti = input<boolean, unknown>(true, { transform: booleanAttribute, alias: 'matMultiSort' });
+export class NgsxMultiSortDirective extends MatSort {
+  isMulti = input<boolean, unknown>(true, { transform: booleanAttribute, alias: 'ngsxMultiSort' });
 
   actives: string[] = [];
   directions: SortDirection[] = [];
 
-  @Output('matSortChangeMulti') readonly sortChangeMulti: EventEmitter<Sort[]> = new EventEmitter<Sort[]>();
+  @Output() readonly matMultiSortChange: EventEmitter<Sort[]> = new EventEmitter<Sort[]>();
 
   constructor() {
     super();
@@ -37,7 +37,7 @@ export class MatMultiSort extends MatSort {
     }
     super.sort(sortable);
 
-    this.sortChangeMulti.emit(
+    this.matMultiSortChange.emit(
       this.isMulti()
         ? this.actives.map<Sort>((active, i) => ({ active, direction: this.directions[i] ?? '' }))
         : [{ active: this.active, direction: this.direction }],

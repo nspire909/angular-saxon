@@ -2,25 +2,25 @@ import { AriaDescriber, FocusMonitor } from '@angular/cdk/a11y';
 import { CdkColumnDef } from '@angular/cdk/table';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, inject } from '@angular/core';
 import { MAT_SORT_DEFAULT_OPTIONS, MatSortHeader, MatSortHeaderIntl } from '@angular/material/sort';
-import { MatMultiSort } from './mat-multi-sort.directive';
+import { NgsxMultiSortDirective } from './mat-multi-sort.directive';
 
 @Component({
   standalone: true,
-  selector: '[mat-multi-sort-header]',
-  exportAs: 'matMultiSortHeader',
+  selector: 'ngsx-multi-sort-header',
+  exportAs: 'ngsxMultiSortHeader',
   templateUrl: 'mat-multi-sort-header.component.html',
   styleUrl: 'mat-multi-sort-header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MatMultiSortHeader extends MatSortHeader {
-  public override readonly _sort = inject(MatMultiSort);
+export class NgsxMultiSortHeaderComponent extends MatSortHeader {
+  public override readonly _sort = inject(NgsxMultiSortDirective);
 
   constructor() {
     super(
       inject(MatSortHeaderIntl),
       inject(ChangeDetectorRef),
-      inject(MatMultiSort),
-      inject(CdkColumnDef, { optional: true })!,
+      inject(NgsxMultiSortDirective),
+      inject(CdkColumnDef),
       inject(FocusMonitor),
       inject(ElementRef),
       inject(AriaDescriber),

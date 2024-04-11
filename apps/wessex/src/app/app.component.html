@@ -21,11 +21,11 @@
   <button mat-raised-button [disabled]="!data().length" (click)="removeData()">Remove data</button>
 </div>
 <div>
-  <be-table
+  <ngsx-table
     [data]="data()"
     [columns]="columns()"
     [options]="tableOptions.value"
     (resetColumns)="resetColumns()"
-  ></be-table>
+  ></ngsx-table>
 </div>
 <router-outlet></router-outlet>

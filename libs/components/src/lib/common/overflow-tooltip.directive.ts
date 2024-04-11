@@ -3,14 +3,14 @@ import { MatTooltip } from '@angular/material/tooltip';
 
 @Directive({
   standalone: true,
-  selector: '[ibsOverflowTooltip]',
+  selector: '[ngsxOverflowTooltip]',
 })
 export class OverflowTooltipDirective {
   private readonly matTooltip = inject(MatTooltip, { optional: true });
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly renderer = inject(Renderer2);
 
-  active = input<boolean, unknown>(true, { transform: booleanAttribute, alias: 'ibsOverflowTooltip' });
+  active = input<boolean, unknown>(true, { transform: booleanAttribute, alias: 'ngsxOverflowTooltip' });
 
   constructor() {
     effect(() => {

@@ -185,7 +185,7 @@ export const getColumns = (): Column<PeriodicElement>[] => [
   {
     columnDef: 'filler-1',
     header: 'Filler 1',
-    cell: (_element: PeriodicElement) => `filler data`,
+    cell: () => `filler data`,
     isActive: false,
     pinned: '',
     defaultFilter: '',
@@ -194,7 +194,7 @@ export const getColumns = (): Column<PeriodicElement>[] => [
   {
     columnDef: 'filler-2',
     header: 'Filler 2',
-    cell: (_element: PeriodicElement) => `filler data`,
+    cell: () => `filler data`,
     isActive: false,
     pinned: '',
     defaultFilter: '',
@@ -203,7 +203,7 @@ export const getColumns = (): Column<PeriodicElement>[] => [
   {
     columnDef: 'filler-3',
     header: 'Filler 3',
-    cell: (_element: PeriodicElement) => `filler data`,
+    cell: () => `filler data`,
     isActive: false,
     pinned: '',
     defaultFilter: '',
@@ -212,7 +212,7 @@ export const getColumns = (): Column<PeriodicElement>[] => [
   {
     columnDef: 'filler-4',
     header: 'Filler 4',
-    cell: (_element: PeriodicElement) => `filler data`,
+    cell: () => `filler data`,
     isActive: false,
     pinned: '',
     defaultFilter: '',

@@ -1,13 +1,13 @@
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatMultiSort } from './mat-multi-sort.directive';
+import { NgsxMultiSortDirective } from './mat-multi-sort.directive';
 
 export class MatMultiSortTableDataSource<T> extends MatTableDataSource<T> {
-  override get sort(): MatMultiSort | null {
-    return super.sort as MatMultiSort;
+  override get sort(): NgsxMultiSortDirective | null {
+    return super.sort as NgsxMultiSortDirective;
   }
 
-  override set sort(sort: MatMultiSort | null) {
+  override set sort(sort: NgsxMultiSortDirective | null) {
     super.sort = sort;
   }
 
@@ -16,23 +16,25 @@ export class MatMultiSortTableDataSource<T> extends MatTableDataSource<T> {
   }
 
   override sortData = (data: T[], sort: MatSort): T[] => {
-    if ((sort as MatMultiSort).isMulti()) {
+    if ((sort as NgsxMultiSortDirective).isMulti()) {
       const _data = Object.assign(new Array<T>(), data);
       return _data.sort((i1, i2) => {
-        return this._sortData(i1, i2, (sort as MatMultiSort).actives, (sort as MatMultiSort).directions);
+        return this._sortData(
+          i1,
+          i2,
+          (sort as NgsxMultiSortDirective).actives as (keyof T)[],
+          (sort as NgsxMultiSortDirective).directions,
+        );
       });
     } else {
       return new MatTableDataSource<T>().sortData(data, sort);
     }
   };
 
-  _sortData(d1: T, d2: T, params: string[], dirs: string[]): number {
-    // @ts-ignore -- need a typesafe way to express these accessor operations, ts-ignore could be a solution
-    // if there's not a suitable solution offered by typescript
-    if (d1[params[0]] > d2[params[0]]) {
+  _sortData(d1: T, d2: T, params: (keyof T)[], dirs: string[]): number {
+    if (params[0] && d1[params[0]] > d2[params[0]]) {
       return dirs[0] === 'asc' ? 1 : -1;
-      // @ts-ignore
-    } else if (d1[params[0]] < d2[params[0]]) {
+    } else if (params[0] && d1[params[0]] < d2[params[0]]) {
       return dirs[0] === 'asc' ? -1 : 1;
     } else {
       if (params.length > 1) {
