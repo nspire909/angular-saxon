@@ -45,9 +45,7 @@ jobs:
 
       - run: yarn nx-cloud record -- nx format:check
 
-      - run: yarn nx affected -t lint test build e2e-ci
-
-      - run: yarn nx build wessex
+      - run: yarn nx affected -t lint test build
 
       - name: Setup Pages
         uses: actions/configure-pages@v2

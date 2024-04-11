@@ -2,11 +2,15 @@
   "name": "@angular-saxon/components",
   "version": "0.0.1",
   "peerDependencies": {
-    "@angular/common": "^17.3.0",
-    "@angular/core": "^17.3.0"
-  },
-  "dependencies": {
-    "tslib": "^2.3.0"
+    "@angular/animations": "~17.3.3",
+    "@angular/cdk": "^17.3.3",
+    "@angular/common": "^17.3.3",
+    "@angular/core": "^17.3.3",
+    "@angular/forms": "~17.3.3",
+    "@angular/material": "^17.3.3",
+    "@angular/router": "~17.3.3",
+    "ngx-scrollbar": "^14.0.0",
+    "rxjs": "~7.8.1"
   },
   "sideEffects": false
 }
