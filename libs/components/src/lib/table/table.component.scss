@@ -1,15 +1,5 @@
-@use '@angular/material' as mat;
-
 .sticky-toggle-group {
   margin: 8px;
-}
-
-::ng-deep .dense-table {
-  @include mat.form-field-density(-5);
-  @include mat.button-density(-5);
-  @include mat.table-density(-5);
-  @include mat.paginator-density(-5);
-  @include mat.checkbox-density(-5);
 }
 
 .container {

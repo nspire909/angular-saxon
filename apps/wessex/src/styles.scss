@@ -1,8 +1,14 @@
 // cspell:ignore wght, opsz
 $material-symbols-font-path: 'material-symbols/';
 
+@use '@angular/material' as mat;
 @import 'material-symbols';
 @import 'roboto-fontface/css/roboto/roboto-fontface.css';
+@include mat.form-field-density(-5);
+@include mat.button-density(-5);
+@include mat.table-density(-5);
+@include mat.paginator-density(-5);
+@include mat.checkbox-density(-5);
 
 html,
 body {
