@@ -340,7 +340,6 @@ __metadata:
     roboto-fontface: "npm:^0.10.0"
     rxjs: "npm:~7.8.1"
     stylelint: "npm:^16.3.1"
-    stylelint-config-prettier: "npm:^9.0.5"
     stylelint-config-standard-scss: "npm:^13.1.0"
     ts-jest: "npm:^29.1.2"
     ts-node: "npm:10.9.2"
@@ -14774,18 +14773,6 @@ __metadata:
   peerDependencies:
     postcss: ^8.4.31
   checksum: 10c0/2dd2bccfd8311ff71492e63a7b8b86c3d7b1fff55d4ba5a2357aff97743e633d351cdc2f5ae3c0057637d00dab4ef5fc5b218a1b370e4585a41df22b5a5128be
-  languageName: node
-  linkType: hard
-
-"stylelint-config-prettier@npm:^9.0.5":
-  version: 9.0.5
-  resolution: "stylelint-config-prettier@npm:9.0.5"
-  peerDependencies:
-    stylelint: ">= 11.x < 15"
-  bin:
-    stylelint-config-prettier: bin/check.js
-    stylelint-config-prettier-check: bin/check.js
-  checksum: 10c0/4fb049b3ea00a9fff009b83583d42b7c76978d1befe8e3132ab2722deb25601931b076902a2fab4d4570ece03ec0cb8ba062cc59a9440251a32eb71d1b29803c
   languageName: node
   linkType: hard
 
