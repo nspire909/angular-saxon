@@ -47,6 +47,8 @@ jobs:
 
       - run: yarn nx affected -t lint test build e2e-ci
 
+      - run: yarn nx build wessex
+
       - name: Setup Pages
         uses: actions/configure-pages@v2
 
