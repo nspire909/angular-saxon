@@ -1,5 +1,4 @@
 {
-  "$schema": "../schemas/package.schema.json",
   "name": "vscode-stylelint-hack",
   "packageManager": "yarn@4.1.1",
   "devDependencies": {
