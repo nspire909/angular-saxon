@@ -1,7 +1,3 @@
-.sticky-toggle-group {
-  margin: 8px;
-}
-
 .container {
   width: fit-content;
   overflow: auto;
@@ -14,7 +10,7 @@
 
   &:has(table) {
     max-height: 400px;
-    max-width: 1200px;
+    max-width: calc(100vw - 60px);
   }
 }
 

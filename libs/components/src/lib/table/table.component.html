@@ -1,16 +1,3 @@
-<div>
-  <mat-form-field class="sticky-toggle-group">
-    <input
-      matInput
-      autocomplete="off"
-      [placeholder]="'Filter...'"
-      [type]="'search'"
-      (keyup)="applyFilter($event)"
-      #input
-    />
-  </mat-form-field>
-</div>
-
 <section class="container mat-elevation-z8 dense-table" tabindex="0">
   <mat-sidenav-container>
     <mat-sidenav #sidenav [mode]="'over'" position="end" cdkDropListGroup>
@@ -284,7 +271,7 @@
 
           <tr class="mat-mdc-row" *matNoDataRow>
             <td class="mat-mdc-cell" [attr.colspan]="displayedColumns().length">
-              <span style="margin-left: 1rem"> No data matching the filter "{{ input.value }}" </span>
+              <span style="margin-left: 1rem"> No data matching the filter. </span>
             </td>
           </tr>
         </table>
@@ -312,5 +299,3 @@
     </mat-sidenav-content>
   </mat-sidenav-container>
 </section>
-
-<pre>{{ store.$filter?.()?.getRawValue() | json }}</pre>

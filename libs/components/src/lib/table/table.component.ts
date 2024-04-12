@@ -269,15 +269,6 @@ export class TableComponent {
     }
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator?.firstPage();
-    }
-  }
-
   pinColumn(column: Column<PeriodicElement>, direction?: 'left' | 'right') {
     this.columns.update((columns) => {
       const previousIndex = columns.indexOf(column);

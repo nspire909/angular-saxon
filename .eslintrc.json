@@ -37,6 +37,13 @@
         "jest": true
       },
       "rules": {}
+    },
+    {
+      "files": ["*.json"],
+      "extends": ["plugin:jsonc/recommended-with-jsonc", "plugin:json-schema-validator/recommended"],
+      "rules": {
+        "jsonc/comma-dangle": ["error", "never"]
+      }
     }
   ]
 }
