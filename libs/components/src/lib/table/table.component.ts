@@ -1,3 +1,9 @@
+import {
+  assertPresent,
+  OverflowTooltipDirective,
+  TypedMatCellDefDirective,
+  TypedMatRowDefDirective,
+} from '@angular-saxon/common';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { SelectionModel } from '@angular/cdk/collections';
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
@@ -6,15 +12,15 @@ import { AsyncPipe, JsonPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  DestroyRef,
-  ViewChild,
   computed,
+  DestroyRef,
   effect,
   inject,
   input,
   model,
   output,
   untracked,
+  ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -33,22 +39,18 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NgScrollbar, ScrollViewport } from 'ngx-scrollbar';
-import { Subscription, map, skip, take } from 'rxjs';
-import { NgsxMultiSortHeaderComponent } from '../common/mat-multi-sort-header/mat-multi-sort-header.component';
-import { MatMultiSortTableDataSource } from '../common/mat-multi-sort-header/mat-multi-sort-table-data-source';
-import { NgsxMultiSortDirective } from '../common/mat-multi-sort-header/mat-multi-sort.directive';
-import { OverflowTooltipDirective } from '../common/overflow-tooltip.directive';
-import { TypedMatCellDefDirective } from '../common/typed-mat-cell-def.directive';
-import { TypedMatRowDefDirective } from '../common/typed-mat-row-def.directive';
-import { Column, PeriodicElement, TableOptions, defaultTableOptions } from '../data/data';
+import { map, skip, Subscription, take } from 'rxjs';
+import { MultiSortHeaderComponent } from '../multi-sort/multi-sort-header.component';
+import { NgsxTableDataSource } from './table-data-source';
+import { MultiSortDirective } from '../multi-sort/multi-sort.directive';
+import { Column, defaultTableOptions, PeriodicElement, TableOptions } from '../data/data';
 import { TableStore } from './table.store';
-import { assertPresent } from '../common/type.utility';
 
 @Component({
   standalone: true,
   imports: [
-    NgsxMultiSortDirective,
-    NgsxMultiSortHeaderComponent,
+    MultiSortDirective,
+    MultiSortHeaderComponent,
     OverflowTooltipDirective,
     ReactiveFormsModule,
     AsyncPipe,
@@ -99,9 +101,9 @@ export class TableComponent {
   protected readonly destroyRef = inject(DestroyRef);
 
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
-  @ViewChild(NgsxMultiSortDirective) sort: NgsxMultiSortDirective | null = null;
+  @ViewChild(MultiSortDirective) sort: MultiSortDirective | null = null;
 
-  dataSource = new MatMultiSortTableDataSource<PeriodicElement>();
+  dataSource = new NgsxTableDataSource<PeriodicElement>();
 
   data = input.required<PeriodicElement[]>();
 
@@ -229,19 +231,6 @@ export class TableComponent {
         this.paginator.pageSize = parseInt(queryParams.get('size') || '10', 10);
       }
     });
-
-    this.dataSource.filterPredicate = (item, filter) =>
-      !Object.entries<string | undefined>(JSON.parse(filter))
-        .filter(([k]) => !['sort', 'page', 'size'].includes(k))
-        .reduce(
-          (remove, [k, v]) =>
-            remove ||
-            !(item[k as keyof typeof item] ?? '')
-              .toString()
-              .toLocaleLowerCase()
-              .includes((v ?? '').toString().toLocaleLowerCase()),
-          false,
-        );
   }
 
   clearFilters() {

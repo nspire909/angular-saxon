@@ -4,6 +4,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "start": "nx serve wessex",
+    "build": "nx build wessex && rm -rf node_modules && rm -rf tmp",
     "postinstall": "cd tools/stylelint-vscode-hack && yarn"
   },
   "dependencies": {

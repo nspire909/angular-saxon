@@ -1,13 +1,13 @@
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { NgsxMultiSortDirective } from './mat-multi-sort.directive';
+import { MultiSortDirective } from '../multi-sort/multi-sort.directive';
 
-export class MatMultiSortTableDataSource<T> extends MatTableDataSource<T> {
-  override get sort(): NgsxMultiSortDirective | null {
-    return super.sort as NgsxMultiSortDirective;
+export class NgsxTableDataSource<T> extends MatTableDataSource<T> {
+  override get sort(): MultiSortDirective | null {
+    return super.sort as MultiSortDirective;
   }
 
-  override set sort(sort: NgsxMultiSortDirective | null) {
+  override set sort(sort: MultiSortDirective | null) {
     super.sort = sort;
   }
 
@@ -16,14 +16,14 @@ export class MatMultiSortTableDataSource<T> extends MatTableDataSource<T> {
   }
 
   override sortData = (data: T[], sort: MatSort): T[] => {
-    if ((sort as NgsxMultiSortDirective).isMulti()) {
+    if ((sort as MultiSortDirective).isMulti()) {
       const _data = Object.assign(new Array<T>(), data);
       return _data.sort((i1, i2) => {
         return this._sortData(
           i1,
           i2,
-          (sort as NgsxMultiSortDirective).actives as (keyof T)[],
-          (sort as NgsxMultiSortDirective).directions,
+          (sort as MultiSortDirective).actives as (keyof T)[],
+          (sort as MultiSortDirective).directions,
         );
       });
     } else {
@@ -46,4 +46,17 @@ export class MatMultiSortTableDataSource<T> extends MatTableDataSource<T> {
       }
     }
   }
+
+  override filterPredicate = (data: T, filter: string) =>
+    !Object.entries<string | undefined>(JSON.parse(filter))
+      .filter(([k]) => !['sort', 'page', 'size'].includes(k))
+      .reduce(
+        (remove, [k, v]) =>
+          remove ||
+          !(data[k as keyof typeof data] ?? '')
+            .toString()
+            .toLocaleLowerCase()
+            .includes((v ?? '').toString().toLocaleLowerCase()),
+        false,
+      );
 }

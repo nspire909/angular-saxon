@@ -1,4 +1,5 @@
-import { ELEMENT_DATA, TableComponent, assertPresent, getColumns } from '@angular-saxon/components';
+import { assertPresent } from '@angular-saxon/common';
+import { ELEMENT_DATA, TableComponent, getColumns } from '@angular-saxon/components';
 import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';

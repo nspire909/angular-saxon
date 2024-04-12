@@ -2,7 +2,7 @@
   "name": "components",
   "$schema": "../../.yarn/unplugged/nx-virtual-9c9b0ed63d/node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/components/src",
-  "prefix": "lib",
+  "prefix": "ngsx",
   "projectType": "library",
   "tags": [],
   "targets": {

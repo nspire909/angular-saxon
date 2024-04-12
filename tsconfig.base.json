@@ -16,6 +16,7 @@
     "module": "esnext",
     "moduleResolution": "node10",
     "paths": {
+      "@angular-saxon/common": ["libs/common/src/index.ts"],
       "@angular-saxon/components": ["libs/components/src/index.ts"],
       "@badeball/cypress-cucumber-preprocessor/*": [
         "@badeball/cypress-cucumber-preprocessor/dist/subpath-entrypoints/*"

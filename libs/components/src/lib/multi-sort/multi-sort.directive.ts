@@ -6,7 +6,7 @@ import { MatSort, MatSortable, Sort, SortDirection } from '@angular/material/sor
   exportAs: 'ngsxMultiSort',
   standalone: true,
 })
-export class NgsxMultiSortDirective extends MatSort {
+export class MultiSortDirective extends MatSort {
   isMulti = input<boolean, unknown>(true, { transform: booleanAttribute, alias: 'ngsxMultiSort' });
 
   actives: string[] = [];
