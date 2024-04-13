@@ -2,7 +2,7 @@ import { computed, inject, Injectable, Signal, signal } from '@angular/core';
 import { FormControl, NonNullableFormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { skip, take } from 'rxjs';
-import { Column } from '../data/data';
+import { Column } from './table.models';
 
 export type FilterFormGroup<T> = ReturnType<TableStore<T>['createForm']>;
 
@@ -32,7 +32,7 @@ export class TableStore<T> {
           .filter(
             (k) =>
               ['sort', 'page', 'size'].includes(k) ||
-              columns.find((column) => column.columnDef === k && !column.disableFilter),
+              columns.find((column) => column.name === k && !column.disableFilter),
           )
           .reduce(
             (p, c) => ({
@@ -41,7 +41,7 @@ export class TableStore<T> {
                 c === 'sort'
                   ? queryParams
                       .getAll(c)
-                      .filter((x) => columns.some((y) => y.columnDef === (x.startsWith('-') ? x.slice(1) : x)))
+                      .filter((x) => columns.some((y) => y.name === (x.startsWith('-') ? x.slice(1) : x)))
                       .join(',')
                   : c === 'page' || c === 'size'
                     ? queryParams.get(c)?.match(/^[0-9]+$/)
@@ -60,7 +60,7 @@ export class TableStore<T> {
 
   private setActive(columns?: Column<T>[]) {
     const activeColumns = columns?.reduce<{ [K in keyof T]: boolean }>(
-      (p, c) => ({ ...p, [c.columnDef]: c.isActive }),
+      (p, c) => ({ ...p, [c.name]: c.isActive }),
       {} as { [K in keyof T]: boolean },
     );
     this.state.$active.update((active) => this.mapUnion(active, activeColumns));
@@ -68,7 +68,7 @@ export class TableStore<T> {
 
   private setPinned(columns?: Column<T>[]) {
     const pinnedColumns = columns?.reduce<{ [K in keyof T]: 'left' | 'right' | null }>(
-      (p, c) => ({ ...p, [c.columnDef]: c.pinned }),
+      (p, c) => ({ ...p, [c.name]: c.pinned }),
       {} as { [K in keyof T]: 'left' | 'right' | null },
     );
     this.state.$pinned.update((pinned) => this.mapUnion(pinned, pinnedColumns));
@@ -98,7 +98,7 @@ export class TableStore<T> {
       (columns ?? ([] as Column<T>[])).reduce<{ [K in keyof T | 'sort' | 'page' | 'size']: FormControl<string> }>(
         (p, c) => ({
           ...p,
-          [c.columnDef]: this.fb.control<string>(
+          [c.name]: this.fb.control<string>(
             { value: c.defaultFilter, disabled: c.disableFilter },
             { validators: c.filterValidators ?? [] },
           ),

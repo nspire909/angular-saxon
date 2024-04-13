@@ -1,8 +1,7 @@
 {
-  "name": "@angular-saxon/components",
+  "name": "@angular-saxon/common",
   "version": "0.0.1",
   "peerDependencies": {
-    "@angular-saxon/common": "^0.0.1",
     "@angular/animations": "~17.3.3",
     "@angular/cdk": "^17.3.3",
     "@angular/common": "^17.3.3",

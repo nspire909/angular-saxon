@@ -40,10 +40,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NgScrollbar, ScrollViewport } from 'ngx-scrollbar';
 import { map, skip, Subscription, take } from 'rxjs';
+import { PeriodicElement } from '../data/data';
 import { MultiSortHeaderComponent } from '../multi-sort/multi-sort-header.component';
-import { NgsxTableDataSource } from './table-data-source';
 import { MultiSortDirective } from '../multi-sort/multi-sort.directive';
-import { Column, defaultTableOptions, PeriodicElement, TableOptions } from '../data/data';
+import { NgsxTableDataSource } from './table-data-source';
+import { Column, defaultTableOptions, TableOptions } from './table.models';
 import { TableStore } from './table.store';
 
 @Component({
@@ -123,23 +124,23 @@ export class TableComponent {
 
   selection = new SelectionModel<PeriodicElement>(true, []);
 
-  pinnedLeftColumns = computed(() => this.columns().filter((c) => this.store.$pinned().get(c.columnDef) === 'left'));
+  pinnedLeftColumns = computed(() => this.columns().filter((c) => this.store.$pinned().get(c.name) === 'left'));
 
-  unpinnedColumns = computed(() => this.columns().filter((c) => !this.store.$pinned().get(c.columnDef)));
+  unpinnedColumns = computed(() => this.columns().filter((c) => !this.store.$pinned().get(c.name)));
 
-  pinnedRightColumns = computed(() => this.columns().filter((c) => this.store.$pinned().get(c.columnDef) === 'right'));
+  pinnedRightColumns = computed(() => this.columns().filter((c) => this.store.$pinned().get(c.name) === 'right'));
 
   displayedColumns = computed(() => [
     ...(this.options().rowAction === 'select' && this.options().multi ? ['select'] : []),
     ...this.pinnedLeftColumns()
-      .filter((c) => this.store.$active().get(c.columnDef) ?? false)
-      .map((c) => c.columnDef),
+      .filter((c) => this.store.$active().get(c.name) ?? false)
+      .map((c) => c.name),
     ...this.unpinnedColumns()
-      .filter((c) => this.store.$active().get(c.columnDef) ?? false)
-      .map((c) => c.columnDef),
+      .filter((c) => this.store.$active().get(c.name) ?? false)
+      .map((c) => c.name),
     ...this.pinnedRightColumns()
-      .filter((c) => this.store.$active().get(c.columnDef) ?? false)
-      .map((c) => c.columnDef),
+      .filter((c) => this.store.$active().get(c.name) ?? false)
+      .map((c) => c.name),
     ...(this.options().showActionRow ? ['actions'] : []),
   ]);
 
@@ -261,24 +262,24 @@ export class TableComponent {
   pinColumn(column: Column<PeriodicElement>, direction?: 'left' | 'right') {
     this.columns.update((columns) => {
       const previousIndex = columns.indexOf(column);
-      if (direction === 'left' && this.store.$pinned().get(column.columnDef) !== 'left') {
-        const currentIndex = columns.filter((c) => this.store.$pinned().get(c.columnDef) === 'left').length;
+      if (direction === 'left' && this.store.$pinned().get(column.name) !== 'left') {
+        const currentIndex = columns.filter((c) => this.store.$pinned().get(c.name) === 'left').length;
 
         columns.splice(currentIndex, 0, { ...assertPresent(columns.splice(previousIndex, 1)[0]), pinned: 'left' });
-      } else if (direction === 'right' && this.store.$pinned().get(column.columnDef) !== 'right') {
+      } else if (direction === 'right' && this.store.$pinned().get(column.name) !== 'right') {
         const currentIndex =
-          columns.length - columns.filter((c) => this.store.$pinned().get(c.columnDef) === 'right').length - 1;
+          columns.length - columns.filter((c) => this.store.$pinned().get(c.name) === 'right').length - 1;
         columns.splice(currentIndex, 0, { ...assertPresent(columns.splice(previousIndex, 1)[0]), pinned: 'right' });
       } else if (!direction) {
-        if (this.store.$pinned().get(column.columnDef) === 'left') {
-          const currentIndex = columns.filter((c) => this.store.$pinned().get(c.columnDef) === 'left').length - 1;
+        if (this.store.$pinned().get(column.name) === 'left') {
+          const currentIndex = columns.filter((c) => this.store.$pinned().get(c.name) === 'left').length - 1;
           columns.splice(currentIndex, 0, {
             ...assertPresent(columns.splice(previousIndex, 1)[0]),
             pinned: '',
           });
-        } else if (this.store.$pinned().get(column.columnDef) === 'right') {
+        } else if (this.store.$pinned().get(column.name) === 'right') {
           const currentIndex =
-            columns.length - columns.filter((c) => this.store.$pinned().get(c.columnDef) === 'right').length;
+            columns.length - columns.filter((c) => this.store.$pinned().get(c.name) === 'right').length;
           columns.splice(currentIndex, 0, {
             ...assertPresent(columns.splice(previousIndex, 1)[0]),
             pinned: '',
@@ -347,10 +348,10 @@ export class TableComponent {
     this.columns.update((columns) => {
       // This gets the correct indexes based on hidden columns
       const a = assertPresent(this.displayedColumns()[event.previousIndex]);
-      const previous = assertPresent(columns.find((b) => b.columnDef === a));
+      const previous = assertPresent(columns.find((b) => b.name === a));
       const previousIndex = columns.indexOf(previous);
       const d = assertPresent(this.displayedColumns()[event.currentIndex]);
-      const current = assertPresent(columns.find((b) => b.columnDef === d));
+      const current = assertPresent(columns.find((b) => b.name === d));
       const currentIndex = columns.indexOf(current);
 
       // Swap pinned values

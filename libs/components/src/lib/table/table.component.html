@@ -14,13 +14,13 @@
           <div>
             <div cdkDropList id="pinned-left" class="column-list" (cdkDropListDropped)="drop($event)">
               <span>Pinned Left</span>
-              @for (column of pinnedLeftColumns(); track column.columnDef) {
+              @for (column of pinnedLeftColumns(); track column.name) {
                 <div class="column-item" cdkDrag>
                   <mat-icon cdkDragHandle>drag_indicator</mat-icon>
                   <mat-checkbox
-                    [checked]="store.$active().get(column.columnDef)"
-                    (change)="toggleColumn(column.columnDef, $event.checked)"
-                    >{{ column.columnDef }}</mat-checkbox
+                    [checked]="store.$active().get(column.name)"
+                    (change)="toggleColumn(column.name, $event.checked)"
+                    >{{ column.name }}</mat-checkbox
                   >
                 </div>
               }
@@ -28,13 +28,13 @@
             <mat-divider></mat-divider>
             <div cdkDropList id="pinned-none" class="column-list" (cdkDropListDropped)="drop($event)">
               <span>Unpinned</span>
-              @for (column of unpinnedColumns(); track column.columnDef) {
+              @for (column of unpinnedColumns(); track column.name) {
                 <div class="column-item" cdkDrag>
                   <mat-icon cdkDragHandle>drag_indicator</mat-icon>
                   <mat-checkbox
-                    [checked]="store.$active().get(column.columnDef)"
-                    (change)="toggleColumn(column.columnDef, $event.checked)"
-                    >{{ column.columnDef }}</mat-checkbox
+                    [checked]="store.$active().get(column.name)"
+                    (change)="toggleColumn(column.name, $event.checked)"
+                    >{{ column.name }}</mat-checkbox
                   >
                 </div>
               }
@@ -42,13 +42,13 @@
             <mat-divider></mat-divider>
             <div cdkDropList id="pinned-right" class="column-list" (cdkDropListDropped)="drop($event)">
               <span>Pinned Right</span>
-              @for (column of pinnedRightColumns(); track column.columnDef) {
+              @for (column of pinnedRightColumns(); track column.name) {
                 <div class="column-item" cdkDrag>
                   <mat-icon cdkDragHandle>drag_indicator</mat-icon>
                   <mat-checkbox
-                    [checked]="store.$active().get(column.columnDef)"
-                    (change)="toggleColumn(column.columnDef, $event.checked)"
-                    >{{ column.columnDef }}</mat-checkbox
+                    [checked]="store.$active().get(column.name)"
+                    (change)="toggleColumn(column.name, $event.checked)"
+                    >{{ column.name }}</mat-checkbox
                   >
                 </div>
               }
@@ -93,9 +93,9 @@
             <th mat-header-cell *matHeaderCellDef></th>
           </ng-container>
 
-          @for (column of columns(); track column.columnDef; let columnIndex = $index) {
+          @for (column of columns(); track column.name; let columnIndex = $index) {
             <ng-container
-              [matColumnDef]="column.columnDef"
+              [matColumnDef]="column.name"
               [sticky]="column.pinned === 'left'"
               [stickyEnd]="column.pinned === 'right'"
             >
@@ -107,7 +107,7 @@
               >
                 <div class="flex flex-row justify-between items-center">
                   <ngsx-multi-sort-header #matSortHeader class="flex-1">
-                    {{ column.header }}
+                    {{ column.title }}
                   </ngsx-multi-sort-header>
                   <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                     <mat-icon>more_vert</mat-icon>
@@ -188,7 +188,7 @@
               </td>
             </ng-container>
             <ng-container
-              [matColumnDef]="column.columnDef + '-filter'"
+              [matColumnDef]="column.name + '-filter'"
               [sticky]="column.pinned === 'left'"
               [stickyEnd]="column.pinned === 'right'"
             >
@@ -200,8 +200,8 @@
                       autocomplete="off"
                       [placeholder]="'Filter...'"
                       [type]="'search'"
-                      [formControl]="filter().controls[column.columnDef]!"
-                      [name]="column.columnDef"
+                      [formControl]="filter().controls[column.name]!"
+                      [name]="column.name"
                     />
                     <mat-error matTooltip [ngsxOverflowTooltip]><span> Required </span></mat-error>
                   </mat-form-field>

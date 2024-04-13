@@ -1,0 +1,6 @@
+{
+  "dest": "../../dist/libs/common",
+  "lib": {
+    "entryFile": "src/index.ts"
+  }
+}

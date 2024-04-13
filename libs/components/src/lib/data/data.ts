@@ -1,51 +1,16 @@
-import { ValidatorFn, Validators } from '@angular/forms';
-
-export interface TableOptions {
-  rowAction: 'select' | 'expand' | 'link' | 'none';
-  multi: boolean;
-  showFilter: boolean;
-  showPaginator: boolean;
-  showActions: boolean;
-  showActionRow: boolean;
-  cellWrapping: boolean;
-  multiSort: boolean;
-  emptyMessage: string;
-}
-
-export const defaultTableOptions: TableOptions = {
-  rowAction: 'none',
-  multi: false,
-  showFilter: true,
-  showPaginator: false,
-  showActions: true,
-  showActionRow: true,
-  cellWrapping: false,
-  multiSort: true,
-  emptyMessage: 'No records found.',
-};
+import { Validators } from '@angular/forms';
+import { Column } from '../table/table.models';
 
 export interface PeriodicElement {
-  'name': string;
-  'position': number;
-  'weight': number;
-  'symbol': string;
-  'description': string;
-  'filler-1'?: string;
-  'filler-2'?: string;
-  'filler-3'?: string;
-  'filler-4'?: string;
-}
-
-export interface Column<T> {
-  columnDef: keyof T;
-  header: string;
-  cell: (element: T) => string;
-  // initial values
-  isActive: boolean;
-  pinned: string;
-  defaultFilter: string;
-  disableFilter: boolean;
-  filterValidators?: ValidatorFn[];
+  name: string;
+  position: number;
+  weight: number;
+  symbol: string;
+  description: string;
+  filler1?: string;
+  filler2?: string;
+  filler3?: string;
+  filler4?: string;
 }
 
 export const ELEMENT_DATA: PeriodicElement[] = [
@@ -153,20 +118,20 @@ export const ELEMENT_DATA: PeriodicElement[] = [
   },
 ];
 
-export const getColumns = (): Column<PeriodicElement>[] => [
+export const getColumns = <T extends PeriodicElement>(): Column<T>[] => [
   {
-    columnDef: 'position',
-    header: 'No.',
-    cell: (element: PeriodicElement) => `${element.position}`,
+    name: 'position',
+    title: 'No.',
+    cell: (element: T) => `${element.position}`,
     isActive: true,
     pinned: '',
     defaultFilter: '',
     disableFilter: false,
   },
   {
-    columnDef: 'name',
-    header: 'Name',
-    cell: (element: PeriodicElement) => `${element.name}`,
+    name: 'name',
+    title: 'Name',
+    cell: (element: T) => `${element.name}`,
     isActive: true,
     pinned: '',
     defaultFilter: '',
@@ -174,17 +139,17 @@ export const getColumns = (): Column<PeriodicElement>[] => [
     filterValidators: [Validators.required],
   },
   {
-    columnDef: 'description',
-    header: 'Description',
-    cell: (element: PeriodicElement) => `${element.description}`,
+    name: 'description',
+    title: 'Description',
+    cell: (element: T) => `${element.description}`,
     isActive: true,
     pinned: '',
     defaultFilter: '',
     disableFilter: false,
   },
   {
-    columnDef: 'filler-1',
-    header: 'Filler 1',
+    name: 'filler1',
+    title: 'Filler 1',
     cell: () => `filler data`,
     isActive: false,
     pinned: '',
@@ -192,8 +157,8 @@ export const getColumns = (): Column<PeriodicElement>[] => [
     disableFilter: false,
   },
   {
-    columnDef: 'filler-2',
-    header: 'Filler 2',
+    name: 'filler2',
+    title: 'Filler 2',
     cell: () => `filler data`,
     isActive: false,
     pinned: '',
@@ -201,8 +166,8 @@ export const getColumns = (): Column<PeriodicElement>[] => [
     disableFilter: false,
   },
   {
-    columnDef: 'filler-3',
-    header: 'Filler 3',
+    name: 'filler3',
+    title: 'Filler 3',
     cell: () => `filler data`,
     isActive: false,
     pinned: '',
@@ -210,8 +175,8 @@ export const getColumns = (): Column<PeriodicElement>[] => [
     disableFilter: false,
   },
   {
-    columnDef: 'filler-4',
-    header: 'Filler 4',
+    name: 'filler4',
+    title: 'Filler 4',
     cell: () => `filler data`,
     isActive: false,
     pinned: '',
@@ -219,18 +184,18 @@ export const getColumns = (): Column<PeriodicElement>[] => [
     disableFilter: false,
   },
   {
-    columnDef: 'weight',
-    header: 'Weight',
-    cell: (element: PeriodicElement) => `${element.weight}`,
+    name: 'weight',
+    title: 'Weight',
+    cell: (element: T) => `${element.weight}`,
     isActive: true,
     pinned: '',
     defaultFilter: '',
     disableFilter: false,
   },
   {
-    columnDef: 'symbol',
-    header: 'Symbol',
-    cell: (element: PeriodicElement) => `${element.symbol}`,
+    name: 'symbol',
+    title: 'Symbol',
+    cell: (element: T) => `${element.symbol}`,
     isActive: true,
     pinned: '',
     defaultFilter: '',
