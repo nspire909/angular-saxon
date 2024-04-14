@@ -1,5 +1,5 @@
 import { assertPresent } from '@angular-saxon/common';
-import { ELEMENT_DATA, TableComponent, getColumns } from '@angular-saxon/components';
+import { ELEMENT_DATA, TableComponent, getEntity } from '@angular-saxon/components';
 import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
@@ -44,7 +44,7 @@ export class AppComponent {
 
   data = signal(ELEMENT_DATA);
 
-  columns = signal(getColumns());
+  entity = signal(getEntity());
 
   addData() {
     const randomElementIndex = Math.floor(Math.random() * ELEMENT_DATA.length);
@@ -56,6 +56,6 @@ export class AppComponent {
   }
 
   resetColumns() {
-    this.columns.update(() => getColumns());
+    this.entity.update(() => getEntity());
   }
 }

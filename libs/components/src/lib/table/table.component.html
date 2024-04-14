@@ -14,13 +14,13 @@
           <div>
             <div cdkDropList id="pinned-left" class="column-list" (cdkDropListDropped)="drop($event)">
               <span>Pinned Left</span>
-              @for (column of pinnedLeftColumns(); track column.name) {
+              @for (column of pinnedLeftColumns(); track column) {
                 <div class="column-item" cdkDrag>
                   <mat-icon cdkDragHandle>drag_indicator</mat-icon>
                   <mat-checkbox
-                    [checked]="store.$active().get(column.name)"
-                    (change)="toggleColumn(column.name, $event.checked)"
-                    >{{ column.name }}</mat-checkbox
+                    [checked]="store.$active().get(column)"
+                    (change)="toggleColumn(column, $event.checked)"
+                    >{{ column }}</mat-checkbox
                   >
                 </div>
               }
@@ -28,13 +28,13 @@
             <mat-divider></mat-divider>
             <div cdkDropList id="pinned-none" class="column-list" (cdkDropListDropped)="drop($event)">
               <span>Unpinned</span>
-              @for (column of unpinnedColumns(); track column.name) {
+              @for (column of unpinnedColumns(); track column) {
                 <div class="column-item" cdkDrag>
                   <mat-icon cdkDragHandle>drag_indicator</mat-icon>
                   <mat-checkbox
-                    [checked]="store.$active().get(column.name)"
-                    (change)="toggleColumn(column.name, $event.checked)"
-                    >{{ column.name }}</mat-checkbox
+                    [checked]="store.$active().get(column)"
+                    (change)="toggleColumn(column, $event.checked)"
+                    >{{ column }}</mat-checkbox
                   >
                 </div>
               }
@@ -42,13 +42,13 @@
             <mat-divider></mat-divider>
             <div cdkDropList id="pinned-right" class="column-list" (cdkDropListDropped)="drop($event)">
               <span>Pinned Right</span>
-              @for (column of pinnedRightColumns(); track column.name) {
+              @for (column of pinnedRightColumns(); track column) {
                 <div class="column-item" cdkDrag>
                   <mat-icon cdkDragHandle>drag_indicator</mat-icon>
                   <mat-checkbox
-                    [checked]="store.$active().get(column.name)"
-                    (change)="toggleColumn(column.name, $event.checked)"
-                    >{{ column.name }}</mat-checkbox
+                    [checked]="store.$active().get(column)"
+                    (change)="toggleColumn(column, $event.checked)"
+                    >{{ column }}</mat-checkbox
                   >
                 </div>
               }
@@ -79,12 +79,12 @@
               >
               </mat-checkbox>
             </th>
-            <td mat-cell *matCellDef="let row; table: table">
+            <td mat-cell *matCellDef="let row; let rowIndex = dataIndex; table: table">
               <mat-checkbox
                 (click)="$event.stopPropagation()"
                 (change)="$event ? selection.toggle(row) : null"
                 [checked]="selection.isSelected(row)"
-                [aria-label]="checkboxLabel(row)"
+                [aria-label]="checkboxLabel(row, rowIndex)"
               >
               </mat-checkbox>
             </td>
@@ -93,17 +93,19 @@
             <th mat-header-cell *matHeaderCellDef></th>
           </ng-container>
 
-          @for (column of columns(); track column.name; let columnIndex = $index) {
+          @for (column of entity().columns; track column.name; let columnIndex = $index) {
             <ng-container
               [matColumnDef]="column.name"
-              [sticky]="column.pinned === 'left'"
-              [stickyEnd]="column.pinned === 'right'"
+              [sticky]="store.$pinned().get(column.name) === 'left'"
+              [stickyEnd]="store.$pinned().get(column.name) === 'right'"
             >
               <th
                 mat-header-cell
                 *matHeaderCellDef
                 cdkDrag
-                [cdkDragDisabled]="column.pinned === 'left' || column.pinned === 'right'"
+                [cdkDragDisabled]="
+                  store.$pinned().get(column.name) === 'left' || store.$pinned().get(column.name) === 'right'
+                "
               >
                 <div class="flex flex-row justify-between items-center">
                   <ngsx-multi-sort-header #matSortHeader class="flex-1">
@@ -150,15 +152,19 @@
                   </mat-menu>
                   <mat-menu #pin="matMenu">
                     <button mat-menu-item (click)="pinColumn(column)">
-                      <mat-icon>{{ column.pinned !== 'left' && column.pinned !== 'right' ? 'check' : '' }}</mat-icon>
+                      <mat-icon>{{
+                        store.$pinned().get(column.name) !== 'left' && store.$pinned().get(column.name) !== 'right'
+                          ? 'check'
+                          : ''
+                      }}</mat-icon>
                       <span>No Pin</span>
                     </button>
                     <button mat-menu-item (click)="pinColumn(column, 'left')">
-                      <mat-icon>{{ column.pinned === 'left' ? 'check' : '' }}</mat-icon>
+                      <mat-icon>{{ store.$pinned().get(column.name) === 'left' ? 'check' : '' }}</mat-icon>
                       <span>Pin Left</span>
                     </button>
                     <button mat-menu-item (click)="pinColumn(column, 'right')">
-                      <mat-icon>{{ column.pinned === 'right' ? 'check' : '' }}</mat-icon>
+                      <mat-icon>{{ store.$pinned().get(column.name) === 'right' ? 'check' : '' }}</mat-icon>
                       <span>Pin Right</span>
                     </button>
                   </mat-menu>
@@ -189,8 +195,8 @@
             </ng-container>
             <ng-container
               [matColumnDef]="column.name + '-filter'"
-              [sticky]="column.pinned === 'left'"
-              [stickyEnd]="column.pinned === 'right'"
+              [sticky]="store.$pinned().get(column.name) === 'left'"
+              [stickyEnd]="store.$pinned().get(column.name) === 'right'"
             >
               <th mat-header-cell *matHeaderCellDef>
                 @if (store.$filter; as filter) {
@@ -299,3 +305,7 @@
     </mat-sidenav-content>
   </mat-sidenav-container>
 </section>
+
+<pre>
+  {{ store.$active().values() }}
+</pre>

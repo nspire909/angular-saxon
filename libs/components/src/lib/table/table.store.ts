@@ -15,6 +15,7 @@ export class TableStore<T> {
   private readonly state = {
     $active: signal(new Map<keyof T, boolean>()),
     $pinned: signal(new Map<keyof T, 'left' | 'right' | null>()),
+    $order: signal<(keyof T)[]>([]),
   } as const;
 
   private _$filter?: Signal<FilterFormGroup<T>>;
@@ -26,6 +27,8 @@ export class TableStore<T> {
     this._$filter = computed(() => this.createForm(columns));
     this.setActive(columns);
     this.setPinned(columns);
+    this.setOrder(columns);
+
     this.route.queryParamMap.pipe(skip(1), take(1)).subscribe((queryParams) => {
       this._$filter?.().patchValue(
         queryParams.keys
@@ -57,6 +60,7 @@ export class TableStore<T> {
 
   public readonly $active = this.state.$active.asReadonly();
   public readonly $pinned = this.state.$pinned.asReadonly();
+  public readonly $order = this.state.$order.asReadonly();
 
   private setActive(columns?: Column<T>[]) {
     const activeColumns = columns?.reduce<{ [K in keyof T]: boolean }>(
@@ -74,6 +78,10 @@ export class TableStore<T> {
     this.state.$pinned.update((pinned) => this.mapUnion(pinned, pinnedColumns));
   }
 
+  private setOrder(columns?: Column<T>[]) {
+    this.state.$order.update(() => columns?.map((column) => column.name) ?? []);
+  }
+
   private mapUnion<U>(map: Map<keyof T, U>, iterable?: { [K in keyof T]: U }) {
     Object.entries<U>(iterable ?? {}).forEach(([k, v]) => map.set(k as keyof T, v));
     return new Map(map);
@@ -87,10 +95,15 @@ export class TableStore<T> {
   }
 
   updatePinned(key: keyof T, value: 'left' | 'right' | null) {
+    // Todo: change $order if val is left or right
     this.state.$pinned.update((pinned) => {
       pinned.set(key, value);
       return new Map(pinned);
     });
+  }
+
+  updateOrder(columns: (keyof T)[]) {
+    this.state.$order.update(() => [...columns]);
   }
 
   private createForm(columns?: Column<T>[]) {

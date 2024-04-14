@@ -17,7 +17,6 @@ import {
   effect,
   inject,
   input,
-  model,
   output,
   untracked,
   ViewChild,
@@ -44,7 +43,7 @@ import { PeriodicElement } from '../data/data';
 import { MultiSortHeaderComponent } from '../multi-sort/multi-sort-header.component';
 import { MultiSortDirective } from '../multi-sort/multi-sort.directive';
 import { NgsxTableDataSource } from './table-data-source';
-import { Column, defaultTableOptions, TableOptions } from './table.models';
+import { Column, defaultTableOptions, Entity, TableOptions } from './table.models';
 import { TableStore } from './table.store';
 
 @Component({
@@ -108,7 +107,7 @@ export class TableComponent {
 
   data = input.required<PeriodicElement[]>();
 
-  columns = model.required<Column<PeriodicElement>[]>();
+  entity = input.required<Entity<PeriodicElement>>();
 
   options = input<TableOptions, Partial<TableOptions>>(defaultTableOptions, {
     transform: (value) => ({
@@ -122,25 +121,20 @@ export class TableComponent {
 
   expandedElements: string[] = [];
 
+  // Todo: change true to false for single select?
   selection = new SelectionModel<PeriodicElement>(true, []);
 
-  pinnedLeftColumns = computed(() => this.columns().filter((c) => this.store.$pinned().get(c.name) === 'left'));
+  pinnedLeftColumns = computed(() => this.store.$order().filter((c) => this.store.$pinned().get(c) === 'left'));
 
-  unpinnedColumns = computed(() => this.columns().filter((c) => !this.store.$pinned().get(c.name)));
+  unpinnedColumns = computed(() => this.store.$order().filter((c) => !this.store.$pinned().get(c)));
 
-  pinnedRightColumns = computed(() => this.columns().filter((c) => this.store.$pinned().get(c.name) === 'right'));
+  pinnedRightColumns = computed(() => this.store.$order().filter((c) => this.store.$pinned().get(c) === 'right'));
 
   displayedColumns = computed(() => [
     ...(this.options().rowAction === 'select' && this.options().multi ? ['select'] : []),
-    ...this.pinnedLeftColumns()
-      .filter((c) => this.store.$active().get(c.name) ?? false)
-      .map((c) => c.name),
-    ...this.unpinnedColumns()
-      .filter((c) => this.store.$active().get(c.name) ?? false)
-      .map((c) => c.name),
-    ...this.pinnedRightColumns()
-      .filter((c) => this.store.$active().get(c.name) ?? false)
-      .map((c) => c.name),
+    ...this.pinnedLeftColumns().filter((c) => this.store.$active().get(c) ?? false),
+    ...this.unpinnedColumns().filter((c) => this.store.$active().get(c) ?? false),
+    ...this.pinnedRightColumns().filter((c) => this.store.$active().get(c) ?? false),
     ...(this.options().showActionRow ? ['actions'] : []),
   ]);
 
@@ -155,10 +149,10 @@ export class TableComponent {
     let filterSub: Subscription | undefined;
     effect(
       () => {
-        const columns = this.columns();
+        const columns = this.entity();
 
         untracked(() => {
-          this.store.$filter = columns;
+          this.store.$filter = columns.columns;
 
           sortSub?.unsubscribe();
           sortSub = this.sort?.matMultiSortChange
@@ -260,35 +254,31 @@ export class TableComponent {
   }
 
   pinColumn(column: Column<PeriodicElement>, direction?: 'left' | 'right') {
-    this.columns.update((columns) => {
-      const previousIndex = columns.indexOf(column);
-      if (direction === 'left' && this.store.$pinned().get(column.name) !== 'left') {
-        const currentIndex = columns.filter((c) => this.store.$pinned().get(c.name) === 'left').length;
-
-        columns.splice(currentIndex, 0, { ...assertPresent(columns.splice(previousIndex, 1)[0]), pinned: 'left' });
-      } else if (direction === 'right' && this.store.$pinned().get(column.name) !== 'right') {
-        const currentIndex =
-          columns.length - columns.filter((c) => this.store.$pinned().get(c.name) === 'right').length - 1;
-        columns.splice(currentIndex, 0, { ...assertPresent(columns.splice(previousIndex, 1)[0]), pinned: 'right' });
-      } else if (!direction) {
-        if (this.store.$pinned().get(column.name) === 'left') {
-          const currentIndex = columns.filter((c) => this.store.$pinned().get(c.name) === 'left').length - 1;
-          columns.splice(currentIndex, 0, {
-            ...assertPresent(columns.splice(previousIndex, 1)[0]),
-            pinned: '',
-          });
-        } else if (this.store.$pinned().get(column.name) === 'right') {
-          const currentIndex =
-            columns.length - columns.filter((c) => this.store.$pinned().get(c.name) === 'right').length;
-          columns.splice(currentIndex, 0, {
-            ...assertPresent(columns.splice(previousIndex, 1)[0]),
-            pinned: '',
-          });
-        }
+    const order = this.store.$order();
+    const previousIndex = order.indexOf(column.name);
+    if (direction === 'left' && this.store.$pinned().get(column.name) !== 'left') {
+      const currentIndex = order.filter((c) => this.store.$pinned().get(c) === 'left').length;
+      const key = assertPresent(order.splice(previousIndex, 1)[0]);
+      order.splice(currentIndex, 0, key);
+      this.store.updatePinned(key, 'left');
+    } else if (direction === 'right' && this.store.$pinned().get(column.name) !== 'right') {
+      const currentIndex = order.length - order.filter((c) => this.store.$pinned().get(c) === 'right').length - 1;
+      const key = assertPresent(order.splice(previousIndex, 1)[0]);
+      order.splice(currentIndex, 0, key);
+      this.store.updatePinned(key, 'right');
+    } else if (!direction) {
+      if (this.store.$pinned().get(column.name) === 'left') {
+        const currentIndex = order.filter((c) => this.store.$pinned().get(c) === 'left').length - 1;
+        const key = assertPresent(order.splice(previousIndex, 1)[0]);
+        order.splice(currentIndex, 0, key);
+        this.store.updatePinned(key, null);
+      } else if (this.store.$pinned().get(column.name) === 'right') {
+        const currentIndex = order.length - order.filter((c) => this.store.$pinned().get(c) === 'right').length;
+        const key = assertPresent(order.splice(previousIndex, 1)[0]);
+        order.splice(currentIndex, 0, key);
+        this.store.updatePinned(key, null);
       }
-
-      return [...columns];
-    });
+    }
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -309,59 +299,59 @@ export class TableComponent {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
+  checkboxLabel(row?: PeriodicElement, rowIndex = 0): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${rowIndex + 1}`;
   }
 
-  drop(event: CdkDragDrop<string[]>) {
-    this.columns.update((columns) => {
-      const previousOffset =
-        event.previousContainer.id === 'pinned-none'
-          ? this.pinnedLeftColumns().length
-          : event.previousContainer.id === 'pinned-right'
-            ? this.pinnedLeftColumns().length + this.unpinnedColumns().length
-            : 0;
-      const currentOffset =
-        (event.container.id === 'pinned-none'
-          ? this.pinnedLeftColumns().length
-          : event.container.id === 'pinned-right'
-            ? this.pinnedLeftColumns().length + this.unpinnedColumns().length
-            : 0) -
-        ((event.previousContainer.id === 'pinned-left' && event.container.id === 'pinned-none') ||
-        (event.previousContainer.id === 'pinned-none' && event.container.id === 'pinned-right')
-          ? 1
-          : 0);
+  drop(event: CdkDragDrop<(keyof PeriodicElement)[]>) {
+    const order = this.store.$order();
 
-      columns.splice(event.currentIndex + currentOffset, 0, {
-        ...assertPresent(columns.splice(event.previousIndex + previousOffset, 1)[0]),
-        pinned: event.container.id === 'pinned-left' ? 'left' : event.container.id === 'pinned-right' ? 'right' : '',
-      });
-      return [...columns];
-    });
+    const previousOffset =
+      event.previousContainer.id === 'pinned-none'
+        ? this.pinnedLeftColumns().length
+        : event.previousContainer.id === 'pinned-right'
+          ? this.pinnedLeftColumns().length + this.unpinnedColumns().length
+          : 0;
+    const currentOffset =
+      (event.container.id === 'pinned-none'
+        ? this.pinnedLeftColumns().length
+        : event.container.id === 'pinned-right'
+          ? this.pinnedLeftColumns().length + this.unpinnedColumns().length
+          : 0) -
+      ((event.previousContainer.id === 'pinned-left' && event.container.id === 'pinned-none') ||
+      (event.previousContainer.id === 'pinned-none' && event.container.id === 'pinned-right')
+        ? 1
+        : 0);
+
+    const key = assertPresent(order.splice(event.previousIndex + previousOffset, 1)[0]);
+    order.splice(event.currentIndex + currentOffset, 0, key);
+    this.store.updateOrder(order);
+    this.store.updatePinned(
+      key,
+      event.container.id === 'pinned-left' ? 'left' : event.container.id === 'pinned-right' ? 'right' : null,
+    );
   }
 
-  // Todo: I don't like this behavior
   tableDrop(event: CdkDragDrop<string[]>) {
-    this.columns.update((columns) => {
-      // This gets the correct indexes based on hidden columns
-      const a = assertPresent(this.displayedColumns()[event.previousIndex]);
-      const previous = assertPresent(columns.find((b) => b.name === a));
-      const previousIndex = columns.indexOf(previous);
-      const d = assertPresent(this.displayedColumns()[event.currentIndex]);
-      const current = assertPresent(columns.find((b) => b.name === d));
-      const currentIndex = columns.indexOf(current);
+    const order = this.store.$order();
+    // This gets the correct indexes based on hidden columns
+    const prev = assertPresent(this.displayedColumns()[event.previousIndex]);
+    const previous = assertPresent(order.find((b) => b === prev));
+    const previousIndex = order.indexOf(previous);
+    const curr = assertPresent(this.displayedColumns()[event.currentIndex]);
+    const current = assertPresent(order.find((b) => b === curr));
+    const currentIndex = order.indexOf(current);
 
-      // Swap pinned values
-      const temp = current.pinned;
-      current.pinned = previous.pinned;
-      previous.pinned = temp;
+    order.splice(currentIndex, 0, assertPresent(order.splice(previousIndex, 1)[0]));
+    this.store.updateOrder(order);
 
-      columns.splice(currentIndex, 0, assertPresent(columns.splice(previousIndex, 1)[0]));
-      return [...columns];
-    });
+    // Swap pinned values
+    const temp = this.store.$pinned().get(previous) ?? null;
+    this.store.updatePinned(previous, this.store.$pinned().get(current) ?? null);
+    this.store.updatePinned(current, temp);
   }
 
   toggleColumn(key: keyof PeriodicElement, checked: boolean) {

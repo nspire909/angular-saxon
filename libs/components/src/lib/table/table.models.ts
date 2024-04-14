@@ -25,7 +25,7 @@ export const defaultTableOptions: TableOptions = {
 };
 
 export interface Column<T> {
-  name: keyof T;
+  name: Extract<keyof T, string>;
   title: string;
   cell: (element: T) => string;
   // initial values
@@ -34,4 +34,12 @@ export interface Column<T> {
   defaultFilter: string;
   disableFilter: boolean;
   filterValidators?: ValidatorFn[];
+}
+
+export interface Entity<T> {
+  name: string;
+  title: string;
+  primaryKey: Extract<keyof T, string>;
+
+  columns: Column<T>[];
 }
