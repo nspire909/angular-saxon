@@ -306,7 +306,7 @@ export class TableComponent {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${rowIndex + 1}`;
   }
 
-  drop(event: CdkDragDrop<(keyof PeriodicElement)[]>) {
+  drop(event: CdkDragDrop<Extract<keyof PeriodicElement, string>[]>) {
     const order = this.store.$order();
 
     const previousOffset =
@@ -354,7 +354,7 @@ export class TableComponent {
     this.store.updatePinned(current, temp);
   }
 
-  toggleColumn(key: keyof PeriodicElement, checked: boolean) {
+  toggleColumn(key: Extract<keyof PeriodicElement, string>, checked: boolean) {
     this.store.updateActive(key, checked);
   }
 }
