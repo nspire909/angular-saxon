@@ -8,7 +8,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { SelectionModel } from '@angular/cdk/collections';
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
 import { CdkContextMenuTrigger, CdkMenu, CdkMenuItem } from '@angular/cdk/menu';
-import { AsyncPipe, JsonPipe } from '@angular/common';
+import { AsyncPipe, JsonPipe, NgStyle } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -39,7 +39,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NgScrollbar, ScrollViewport } from 'ngx-scrollbar';
 import { map, skip, Subscription, take } from 'rxjs';
-import { PeriodicElement } from '../data/data';
 import { MultiSortHeaderComponent } from '../multi-sort/multi-sort-header.component';
 import { MultiSortDirective } from '../multi-sort/multi-sort.directive';
 import { NgsxTableDataSource } from './table-data-source';
@@ -80,6 +79,7 @@ import { TableStore } from './table.store';
     CdkContextMenuTrigger,
     CdkMenu,
     CdkMenuItem,
+    NgStyle,
   ],
   selector: 'ngsx-table',
   styleUrl: 'table.component.scss',
@@ -94,7 +94,7 @@ import { TableStore } from './table.store';
   ],
   providers: [TableStore],
 })
-export class TableComponent<T extends PeriodicElement> {
+export class TableComponent<T> {
   protected readonly store = inject<TableStore<T>>(TableStore);
   protected readonly route = inject(ActivatedRoute);
   protected readonly router = inject(Router);
@@ -234,13 +234,14 @@ export class TableComponent<T extends PeriodicElement> {
 
   clickRow(row: T) {
     const options = this.options();
+    const entity = this.entity();
     if (options.rowAction === 'expand') {
-      const index = this.expandedElements.findIndex((x) => x == row.name);
+      const index = this.expandedElements.findIndex((x) => x === row[entity.primaryKey]);
       if (index === -1) {
         if (!options.multi) {
           this.expandedElements = [];
         }
-        this.expandedElements.push(row.name);
+        this.expandedElements.push(row[entity.primaryKey] as string);
       } else {
         this.expandedElements.splice(index, 1);
       }
@@ -304,6 +305,10 @@ export class TableComponent<T extends PeriodicElement> {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${rowIndex + 1}`;
+  }
+
+  isExpanded(row: T) {
+    return this.expandedElements.includes(row[this.entity().primaryKey] as string);
   }
 
   drop(event: CdkDragDrop<Extract<keyof T, string>[]>) {

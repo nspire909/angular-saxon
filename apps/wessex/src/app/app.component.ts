@@ -31,7 +31,7 @@ import { RouterModule } from '@angular/router';
 export class AppComponent {
   fb = inject(NonNullableFormBuilder);
   tableOptions = this.fb.group({
-    rowAction: this.fb.control<'select' | 'expand' | 'link' | 'none'>('none'),
+    rowAction: this.fb.control<'select' | 'expand' | 'link' | 'none'>('expand'),
     multi: this.fb.control<boolean>(false),
     showFilter: this.fb.control<boolean>(true),
     showPaginator: this.fb.control<boolean>(false),

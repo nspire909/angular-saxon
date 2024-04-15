@@ -119,8 +119,8 @@ export const ELEMENT_DATA: PeriodicElement[] = [
 ];
 
 export const getEntity = (): Entity<PeriodicElement> => ({
-  name: '',
-  title: '',
+  name: 'periodic-elements',
+  title: 'Periodic Elements',
   primaryKey: 'name',
   columns: [
     {

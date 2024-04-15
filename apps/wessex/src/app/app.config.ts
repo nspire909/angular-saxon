@@ -1,6 +1,5 @@
 import { APP_INITIALIZER, ApplicationConfig } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
-import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter } from '@angular/router';
 import { provideScrollbarOptions } from 'ngx-scrollbar';
@@ -8,7 +7,7 @@ import { appRoutes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideClientHydration(),
+    // provideClientHydration(),
     provideRouter(appRoutes),
     provideAnimationsAsync(),
     provideScrollbarOptions({
