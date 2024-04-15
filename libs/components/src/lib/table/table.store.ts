@@ -13,9 +13,9 @@ export class TableStore<T> {
   protected readonly router = inject(Router);
 
   private readonly state = {
-    $active: signal(new Map<keyof T, boolean>()),
-    $pinned: signal(new Map<keyof T, 'left' | 'right' | null>()),
-    $order: signal<(keyof T)[]>([]),
+    $active: signal(new Map<Extract<keyof T, string>, boolean>()),
+    $pinned: signal(new Map<Extract<keyof T, string>, 'left' | 'right' | null>()),
+    $order: signal<Extract<keyof T, string>[]>([]),
   } as const;
 
   private _$filter?: Signal<FilterFormGroup<T>>;
@@ -63,17 +63,17 @@ export class TableStore<T> {
   public readonly $order = this.state.$order.asReadonly();
 
   private setActive(columns?: Column<T>[]) {
-    const activeColumns = columns?.reduce<{ [K in keyof T]: boolean }>(
+    const activeColumns = columns?.reduce<{ [K in Extract<keyof T, string>]: boolean }>(
       (p, c) => ({ ...p, [c.name]: c.isActive }),
-      {} as { [K in keyof T]: boolean },
+      {} as { [K in Extract<keyof T, string>]: boolean },
     );
     this.state.$active.update((active) => this.mapUnion(active, activeColumns));
   }
 
   private setPinned(columns?: Column<T>[]) {
-    const pinnedColumns = columns?.reduce<{ [K in keyof T]: 'left' | 'right' | null }>(
+    const pinnedColumns = columns?.reduce<{ [K in Extract<keyof T, string>]: 'left' | 'right' | null }>(
       (p, c) => ({ ...p, [c.name]: c.pinned }),
-      {} as { [K in keyof T]: 'left' | 'right' | null },
+      {} as { [K in Extract<keyof T, string>]: 'left' | 'right' | null },
     );
     this.state.$pinned.update((pinned) => this.mapUnion(pinned, pinnedColumns));
   }
@@ -82,19 +82,19 @@ export class TableStore<T> {
     this.state.$order.update(() => columns?.map((column) => column.name) ?? []);
   }
 
-  private mapUnion<U>(map: Map<keyof T, U>, iterable?: { [K in keyof T]: U }) {
-    Object.entries<U>(iterable ?? {}).forEach(([k, v]) => map.set(k as keyof T, v));
+  private mapUnion<U>(map: Map<Extract<keyof T, string>, U>, iterable?: { [K in Extract<keyof T, string>]: U }) {
+    Object.entries<U>(iterable ?? {}).forEach(([k, v]) => map.set(k as Extract<keyof T, string>, v));
     return new Map(map);
   }
 
-  updateActive(key: keyof T, value: boolean) {
+  updateActive(key: Extract<keyof T, string>, value: boolean) {
     this.state.$active.update((active) => {
       active.set(key, value);
       return new Map(active);
     });
   }
 
-  updatePinned(key: keyof T, value: 'left' | 'right' | null) {
+  updatePinned(key: Extract<keyof T, string>, value: 'left' | 'right' | null) {
     // Todo: change $order if val is left or right
     this.state.$pinned.update((pinned) => {
       pinned.set(key, value);
@@ -102,13 +102,15 @@ export class TableStore<T> {
     });
   }
 
-  updateOrder(columns: (keyof T)[]) {
+  updateOrder(columns: Extract<keyof T, string>[]) {
     this.state.$order.update(() => [...columns]);
   }
 
   private createForm(columns?: Column<T>[]) {
     return this.fb.group(
-      (columns ?? ([] as Column<T>[])).reduce<{ [K in keyof T | 'sort' | 'page' | 'size']: FormControl<string> }>(
+      (columns ?? ([] as Column<T>[])).reduce<{
+        [K in Extract<keyof T, string> | 'sort' | 'page' | 'size']: FormControl<string>;
+      }>(
         (p, c) => ({
           ...p,
           [c.name]: this.fb.control<string>(
@@ -120,7 +122,7 @@ export class TableStore<T> {
           sort: this.fb.control<string>(''),
           page: this.fb.control<string>(''),
           size: this.fb.control<string>(''),
-        } as { [K in keyof T | 'sort' | 'page' | 'size']: FormControl<string> },
+        } as { [K in Extract<keyof T, string> | 'sort' | 'page' | 'size']: FormControl<string> },
       ),
     );
   }
