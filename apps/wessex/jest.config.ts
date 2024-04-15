@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
   displayName: 'wessex',
   preset: '../../jest.preset.js',

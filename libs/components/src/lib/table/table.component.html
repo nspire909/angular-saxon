@@ -1,7 +1,7 @@
 <section class="container mat-elevation-z8 dense-table" tabindex="0">
   <mat-sidenav-container>
     <mat-sidenav #sidenav [mode]="'over'" position="end" cdkDropListGroup>
-      <div style="height: 100%">
+      <div class="sidenav">
         <ng-scrollbar>
           <div class="sticky-menu flex flex-row justify-between">
             <button mat-icon-button color="primary" (click)="resetColumns.emit()" matTooltip="Reset Columns">
@@ -70,7 +70,7 @@
           (cdkDropListDropped)="tableDrop($event)"
         >
           <ng-container matColumnDef="select" [sticky]="true">
-            <th mat-header-cell *matHeaderCellDef style="width: 40px">
+            <th mat-header-cell *matHeaderCellDef>
               <mat-checkbox
                 (change)="$event ? toggleAllRows() : null"
                 [checked]="selection.hasValue() && isAllSelected()"
@@ -179,13 +179,6 @@
                 <a
                   [routerLink]="options().rowAction === 'link' ? 'abc' + rowIndex : null"
                   [tabindex]="columnIndex === 0 ? 0 : -1"
-                  style="
-                    max-width: 200px;
-                    height: 100%;
-                    display: flex;
-                    justify-content: flex-start;
-                    align-items: center;
-                  "
                 >
                   <span [ngsxOverflowTooltip]="!options().cellWrapping">
                     {{ column.cell(row) }}
@@ -217,7 +210,7 @@
           }
 
           <ng-container matColumnDef="actions" [stickyEnd]="true">
-            <th mat-header-cell *matHeaderCellDef style="width: 48px">
+            <th mat-header-cell *matHeaderCellDef>
               <button mat-icon-button color="primary" (click)="sidenav.toggle()">
                 <mat-icon>menu</mat-icon>
               </button>
@@ -277,14 +270,13 @@
 
           <tr class="mat-mdc-row" *matNoDataRow>
             <td class="mat-mdc-cell" [attr.colspan]="displayedColumns().length">
-              <span style="margin-left: 1rem"> No data matching the filter. </span>
+              <span>{{ options().emptyMessage }}</span>
             </td>
           </tr>
         </table>
       </ng-scrollbar>
       <span
-        class="flex flex-row justify-between"
-        style="padding-right: 1rem; padding-left: 1rem"
+        class="footer flex flex-row justify-between"
         [class.hidden]="!options().showPaginator && !options().showActions"
       >
         <div>
@@ -305,7 +297,3 @@
     </mat-sidenav-content>
   </mat-sidenav-container>
 </section>
-
-<pre>
-  {{ store.$active().values() }}
-</pre>
