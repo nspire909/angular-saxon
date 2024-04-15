@@ -211,8 +211,8 @@
 
           <ng-container matColumnDef="actions" [stickyEnd]="true">
             <th mat-header-cell *matHeaderCellDef>
-              <button mat-icon-button color="primary" (click)="sidenav.toggle()">
-                <mat-icon>menu</mat-icon>
+              <button mat-icon-button color="primary" (click)="sidenav.toggle()" matTooltip="Columns">
+                <mat-icon>side_navigation</mat-icon>
               </button>
             </th>
             <td mat-cell *matCellDef="let row; table: table">
