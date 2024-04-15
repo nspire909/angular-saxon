@@ -191,21 +191,21 @@
               [sticky]="store.$pinned().get(column.name) === 'left'"
               [stickyEnd]="store.$pinned().get(column.name) === 'right'"
             >
-              <th mat-header-cell *matHeaderCellDef>
-                @if (store.$filter; as filter) {
+              @if (store.$filter; as filter) {
+                <th mat-header-cell *matHeaderCellDef [formGroup]="filter()">
                   <mat-form-field>
                     <input
                       matInput
                       autocomplete="off"
                       [placeholder]="'Filter...'"
                       [type]="'search'"
-                      [formControl]="filter().controls[column.name]!"
+                      [formControlName]="column.name"
                       [name]="column.name"
                     />
                     <mat-error matTooltip [ngsxOverflowTooltip]><span> Required </span></mat-error>
                   </mat-form-field>
-                }
-              </th>
+                </th>
+              }
             </ng-container>
           }
 

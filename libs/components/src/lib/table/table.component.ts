@@ -94,8 +94,8 @@ import { TableStore } from './table.store';
   ],
   providers: [TableStore],
 })
-export class TableComponent {
-  protected readonly store = inject<TableStore<PeriodicElement>>(TableStore);
+export class TableComponent<T extends PeriodicElement> {
+  protected readonly store = inject<TableStore<T>>(TableStore);
   protected readonly route = inject(ActivatedRoute);
   protected readonly router = inject(Router);
   protected readonly destroyRef = inject(DestroyRef);
@@ -103,11 +103,11 @@ export class TableComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MultiSortDirective) sort: MultiSortDirective | null = null;
 
-  dataSource = new NgsxTableDataSource<PeriodicElement>();
+  dataSource = new NgsxTableDataSource<T>();
 
-  data = input.required<PeriodicElement[]>();
+  data = input.required<T[]>();
 
-  entity = input.required<Entity<PeriodicElement>>();
+  entity = input.required<Entity<T>>();
 
   options = input<TableOptions, Partial<TableOptions>>(defaultTableOptions, {
     transform: (value) => ({
@@ -122,7 +122,7 @@ export class TableComponent {
   expandedElements: string[] = [];
 
   // Todo: change true to false for single select?
-  selection = new SelectionModel<PeriodicElement>(true, []);
+  selection = new SelectionModel<T>(true, []);
 
   pinnedLeftColumns = computed(() => this.store.$order().filter((c) => this.store.$pinned().get(c) === 'left'));
 
@@ -232,7 +232,7 @@ export class TableComponent {
     this.store.$filter?.().reset();
   }
 
-  clickRow(row: PeriodicElement) {
+  clickRow(row: T) {
     const options = this.options();
     if (options.rowAction === 'expand') {
       const index = this.expandedElements.findIndex((x) => x == row.name);
@@ -253,7 +253,7 @@ export class TableComponent {
     }
   }
 
-  pinColumn(column: Column<PeriodicElement>, direction?: 'left' | 'right') {
+  pinColumn(column: Column<T>, direction?: 'left' | 'right') {
     const order = this.store.$order();
     const previousIndex = order.indexOf(column.name);
     if (direction === 'left' && this.store.$pinned().get(column.name) !== 'left') {
@@ -299,14 +299,14 @@ export class TableComponent {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement, rowIndex = 0): string {
+  checkboxLabel(row?: T, rowIndex = 0): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${rowIndex + 1}`;
   }
 
-  drop(event: CdkDragDrop<Extract<keyof PeriodicElement, string>[]>) {
+  drop(event: CdkDragDrop<Extract<keyof T, string>[]>) {
     const order = this.store.$order();
 
     const previousOffset =
@@ -354,7 +354,7 @@ export class TableComponent {
     this.store.updatePinned(current, temp);
   }
 
-  toggleColumn(key: Extract<keyof PeriodicElement, string>, checked: boolean) {
+  toggleColumn(key: Extract<keyof T, string>, checked: boolean) {
     this.store.updateActive(key, checked);
   }
 }
