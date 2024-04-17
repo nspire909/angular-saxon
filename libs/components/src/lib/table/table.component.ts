@@ -39,6 +39,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NgScrollbar, ScrollViewport } from 'ngx-scrollbar';
 import { map, skip, Subscription, take } from 'rxjs';
+import { MultiSortChipListComponent } from '../multi-sort/multi-sort-chip-list.component';
 import { MultiSortHeaderComponent } from '../multi-sort/multi-sort-header.component';
 import { MultiSortDirective } from '../multi-sort/multi-sort.directive';
 import { NgsxTableDataSource } from './table-data-source';
@@ -48,6 +49,7 @@ import { TableStore } from './table.store';
 @Component({
   standalone: true,
   imports: [
+    MultiSortChipListComponent,
     MultiSortDirective,
     MultiSortHeaderComponent,
     OverflowTooltipDirective,
@@ -119,8 +121,10 @@ export class TableComponent<T> {
 
   resetColumns = output();
 
+  // todo: signal
   expandedElements: string[] = [];
 
+  // todo: signal
   // Todo: change true to false for single select?
   selection = new SelectionModel<T>(true, []);
 
@@ -147,56 +151,53 @@ export class TableComponent<T> {
     let sortSub: Subscription | undefined;
     let pageSub: Subscription | undefined;
     let filterSub: Subscription | undefined;
-    effect(
-      () => {
-        const columns = this.entity();
+    effect(() => {
+      const entity = this.entity();
 
-        untracked(() => {
-          this.store.$filter = columns.columns;
+      untracked(() => {
+        this.store.$filter = entity.columns;
 
-          sortSub?.unsubscribe();
-          sortSub = this.sort?.matMultiSortChange
-            .pipe(
-              takeUntilDestroyed(this.destroyRef),
-              map((sorts) => ({
-                sort: sorts.map((s) => `${s.direction === 'desc' ? '-' : ''}${s.direction ? s.active : ''}`),
-              })),
-            )
-            ?.subscribe((s) => {
-              this.store.$filter?.().controls.sort.setValue(s.sort.join(','));
+        sortSub?.unsubscribe();
+        sortSub = this.sort?.matMultiSortChange
+          .pipe(
+            takeUntilDestroyed(this.destroyRef),
+            map((sorts) => ({
+              sort: sorts.map((s) => `${s.direction === 'desc' ? '-' : ''}${s.direction ? s.active : ''}`),
+            })),
+          )
+          ?.subscribe((s) => {
+            this.store.$filter?.().controls.sort.setValue(s.sort.join(','));
+          });
+
+        pageSub?.unsubscribe();
+        pageSub = this.paginator?.page
+          .pipe(map((page) => ({ page: page.pageIndex + 1, size: page.pageSize })))
+          ?.subscribe((s) => {
+            this.store.$filter?.().controls.page.setValue(s.page.toString());
+            this.store.$filter?.().controls.size.setValue(s.size.toString());
+          });
+
+        filterSub?.unsubscribe();
+        filterSub = this.store
+          .$filter?.()
+          ?.valueChanges.pipe(map((value) => ({ value, rawValue: this.store.$filter?.()?.getRawValue() })))
+          .subscribe((filterChange) => {
+            this.dataSource.filter = JSON.stringify(filterChange.rawValue ?? {});
+
+            const sort = (filterChange.value?.sort as string)?.split(',').filter(Boolean) ?? [];
+
+            void this.router.navigate([`.`], {
+              queryParams: this.removeEmpty(
+                {
+                  ...filterChange.value,
+                  sort: sort.length ? sort : '',
+                  ...(!this.options().showPaginator ? { page: '', size: '' } : {}),
+                } ?? {},
+              ),
             });
-
-          pageSub?.unsubscribe();
-          pageSub = this.paginator?.page
-            .pipe(map((page) => ({ page: page.pageIndex + 1, size: page.pageSize })))
-            ?.subscribe((s) => {
-              this.store.$filter?.().controls.page.setValue(s.page.toString());
-              this.store.$filter?.().controls.size.setValue(s.size.toString());
-            });
-
-          filterSub?.unsubscribe();
-          filterSub = this.store
-            .$filter?.()
-            ?.valueChanges.pipe(map((value) => ({ value, rawValue: this.store.$filter?.()?.getRawValue() })))
-            .subscribe((filterChange) => {
-              this.dataSource.filter = JSON.stringify(filterChange.rawValue ?? {});
-
-              const sort = filterChange.value?.sort?.split(',').filter(Boolean) ?? [];
-
-              this.router.navigate([`.`], {
-                queryParams: this.removeEmpty(
-                  {
-                    ...filterChange.value,
-                    sort: sort.length ? sort : '',
-                    ...(!this.options().showPaginator ? { page: '', size: '' } : {}),
-                  } ?? {},
-                ),
-              });
-            });
-        });
-      },
-      { allowSignalWrites: true },
-    );
+          });
+      });
+    });
 
     effect(() => {
       this.dataSource.data = this.data();
@@ -204,6 +205,9 @@ export class TableComponent<T> {
       this.dataSource.paginator = this.options().showPaginator ? this.paginator : null;
       this.expandedElements = [];
       this.selection.clear();
+      if (!this.options().showFilter) {
+        this.clearFilters();
+      }
     });
 
     this.route.queryParamMap.pipe(skip(1), take(1)).subscribe((queryParams) => {
@@ -254,6 +258,30 @@ export class TableComponent<T> {
     }
   }
 
+  isAllSelected() {
+    return this.selection.selected.length === this.dataSource.data.length;
+  }
+
+  toggleAllRows() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
+    }
+
+    this.selection.select(...this.dataSource.data);
+  }
+
+  checkboxLabel(row?: T, rowIndex = 0): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'Deselect' : 'Select'} All`;
+    }
+    return `${this.selection.isSelected(row) ? 'Deselect' : 'Select'} Row ${rowIndex + 1}`;
+  }
+
+  isExpanded(row: T) {
+    return this.expandedElements.includes(row[this.entity().primaryKey] as string);
+  }
+
   pinColumn(column: Column<T>, direction?: 'left' | 'right') {
     const order = this.store.$order();
     const previousIndex = order.indexOf(column.name);
@@ -280,35 +308,6 @@ export class TableComponent<T> {
         this.store.updatePinned(key, null);
       }
     }
-  }
-
-  /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
-
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  toggleAllRows() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      return;
-    }
-
-    this.selection.select(...this.dataSource.data);
-  }
-
-  /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: T, rowIndex = 0): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${rowIndex + 1}`;
-  }
-
-  isExpanded(row: T) {
-    return this.expandedElements.includes(row[this.entity().primaryKey] as string);
   }
 
   drop(event: CdkDragDrop<Extract<keyof T, string>[]>) {

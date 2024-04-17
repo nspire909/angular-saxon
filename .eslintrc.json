@@ -1,7 +1,15 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nx"],
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true
+  },
+  "parserOptions": {
+    "ecmaVersion": "latest"
+  },
+  "plugins": ["import", "@nx"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
@@ -39,11 +47,94 @@
       "rules": {}
     },
     {
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "parserOptions": {
+        "project": ["tsconfig.base.json"],
+        "createDefaultProgram": true
+      },
+      "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended-type-checked",
+        "plugin:@typescript-eslint/stylistic-type-checked",
+        "plugin:@nx/angular",
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "./libs/eslint/recommended.js",
+        "./libs/eslint/recommended-formatting.js",
+        "prettier"
+      ],
+      "rules": {
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "prefix": "ngsx",
+            "style": "kebab-case",
+            "type": "element"
+          }
+        ],
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "prefix": "ngsx",
+            "style": "camelCase",
+            "type": "attribute"
+          }
+        ],
+        "no-console": ["error", {}],
+        "no-restricted-imports": ["error", "rxjs/operators"],
+        "no-multiple-empty-lines": [
+          "error",
+          {
+            "max": 1,
+            "maxEOF": 0,
+            "maxBOF": 0
+          }
+        ],
+        "import/no-extraneous-dependencies": [
+          "error",
+          {
+            "devDependencies": [
+              "**/test-setup.ts",
+              "**/*.spec.ts",
+              "**/*.stories.ts",
+              "**/.storybook/**/*",
+              "**/proxy.conf.js",
+              "**/jest.*.{js,ts}",
+              "**/playwright.config.ts"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "extends": ["plugin:rxjs/recommended", "./libs/eslint/recommended-strict-safe-any.js"],
+      "rules": {
+        "@typescript-eslint/prefer-nullish-coalescing": "off",
+        "rxjs/no-compat": "error",
+        "rxjs/no-connectable": "error",
+        "rxjs/no-cyclic-action": "error",
+        "rxjs/no-ignored-observable": "error",
+        "rxjs/no-ignored-subscribe": "error",
+        "rxjs/no-subclass": "error",
+        "rxjs/no-topromise": "error",
+        "rxjs/no-unsafe-catch": "error",
+        "rxjs/no-unsafe-first": "error",
+        "rxjs/no-unsafe-switchmap": "error",
+        "rxjs/prefer-observer": "error",
+        "rxjs/throw-error": "error"
+      }
+    },
+    {
       "files": ["*.json"],
       "extends": ["plugin:jsonc/recommended-with-jsonc", "plugin:json-schema-validator/recommended"],
       "rules": {
         "jsonc/comma-dangle": ["error", "never"]
       }
+    },
+    {
+      "files": ["*.html"],
+      "extends": ["plugin:@nx/angular-template"],
+      "rules": {}
     }
   ]
 }

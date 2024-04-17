@@ -30,7 +30,7 @@ export interface Column<T> {
   cell: (element: T) => string;
   // initial values
   isActive: boolean;
-  pinned: string;
+  pinned?: 'left' | 'right' | null;
   defaultFilter: string;
   disableFilter: boolean;
   filterValidators?: ValidatorFn[];

@@ -84,34 +84,6 @@ tr.summary-row:not(.expanded-row):active {
   z-index: 101 !important;
 }
 
-.flex {
-  display: flex;
-}
-
-.flex-row {
-  flex-direction: row;
-}
-
-.flex-1 {
-  flex: 1;
-}
-
-.justify-start {
-  justify-content: flex-start;
-}
-
-.justify-between {
-  justify-content: space-between;
-}
-
-.justify-end {
-  justify-content: flex-end;
-}
-
-.items-center {
-  align-items: center;
-}
-
 .hidden {
   display: none;
 }

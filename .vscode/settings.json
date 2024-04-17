@@ -1,4 +1,5 @@
 {
+  "accessibility.signals.sounds.volume": 0,
   "breadcrumbs.enabled": true,
   "cSpell.enabledLanguageIds": [
     "cucumber",
@@ -107,6 +108,7 @@
   "cucumber.glue": ["apps/*/src/e2e/common/*.steps.ts", "apps/*/src/e2e/**/*.ts"],
   "diffEditor.ignoreTrimWhitespace": false,
   "diffEditor.maxComputationTime": 0,
+  "editor.accessibilitySupport": "off",
   "editor.fontFamily": "'Fira Code', Menlo, Monaco, 'Courier New', monoscape",
   "editor.fontLigatures": true,
   "editor.formatOnSave": true,

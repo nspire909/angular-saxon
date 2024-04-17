@@ -22,7 +22,7 @@ export class MultiSortHeaderComponent extends MatSortHeader {
       inject(MultiSortDirective),
       inject(CdkColumnDef),
       inject(FocusMonitor),
-      inject(ElementRef),
+      inject<ElementRef<HTMLElement>>(ElementRef),
       inject(AriaDescriber),
       inject(MAT_SORT_DEFAULT_OPTIONS, { optional: true }) ?? undefined,
     );
@@ -41,7 +41,7 @@ export class MultiSortHeaderComponent extends MatSortHeader {
   }
 
   protected sortId() {
-    return this._sort.isMulti() ? this._sort.actives.findIndex((activeId) => activeId === this.id) + 1 : '';
+    return this._sort.isMulti() ? this._sort.actives.findIndex((activeId) => activeId === this.id) + 1 || '' : '';
   }
 
   override _updateArrowDirection() {

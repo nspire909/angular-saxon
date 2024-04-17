@@ -1,0 +1,37 @@
+.sorting {
+  display: inline-block;
+  color: #757575;
+  min-width: 32px;
+}
+
+.sorting:hover {
+  cursor: pointer;
+}
+
+.drag-chip:hover {
+  cursor: grab;
+}
+
+.drag-chip:hover::after {
+  opacity: 0;
+}
+
+.drag-chip:focus::after {
+  opacity: 0;
+}
+
+.drag-chip-list.cdk-drop-list-dragging .drag-chip:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+::ng-deep .mat-mdc-chip .mat-mdc-chip-action:not(.mat-icon) {
+  cursor: grab;
+}

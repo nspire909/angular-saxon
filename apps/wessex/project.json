@@ -18,6 +18,9 @@
         "inlineStyleLanguage": "scss",
         "assets": ["apps/wessex/src/favicon.ico"],
         "styles": ["@angular/material/prebuilt-themes/deeppurple-amber.css", "apps/wessex/src/styles.scss"],
+        "stylePreprocessorOptions": {
+          "includePaths": ["libs/common/src/lib/styles"]
+        },
         "scripts": [],
         "baseHref": "/angular-saxon/"
       },

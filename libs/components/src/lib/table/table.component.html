@@ -1,6 +1,6 @@
 <section class="container mat-elevation-z8 dense-table" tabindex="0">
   <mat-sidenav-container>
-    <mat-sidenav #sidenav [mode]="'over'" position="end" cdkDropListGroup>
+    <mat-sidenav #sidenav mode="over" position="end" cdkDropListGroup>
       <div class="sidenav">
         <ng-scrollbar>
           <div class="sticky-menu flex flex-row justify-between">
@@ -20,7 +20,7 @@
                   <mat-checkbox
                     [checked]="store.$active().get(column)"
                     (change)="toggleColumn(column, $event.checked)"
-                    >{{ column }}</mat-checkbox
+                    >{{ store.$titles().get(column) }}</mat-checkbox
                   >
                 </div>
               }
@@ -34,7 +34,7 @@
                   <mat-checkbox
                     [checked]="store.$active().get(column)"
                     (change)="toggleColumn(column, $event.checked)"
-                    >{{ column }}</mat-checkbox
+                    >{{ store.$titles().get(column) }}</mat-checkbox
                   >
                 </div>
               }
@@ -48,7 +48,7 @@
                   <mat-checkbox
                     [checked]="store.$active().get(column)"
                     (change)="toggleColumn(column, $event.checked)"
-                    >{{ column }}</mat-checkbox
+                    >{{ store.$titles().get(column) }}</mat-checkbox
                   >
                 </div>
               }
@@ -76,6 +76,8 @@
                 [checked]="selection.hasValue() && isAllSelected()"
                 [indeterminate]="selection.hasValue() && !isAllSelected()"
                 [aria-label]="checkboxLabel()"
+                [matTooltip]="checkboxLabel()"
+                matTooltipPosition="right"
               >
               </mat-checkbox>
             </th>
@@ -85,6 +87,8 @@
                 (change)="$event ? selection.toggle(row) : null"
                 [checked]="selection.isSelected(row)"
                 [aria-label]="checkboxLabel(row, rowIndex)"
+                [matTooltip]="checkboxLabel(row, rowIndex)"
+                matTooltipPosition="right"
               >
               </mat-checkbox>
             </td>
@@ -229,6 +233,12 @@
             </th>
           </ng-container>
 
+          <ng-container matColumnDef="filter-results">
+            <th mat-header-cell *matHeaderCellDef [attr.colspan]="displayedColumns().length">
+              <ngsx-multi-sort-chip-list [titles]="store.$titles()"></ngsx-multi-sort-chip-list>
+            </th>
+          </ng-container>
+
           <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
           <ng-container matColumnDef="expanded-detail">
             <td mat-cell *matCellDef="let row; table: table" [attr.colspan]="displayedColumns().length" matTooltip>
@@ -251,6 +261,7 @@
             [class.hidden]="!options().showFilter"
             class="filter-row"
           ></tr>
+          <tr mat-header-row *matHeaderRowDef="['filter-results']; sticky: true"></tr>
 
           <tr
             mat-row

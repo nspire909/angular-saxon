@@ -23,7 +23,7 @@ import { RouterModule } from '@angular/router';
     MatInputModule,
     MatButtonModule,
   ],
-  selector: 'app-root',
+  selector: 'ngsx-wessex',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -31,7 +31,7 @@ import { RouterModule } from '@angular/router';
 export class AppComponent {
   fb = inject(NonNullableFormBuilder);
   tableOptions = this.fb.group({
-    rowAction: this.fb.control<'select' | 'expand' | 'link' | 'none'>('expand'),
+    rowAction: this.fb.control<'select' | 'expand' | 'link' | 'none'>('none'),
     multi: this.fb.control<boolean>(false),
     showFilter: this.fb.control<boolean>(true),
     showPaginator: this.fb.control<boolean>(false),

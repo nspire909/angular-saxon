@@ -48,22 +48,15 @@ export class MultiSortDirective extends MatSort {
     const i = this.actives.findIndex((activeId) => activeId === sortable.id);
 
     if (this.isActive(sortable)) {
-      if (this.activeDirection(sortable) === (sortable.start ? sortable.start : this.start)) {
-        const dir = this.getNextSortDirection(sortable);
-
-        if (dir !== '') {
-          this.directions.splice(i, 1, this.getNextSortDirection(sortable));
-        } else {
-          this.actives.splice(i, 1);
-          this.directions.splice(i, 1);
-        }
+      if (this.activeDirection(sortable) === (sortable.start || this.start)) {
+        this.directions.splice(i, 1, this.activeDirection(sortable) === 'asc' ? 'desc' : 'asc');
       } else {
         this.actives.splice(i, 1);
         this.directions.splice(i, 1);
       }
     } else {
       this.actives.push(sortable.id);
-      this.directions.push(sortable.start ? sortable.start : this.start);
+      this.directions.push(sortable.start || this.start);
     }
   }
 
@@ -74,6 +67,6 @@ export class MultiSortDirective extends MatSort {
 
   private activeDirection(sortable: MatSortable): SortDirection {
     const i = this.actives.findIndex((activeId) => activeId === sortable.id);
-    return this.directions[i] || (sortable.start ? sortable.start : this.start);
+    return this.directions[i] || sortable.start || this.start;
   }
 }

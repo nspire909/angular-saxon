@@ -1,9 +1,12 @@
 // cspell:ignore wght, opsz
 $material-symbols-font-path: 'material-symbols/';
 
+// Todo: all of this needs to be a theme, packaged with the lib or npm package won't be styled right
 @use '@angular/material' as mat;
+@use '@angular-saxon/common' as common;
 @import 'material-symbols';
 @import 'roboto-fontface/css/roboto/roboto-fontface.css';
+@include common.layout;
 
 .dense-table {
   @include mat.form-field-density(-5);

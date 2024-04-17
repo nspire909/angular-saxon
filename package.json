@@ -6,7 +6,9 @@
   "scripts": {
     "start": "nx serve wessex",
     "build": "nx build wessex && rm -rf node_modules && rm -rf tmp",
-    "postinstall": "cd tools/stylelint-vscode-hack && yarn"
+    "postinstall": "cd tools/stylelint-vscode-hack && yarn",
+    "lint-all": "nx run-many --all --target=lint",
+    "stylelint-all": "nx run-many --all --target=stylelint"
   },
   "dependencies": {
     "@angular/animations": "~17.3.3",

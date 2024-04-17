@@ -13,8 +13,9 @@ export class TableStore<T> {
   protected readonly router = inject(Router);
 
   private readonly state = {
+    $titles: signal(new Map<Extract<keyof T, string>, string>()),
     $active: signal(new Map<Extract<keyof T, string>, boolean>()),
-    $pinned: signal(new Map<Extract<keyof T, string>, 'left' | 'right' | null>()),
+    $pinned: signal(new Map<Extract<keyof T, string>, 'left' | 'right' | null | undefined>()),
     $order: signal<Extract<keyof T, string>[]>([]),
   } as const;
 
@@ -25,6 +26,7 @@ export class TableStore<T> {
   }
   public set $filter(columns: Column<T>[]) {
     this._$filter = computed(() => this.createForm(columns));
+    this.setTitles(columns);
     this.setActive(columns);
     this.setPinned(columns);
     this.setOrder(columns);
@@ -58,48 +60,33 @@ export class TableStore<T> {
     });
   }
 
+  public readonly $titles = this.state.$titles.asReadonly();
   public readonly $active = this.state.$active.asReadonly();
   public readonly $pinned = this.state.$pinned.asReadonly();
   public readonly $order = this.state.$order.asReadonly();
 
+  private setTitles(columns?: Column<T>[]) {
+    this.state.$titles.update(() => new Map(columns?.map((column) => [column.name, column.title])));
+  }
+
   private setActive(columns?: Column<T>[]) {
-    const activeColumns = columns?.reduce<{ [K in Extract<keyof T, string>]: boolean }>(
-      (p, c) => ({ ...p, [c.name]: c.isActive }),
-      {} as { [K in Extract<keyof T, string>]: boolean },
-    );
-    this.state.$active.update((active) => this.mapUnion(active, activeColumns));
+    this.state.$active.update(() => new Map(columns?.map((column) => [column.name, column.isActive])));
   }
 
   private setPinned(columns?: Column<T>[]) {
-    const pinnedColumns = columns?.reduce<{ [K in Extract<keyof T, string>]: 'left' | 'right' | null }>(
-      (p, c) => ({ ...p, [c.name]: c.pinned }),
-      {} as { [K in Extract<keyof T, string>]: 'left' | 'right' | null },
-    );
-    this.state.$pinned.update((pinned) => this.mapUnion(pinned, pinnedColumns));
+    this.state.$pinned.update(() => new Map(columns?.map((column) => [column.name, column.pinned])));
   }
 
   private setOrder(columns?: Column<T>[]) {
     this.state.$order.update(() => columns?.map((column) => column.name) ?? []);
   }
 
-  private mapUnion<U>(map: Map<Extract<keyof T, string>, U>, iterable?: { [K in Extract<keyof T, string>]: U }) {
-    Object.entries<U>(iterable ?? {}).forEach(([k, v]) => map.set(k as Extract<keyof T, string>, v));
-    return new Map(map);
-  }
-
   updateActive(key: Extract<keyof T, string>, value: boolean) {
-    this.state.$active.update((active) => {
-      active.set(key, value);
-      return new Map(active);
-    });
+    this.state.$active.update((active) => new Map([...active, [key, value]]));
   }
 
   updatePinned(key: Extract<keyof T, string>, value: 'left' | 'right' | null) {
-    // Todo: change $order if val is left or right
-    this.state.$pinned.update((pinned) => {
-      pinned.set(key, value);
-      return new Map(pinned);
-    });
+    this.state.$pinned.update((pinned) => new Map([...pinned, [key, value]]));
   }
 
   updateOrder(columns: Extract<keyof T, string>[]) {

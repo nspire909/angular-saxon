@@ -47,8 +47,9 @@ export class NgsxTableDataSource<T> extends MatTableDataSource<T> {
     }
   }
 
+  // Todo: support Array<string> values and Ops
   override filterPredicate = (data: T, filter: string) =>
-    !Object.entries<string | undefined>(JSON.parse(filter))
+    !Object.entries<string | undefined>(JSON.parse(filter) as Record<string, string>)
       .filter(([k]) => !['sort', 'page', 'size'].includes(k))
       .reduce(
         (remove, [k, v]) =>
