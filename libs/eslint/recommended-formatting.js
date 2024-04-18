@@ -76,7 +76,10 @@ module.exports = {
     'semi-spacing': 'error',
     'space-before-blocks': 'error',
     'space-before-function-paren': 'off',
-    '@typescript-eslint/space-before-function-paren': ['error', { anonymous: 'always', named: 'never', asyncArrow: 'always' }],
+    '@typescript-eslint/space-before-function-paren': [
+      'error',
+      { anonymous: 'always', named: 'never', asyncArrow: 'always' },
+    ],
     'space-infix-ops': 'off',
     '@typescript-eslint/space-infix-ops': 'error',
     'switch-colon-spacing': 'error',

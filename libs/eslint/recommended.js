@@ -18,7 +18,10 @@ module.exports = {
     //     this.route.parent?.params.pipe(take(1)) ?? of({}),
     //     this.beService.getAll<ProjectType>('project-types')
     //   ]).subscribe(...)
-    '@typescript-eslint/consistent-type-assertions': ['error', { assertionStyle: 'as', objectLiteralTypeAssertions: 'allow-as-parameter' }],
+    '@typescript-eslint/consistent-type-assertions': [
+      'error',
+      { assertionStyle: 'as', objectLiteralTypeAssertions: 'allow-as-parameter' },
+    ],
     /*
       Snap feels like it's a valid stylistic choice.  Especially when doing maps of things like
         Roles to allowed actions, etc.
