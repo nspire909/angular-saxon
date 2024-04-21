@@ -42,10 +42,10 @@ import { map, skip, Subscription, take } from 'rxjs';
 import { MultiSortChipListComponent } from '../multi-sort/multi-sort-chip-list.component';
 import { MultiSortHeaderComponent } from '../multi-sort/multi-sort-header.component';
 import { MultiSortDirective } from '../multi-sort/multi-sort.directive';
+import { PurePipe } from './pure.pipe';
 import { NgsxTableDataSource } from './table-data-source';
 import { Column, defaultTableOptions, Entity, TableOptions } from './table.models';
 import { TableStore } from './table.store';
-import { PurePipe } from './pure.pipe';
 
 @Component({
   standalone: true,

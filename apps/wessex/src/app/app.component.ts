@@ -33,6 +33,7 @@ export class AppComponent {
   tableOptions = this.fb.group({
     rowAction: this.fb.control<'select' | 'expand' | 'link' | 'none'>('none'),
     multi: this.fb.control<boolean>(false),
+    dense: this.fb.control<boolean>(true),
     showFilter: this.fb.control<boolean>(true),
     showPaginator: this.fb.control<boolean>(false),
     showActions: this.fb.control<boolean>(true),

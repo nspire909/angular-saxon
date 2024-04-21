@@ -103,8 +103,12 @@ tr.summary-row:not(.expanded-row):active {
   }
 }
 
-.mat-mdc-header-row.filter-row {
+.dense-table .mat-mdc-header-row.filter-row {
   height: 58px;
+}
+
+.mat-mdc-header-row.filter-row {
+  height: 80px;
 }
 
 .column-list {

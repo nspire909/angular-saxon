@@ -3,6 +3,7 @@ import { ValidatorFn } from '@angular/forms';
 export interface TableOptions {
   rowAction: 'select' | 'expand' | 'link' | 'none';
   multi: boolean;
+  dense: boolean;
   showFilter: boolean;
   showPaginator: boolean;
   showActions: boolean;
@@ -15,6 +16,7 @@ export interface TableOptions {
 export const defaultTableOptions: TableOptions = {
   rowAction: 'none',
   multi: false,
+  dense: true,
   showFilter: true,
   showPaginator: false,
   showActions: true,

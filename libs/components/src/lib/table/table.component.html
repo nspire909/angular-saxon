@@ -1,4 +1,4 @@
-<section class="container mat-elevation-z8 dense-table" tabindex="0">
+<section class="container mat-elevation-z8" tabindex="0" [class.dense-table]="options().dense">
   <mat-sidenav-container>
     <mat-sidenav #sidenav mode="over" position="end" cdkDropListGroup>
       <div class="sidenav">
@@ -280,7 +280,7 @@
         </table>
       </ng-scrollbar>
       <span
-        class="footer flex flex-row justify-between"
+        class="footer flex flex-row justify-between items-center"
         [class.hidden]="!options().showPaginator && !options().showActions"
       >
         <div>
