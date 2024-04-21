@@ -45,10 +45,12 @@ import { MultiSortDirective } from '../multi-sort/multi-sort.directive';
 import { NgsxTableDataSource } from './table-data-source';
 import { Column, defaultTableOptions, Entity, TableOptions } from './table.models';
 import { TableStore } from './table.store';
+import { PurePipe } from './pure.pipe';
 
 @Component({
   standalone: true,
   imports: [
+    PurePipe,
     MultiSortChipListComponent,
     MultiSortDirective,
     MultiSortHeaderComponent,
@@ -361,4 +363,6 @@ export class TableComponent<T> {
   toggleColumn(key: Extract<keyof T, string>, checked: boolean) {
     this.store.updateActive(key, checked);
   }
+
+  getCell = (column: Column<T>, row: T) => column.cell(row);
 }

@@ -1,31 +1,38 @@
 <div>
-  Row Action
-  <mat-button-toggle-group [formControl]="tableOptions.controls.rowAction">
-    <mat-button-toggle value="select"> Select </mat-button-toggle>
-    <mat-button-toggle value="expand"> Expand </mat-button-toggle>
-    <mat-button-toggle value="link"> Link </mat-button-toggle>
-    <mat-button-toggle value="none"> None </mat-button-toggle>
-  </mat-button-toggle-group>
-  <mat-checkbox [formControl]="tableOptions.controls.multi">Multi</mat-checkbox>
-  <mat-checkbox [formControl]="tableOptions.controls.showFilter">Show Filter</mat-checkbox>
-  <mat-checkbox [formControl]="tableOptions.controls.showPaginator">Show Paginator</mat-checkbox>
-  <mat-checkbox [formControl]="tableOptions.controls.showActions">Show Actions</mat-checkbox>
-  <mat-checkbox [formControl]="tableOptions.controls.showActionRow">Show Action Row</mat-checkbox>
-  <mat-checkbox [formControl]="tableOptions.controls.cellWrapping">Cell Wrapping</mat-checkbox>
-  <mat-checkbox [formControl]="tableOptions.controls.multiSort">Multi Sort</mat-checkbox>
-  <mat-form-field>
-    <mat-label>Empty Record Message</mat-label>
-    <input matInput [formControl]="tableOptions.controls.emptyMessage" />
-  </mat-form-field>
-  <button mat-raised-button (click)="addData()">Add data</button>
-  <button mat-raised-button [disabled]="!data().length" (click)="removeData()">Remove data</button>
+  <div>
+    Row Action
+    <mat-button-toggle-group [formControl]="tableOptions.controls.rowAction">
+      <mat-button-toggle value="select">Select</mat-button-toggle>
+      <mat-button-toggle value="expand">Expand</mat-button-toggle>
+      <mat-button-toggle value="link">Link</mat-button-toggle>
+      <mat-button-toggle value="none">None</mat-button-toggle>
+    </mat-button-toggle-group>
+    <mat-checkbox [formControl]="tableOptions.controls.multi">Multi</mat-checkbox>
+  </div>
+  <div>
+    <mat-checkbox [formControl]="tableOptions.controls.showFilter">Show Filter</mat-checkbox>
+    <mat-checkbox [formControl]="tableOptions.controls.showPaginator">Show Paginator</mat-checkbox>
+    <mat-checkbox [formControl]="tableOptions.controls.showActions">Show Actions</mat-checkbox>
+    <mat-checkbox [formControl]="tableOptions.controls.showActionRow">Show Action Row</mat-checkbox>
+    <mat-checkbox [formControl]="tableOptions.controls.cellWrapping">Cell Wrapping</mat-checkbox>
+    <mat-checkbox [formControl]="tableOptions.controls.multiSort">Multi Sort</mat-checkbox>
+  </div>
+  <div>
+    <mat-form-field>
+      <mat-label>Empty Record Message</mat-label>
+      <input matInput [formControl]="tableOptions.controls.emptyMessage" />
+    </mat-form-field>
+    <button mat-raised-button (click)="addData()">Add data</button>
+    <button mat-raised-button [disabled]="!data().length" (click)="removeData()">Remove data</button>
+  </div>
+  <div>
+    <ngsx-table
+      [data]="data()"
+      [entity]="entity()"
+      [options]="tableOptions.value"
+      (resetColumns)="resetColumns()"
+    ></ngsx-table>
+  </div>
 </div>
-<div>
-  <ngsx-table
-    [data]="data()"
-    [entity]="entity()"
-    [options]="tableOptions.value"
-    (resetColumns)="resetColumns()"
-  ></ngsx-table>
-</div>
+
 <router-outlet></router-outlet>

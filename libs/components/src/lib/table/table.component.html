@@ -185,7 +185,7 @@
                   [tabindex]="columnIndex === 0 ? 0 : -1"
                 >
                   <span [ngsxOverflowTooltip]="!options().cellWrapping">
-                    {{ column.cell(row) }}
+                    {{ column | pure: getCell : row }}
                   </span>
                 </a>
               </td>

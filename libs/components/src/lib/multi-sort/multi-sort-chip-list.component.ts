@@ -1,5 +1,5 @@
 import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
-import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, JsonPipe, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MultiSortDirective } from './multi-sort.directive';
 import { startWith } from 'rxjs';
+import { Sort } from '@angular/material/sort';
 
 @Component({
   standalone: true,
@@ -24,13 +25,19 @@ import { startWith } from 'rxjs';
     FormsModule,
     MatIconModule,
     AsyncPipe,
+    JsonPipe,
   ],
 })
 export class MultiSortChipListComponent<T> {
   public readonly sort = inject(MultiSortDirective);
 
-  protected matMultiSortChange = this.sort.matMultiSortChange.pipe(startWith([]));
-  protected actives = this.sort.actives as Extract<keyof T, string>[];
+  protected sort$ = this.sort.matMultiSortChange.pipe(
+    startWith(
+      this.sort.isMulti()
+        ? this.sort.actives.map<Sort>((active, i) => ({ active, direction: this.sort.directions[i] ?? '' }))
+        : [{ active: this.sort.active, direction: this.sort.direction }],
+    ),
+  );
 
   titles = input.required<Map<Extract<keyof T, string>, string>>();
 

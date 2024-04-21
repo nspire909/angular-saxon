@@ -1,15 +1,14 @@
-@if (matMultiSortChange | async) {
+@if (sort$ | async; as sorts) {
   <mat-chip-set
     class="drag-chip-list"
     cdkDropList
     cdkDropListOrientation="horizontal"
     (cdkDropListDropped)="dropSort($event)"
   >
-    @for (item of actives; track item; let i = $index) {
+    @for (sort of sorts; track sort; let i = $index) {
       <mat-chip class="drag-chip" cdkDrag (removed)="remove(i)" (click)="updateDirection(i)">
-        {{ titles().get(item) }}:
-        @if (sort.directions[i]; as direction) {
-          <!-- <mat-icon [matTooltip]="''">{{ direction === 'asc' ? 'arrow_upward' : 'arrow_downward' }}</mat-icon> -->
+        {{ titles().get($any(sort.active)) }}:
+        @if (sort.direction; as direction) {
           <div class="sorting" [matTooltip]="''">
             {{ direction }}
           </div>

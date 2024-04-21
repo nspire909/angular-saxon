@@ -28,6 +28,7 @@ export interface Column<T> {
   name: Extract<keyof T, string>;
   title: string;
   cell: (element: T) => string;
+
   // initial values
   isActive: boolean;
   pinned?: 'left' | 'right' | null;

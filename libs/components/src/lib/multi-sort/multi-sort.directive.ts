@@ -28,6 +28,9 @@ export class MultiSortDirective extends MatSort {
         this.actives = [];
         this.directions = [];
       }
+      this.matMultiSortChange.emit(
+        this.isMulti() ? this.actives.map<Sort>((active, i) => ({ active, direction: this.directions[i] ?? '' })) : [],
+      );
     });
   }
 

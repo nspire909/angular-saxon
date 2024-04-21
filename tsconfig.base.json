@@ -14,7 +14,7 @@
     "noUnusedParameters": true,
     "baseUrl": ".",
     "module": "esnext",
-    "moduleResolution": "node10",
+    "moduleResolution": "node",
     "paths": {
       "@angular-saxon/common": ["libs/common/src/index.ts"],
       "@angular-saxon/components": ["libs/components/src/index.ts"],
