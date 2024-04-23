@@ -9,7 +9,13 @@ $material-symbols-font-path: 'material-symbols/';
 @include common.layout;
 
 .dense-table {
-  @include mat.all-component-densities(minimum);
+  //@include mat.all-component-densities(minimum);
+
+  @include mat.form-field-density(minimum);
+  @include mat.button-density(minimum);
+  @include mat.table-density(minimum);
+  @include mat.paginator-density(minimum);
+  @include mat.checkbox-density(minimum);
 }
 
 html,

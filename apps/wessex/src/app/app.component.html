@@ -10,13 +10,10 @@
     <mat-checkbox [formControl]="tableOptions.controls.multi">Multi</mat-checkbox>
   </div>
   <div>
-    <mat-checkbox [formControl]="tableOptions.controls.dense">Dense</mat-checkbox>
     <mat-checkbox [formControl]="tableOptions.controls.showFilter">Show Filter</mat-checkbox>
     <mat-checkbox [formControl]="tableOptions.controls.showPaginator">Show Paginator</mat-checkbox>
     <mat-checkbox [formControl]="tableOptions.controls.showActions">Show Actions</mat-checkbox>
     <mat-checkbox [formControl]="tableOptions.controls.showActionRow">Show Action Row</mat-checkbox>
-    <mat-checkbox [formControl]="tableOptions.controls.cellWrapping">Cell Wrapping</mat-checkbox>
-    <mat-checkbox [formControl]="tableOptions.controls.multiSort">Multi Sort</mat-checkbox>
   </div>
   <div>
     <mat-form-field>
@@ -25,6 +22,11 @@
     </mat-form-field>
     <button mat-raised-button (click)="addData()">Add data</button>
     <button mat-raised-button [disabled]="!data().length" (click)="removeData()">Remove data</button>
+  </div>
+  <div>
+    <mat-checkbox [formControl]="tableOptions.controls.dense">Dense</mat-checkbox>
+    <mat-checkbox [formControl]="tableOptions.controls.cellWrapping">Cell Wrapping</mat-checkbox>
+    <mat-checkbox [formControl]="tableOptions.controls.multiSort">Multi Sort</mat-checkbox>
   </div>
   <div>
     <ngsx-table
