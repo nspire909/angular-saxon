@@ -67,12 +67,11 @@ tr.detail-row {
   height: 0;
 }
 
-tr.summary-row:not(.expanded-row):hover {
-  background: whitesmoke;
-}
-
-tr.summary-row:not(.expanded-row):active {
-  background: #efefef;
+tr.summary-row:not(.expanded-row) {
+  &:hover,
+  &:active {
+    background-color: var(--mat-table-row-item-outline-color);
+  }
 }
 
 .summary-row td {
@@ -120,8 +119,6 @@ tr.summary-row:not(.expanded-row):active {
     0 11px 15px -7px rgb(0 0 0 / 20%),
     0 24px 38px 3px rgb(0 0 0 / 14%),
     0 9px 46px 8px rgb(0 0 0 / 12%);
-  background-color: white;
-  color: rgb(0 0 0 / 87%);
 }
 
 .column-item {
@@ -138,7 +135,6 @@ tr.summary-row:not(.expanded-row):active {
 
   mat-checkbox {
     line-height: 48px;
-    color: rgb(0 0 0 / 87%);
     font-size: 14px;
     font-weight: 400;
   }
@@ -179,7 +175,6 @@ tr.summary-row:not(.expanded-row):active {
   position: sticky;
   top: 0;
   z-index: 100;
-  background-color: rgb(255 255 255);
   padding-right: 16px;
 }
 
