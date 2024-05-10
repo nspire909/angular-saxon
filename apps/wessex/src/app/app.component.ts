@@ -1,7 +1,7 @@
 import { assertPresent } from '@angular-saxon/common';
 import { ELEMENT_DATA, TableComponent, getEntity } from '@angular-saxon/components';
 import { JsonPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -42,6 +42,12 @@ export class AppComponent {
     multiSort: this.fb.control<boolean>(true),
     emptyMessage: this.fb.control<string>(''),
   });
+
+  colorMode = this.fb.control<string>(window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+
+  @HostBinding('class.dark') get dark() {
+    return this.colorMode.value === 'dark';
+  }
 
   data = signal(ELEMENT_DATA);
 
