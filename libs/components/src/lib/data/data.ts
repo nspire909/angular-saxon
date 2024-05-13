@@ -13,7 +13,7 @@ export interface PeriodicElement {
   filler4?: string;
 }
 
-export const ELEMENT_DATA: PeriodicElement[] = [
+export const PERIODIC_ELEMENT_DATA: PeriodicElement[] = [
   {
     position: 1,
     name: 'Hydrogen',
@@ -118,7 +118,7 @@ export const ELEMENT_DATA: PeriodicElement[] = [
   },
 ];
 
-export const getEntity = (): Entity<PeriodicElement> => ({
+export const getPeriodicElementEntity = (): Entity<PeriodicElement> => ({
   name: 'periodic-elements',
   title: 'Periodic Elements',
   primaryKey: 'name',

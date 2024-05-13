@@ -207,6 +207,13 @@
                       [name]="column.name"
                     />
                     <mat-error matTooltip [ngsxOverflowTooltip]><span> Required </span></mat-error>
+                    <mat-icon matSuffix [matMenuTriggerFor]="filter_menu">filter_list</mat-icon>
+                    <mat-menu #filter_menu="matMenu">
+                      <button mat-menu-item (click)="resetColumns.emit()">
+                        <mat-icon>undo</mat-icon>
+                        <span>Reset Columns</span>
+                      </button>
+                    </mat-menu>
                   </mat-form-field>
                 </th>
               }

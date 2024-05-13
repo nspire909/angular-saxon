@@ -1,5 +1,5 @@
 import { assertPresent } from '@angular-saxon/common';
-import { ELEMENT_DATA, TableComponent, getEntity } from '@angular-saxon/components';
+import { PERIODIC_ELEMENT_DATA, TableComponent, getPeriodicElementEntity } from '@angular-saxon/components';
 import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostBinding, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
@@ -49,13 +49,13 @@ export class AppComponent {
     return this.colorMode.value === 'dark';
   }
 
-  data = signal(ELEMENT_DATA);
+  data = signal(PERIODIC_ELEMENT_DATA);
 
-  entity = signal(getEntity());
+  entity = signal(getPeriodicElementEntity());
 
   addData() {
-    const randomElementIndex = Math.floor(Math.random() * ELEMENT_DATA.length);
-    this.data.update((data) => [...data, assertPresent(ELEMENT_DATA[randomElementIndex])]);
+    const randomElementIndex = Math.floor(Math.random() * PERIODIC_ELEMENT_DATA.length);
+    this.data.update((data) => [...data, assertPresent(PERIODIC_ELEMENT_DATA[randomElementIndex])]);
   }
 
   removeData() {
@@ -63,6 +63,6 @@ export class AppComponent {
   }
 
   resetColumns() {
-    this.entity.update(() => getEntity());
+    this.entity.update(() => getPeriodicElementEntity());
   }
 }
