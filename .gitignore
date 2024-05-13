@@ -49,3 +49,5 @@ Thumbs.db
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+tools/stylelint-vscode-hack/.yarn/*

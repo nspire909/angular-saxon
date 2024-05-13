@@ -1,4 +1,5 @@
 {
+  "typescript.tsserver.experimental.useVsCodeWatcher": false,
   "accessibility.signals.sounds.volume": 0,
   "breadcrumbs.enabled": true,
   "cSpell.enabledLanguageIds": [

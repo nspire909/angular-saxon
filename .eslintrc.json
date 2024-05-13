@@ -49,8 +49,11 @@
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "parserOptions": {
-        "project": ["tsconfig.base.json"],
-        "createDefaultProgram": true
+        "project": [
+          "libs/components/tsconfig.lib.json",
+          "libs/common/tsconfig.lib.json",
+          "apps/wessex/tsconfig.app.json"
+        ]
       },
       "extends": [
         "eslint:recommended",
