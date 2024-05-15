@@ -8,8 +8,10 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { SelectionModel } from '@angular/cdk/collections';
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
 import { CdkContextMenuTrigger, CdkMenu, CdkMenuItem } from '@angular/cdk/menu';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { AsyncPipe, JsonPipe, NgStyle } from '@angular/common';
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -37,13 +39,15 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { NgScrollbar, ScrollViewport } from 'ngx-scrollbar';
+import { NgScrollbarModule } from 'ngx-scrollbar';
+import { NgScrollbarCdkVirtualScroll } from 'ngx-scrollbar/cdk';
 import { map, skip, Subscription, take } from 'rxjs';
 import { MultiSortChipListComponent } from '../multi-sort/multi-sort-chip-list.component';
 import { MultiSortHeaderComponent } from '../multi-sort/multi-sort-header.component';
 import { MultiSortDirective } from '../multi-sort/multi-sort.directive';
 import { PurePipe } from './pure.pipe';
 import { NgsxTableDataSource } from './table-data-source';
+import { TableItemSizeDirective } from './table-item-size.directive';
 import { Column, defaultTableOptions, Entity, TableOptions } from './table.models';
 import { TableStore } from './table.store';
 
@@ -71,8 +75,8 @@ import { TableStore } from './table.store';
     MatButtonModule,
     MatButtonToggleModule,
     MatTableModule,
-    NgScrollbar,
-    ScrollViewport,
+    NgScrollbarModule,
+    NgScrollbarCdkVirtualScroll,
     MatFormFieldModule,
     MatInputModule,
     MatPaginatorModule,
@@ -84,6 +88,8 @@ import { TableStore } from './table.store';
     CdkMenu,
     CdkMenuItem,
     NgStyle,
+    ScrollingModule,
+    TableItemSizeDirective,
   ],
   selector: 'ngsx-table',
   styleUrl: 'table.component.scss',
@@ -98,7 +104,7 @@ import { TableStore } from './table.store';
   ],
   providers: [TableStore],
 })
-export class TableComponent<T> {
+export class TableComponent<T> implements AfterViewInit {
   protected readonly store = inject<TableStore<T>>(TableStore);
   protected readonly route = inject(ActivatedRoute);
   protected readonly router = inject(Router);
@@ -234,6 +240,17 @@ export class TableComponent<T> {
     });
   }
 
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      const contentWrapper: HTMLElement | null = document.querySelector('.cdk-virtual-scroll-content-wrapper');
+      const spacer: HTMLElement | null = document.querySelector('.cdk-virtual-scroll-spacer');
+
+      if (contentWrapper && spacer) {
+        spacer.style.width = `${contentWrapper.clientWidth}px`;
+      }
+    });
+  }
+
   clearFilters() {
     this.store.$filter?.().reset();
   }
@@ -362,6 +379,7 @@ export class TableComponent<T> {
 
   toggleColumn(key: Extract<keyof T, string>, checked: boolean) {
     this.store.updateActive(key, checked);
+    this.ngAfterViewInit();
   }
 
   getCell = (column: Column<T>, row: T) => column.cell(row);

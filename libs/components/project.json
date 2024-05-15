@@ -1,6 +1,6 @@
 {
   "name": "components",
-  "$schema": "../../.yarn/unplugged/nx-virtual-1a99f64b7d/node_modules/nx/schemas/project-schema.json",
+  "$schema": "../../.yarn/unplugged/nx-virtual-1c2889abf8/node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/components/src",
   "prefix": "ngsx",
   "projectType": "library",

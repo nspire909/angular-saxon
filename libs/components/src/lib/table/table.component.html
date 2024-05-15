@@ -58,233 +58,238 @@
       </div>
     </mat-sidenav>
     <mat-sidenav-content>
-      <ng-scrollbar>
-        <table
-          mat-table
-          [dataSource]="dataSource"
-          [ngsxMultiSort]="options().multiSort"
-          multiTemplateDataRows
-          #table="matTable"
-          cdkDropList
-          cdkDropListOrientation="horizontal"
-          (cdkDropListDropped)="tableDrop($event)"
-        >
-          <ng-container matColumnDef="select" [sticky]="true">
-            <th mat-header-cell *matHeaderCellDef>
-              <mat-checkbox
-                (change)="$event ? toggleAllRows() : null"
-                [checked]="selection.hasValue() && isAllSelected()"
-                [indeterminate]="selection.hasValue() && !isAllSelected()"
-                [aria-label]="checkboxLabel()"
-                [matTooltip]="checkboxLabel()"
-                matTooltipPosition="right"
-              >
-              </mat-checkbox>
-            </th>
-            <td mat-cell *matCellDef="let row; let rowIndex = dataIndex; table: table">
-              <mat-checkbox
-                (click)="$event.stopPropagation()"
-                (change)="$event ? selection.toggle(row) : null"
-                [checked]="selection.isSelected(row)"
-                [aria-label]="checkboxLabel(row, rowIndex)"
-                [matTooltip]="checkboxLabel(row, rowIndex)"
-                matTooltipPosition="right"
-              >
-              </mat-checkbox>
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="select-filter" [sticky]="true">
-            <th mat-header-cell *matHeaderCellDef></th>
-          </ng-container>
-
-          @for (column of entity().columns; track column.name; let columnIndex = $index) {
-            <ng-container
-              [matColumnDef]="column.name"
-              [sticky]="store.$pinned().get(column.name) === 'left'"
-              [stickyEnd]="store.$pinned().get(column.name) === 'right'"
-            >
-              <th
-                mat-header-cell
-                *matHeaderCellDef
-                cdkDrag
-                [cdkDragDisabled]="
-                  store.$pinned().get(column.name) === 'left' || store.$pinned().get(column.name) === 'right'
-                "
-              >
-                <div class="flex flex-row justify-between items-center">
-                  <ngsx-multi-sort-header #matSortHeader class="flex-1">
-                    {{ column.title }}
-                  </ngsx-multi-sort-header>
-                  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                    <mat-icon>more_vert</mat-icon>
-                  </button>
-                  <mat-menu #menu="matMenu">
-                    <button mat-menu-item [matMenuTriggerFor]="sort">
-                      <mat-icon>sort</mat-icon>
-                      <span>Sort</span>
-                    </button>
-                    <mat-divider></mat-divider>
-                    <button mat-menu-item [matMenuTriggerFor]="pin">
-                      <mat-icon>keep</mat-icon>
-                      <span>Pin Column</span>
-                    </button>
-                    <mat-divider></mat-divider>
-                    <button mat-menu-item (click)="resetColumns.emit()">
-                      <mat-icon>undo</mat-icon>
-                      <span>Reset Columns</span>
-                    </button>
-                  </mat-menu>
-                  <mat-menu #sort="matMenu">
-                    @if (matSortHeader._getAriaSortAttribute() !== 'ascending') {
-                      <button mat-menu-item (click)="matSortHeader.sort('ascending')">
-                        <mat-icon>arrow_upward</mat-icon>
-                        <span>Sort Ascending</span>
-                      </button>
-                    }
-                    @if (matSortHeader._getAriaSortAttribute() !== 'descending') {
-                      <button mat-menu-item (click)="matSortHeader.sort('descending')">
-                        <mat-icon>arrow_downward</mat-icon>
-                        <span>Sort Descending</span>
-                      </button>
-                    }
-                    @if (matSortHeader._getAriaSortAttribute() !== 'none') {
-                      <button mat-menu-item (click)="matSortHeader.sort('none')">
-                        <mat-icon>close_small</mat-icon>
-                        <span>Clear Sort</span>
-                      </button>
-                    }
-                  </mat-menu>
-                  <mat-menu #pin="matMenu">
-                    <button mat-menu-item (click)="pinColumn(column)">
-                      <mat-icon>{{
-                        store.$pinned().get(column.name) !== 'left' && store.$pinned().get(column.name) !== 'right'
-                          ? 'check'
-                          : ''
-                      }}</mat-icon>
-                      <span>No Pin</span>
-                    </button>
-                    <button mat-menu-item (click)="pinColumn(column, 'left')">
-                      <mat-icon>{{ store.$pinned().get(column.name) === 'left' ? 'check' : '' }}</mat-icon>
-                      <span>Pin Left</span>
-                    </button>
-                    <button mat-menu-item (click)="pinColumn(column, 'right')">
-                      <mat-icon>{{ store.$pinned().get(column.name) === 'right' ? 'check' : '' }}</mat-icon>
-                      <span>Pin Right</span>
-                    </button>
-                  </mat-menu>
-                </div>
-              </th>
-              <td
-                mat-cell
-                *matCellDef="let row; let rowIndex = dataIndex; table: table"
-                [class.none]="options().rowAction === 'none'"
-                matTooltip
-              >
-                <a
-                  [routerLink]="options().rowAction === 'link' ? 'abc' + rowIndex : null"
-                  [tabindex]="columnIndex === 0 ? 0 : -1"
+      <ng-scrollbar externalViewport cdkVirtualScrollViewport="auto">
+        <cdk-virtual-scroll-viewport scrollViewport tvsItemSize="37" headerHeight="148">
+          <table
+            mat-table
+            [dataSource]="dataSource"
+            [ngsxMultiSort]="options().multiSort"
+            multiTemplateDataRows
+            #table="matTable"
+            cdkDropList
+            cdkDropListOrientation="horizontal"
+            (cdkDropListDropped)="tableDrop($event)"
+          >
+            <ng-container matColumnDef="select" [sticky]="true">
+              <th mat-header-cell *matHeaderCellDef>
+                <mat-checkbox
+                  (change)="$event ? toggleAllRows() : null"
+                  [checked]="selection.hasValue() && isAllSelected()"
+                  [indeterminate]="selection.hasValue() && !isAllSelected()"
+                  [aria-label]="checkboxLabel()"
+                  [matTooltip]="checkboxLabel()"
+                  matTooltipPosition="right"
                 >
-                  <span [ngsxOverflowTooltip]="!options().cellWrapping">
-                    {{ column | pure: getCell : row }}
-                  </span>
-                </a>
+                </mat-checkbox>
+              </th>
+              <td mat-cell *matCellDef="let row; let rowIndex = dataIndex; table: table">
+                <mat-checkbox
+                  (click)="$event.stopPropagation()"
+                  (change)="$event ? selection.toggle(row) : null"
+                  [checked]="selection.isSelected(row)"
+                  [aria-label]="checkboxLabel(row, rowIndex)"
+                  [matTooltip]="checkboxLabel(row, rowIndex)"
+                  matTooltipPosition="right"
+                >
+                </mat-checkbox>
               </td>
             </ng-container>
-            <ng-container
-              [matColumnDef]="column.name + '-filter'"
-              [sticky]="store.$pinned().get(column.name) === 'left'"
-              [stickyEnd]="store.$pinned().get(column.name) === 'right'"
-            >
-              @if (store.$filter; as filter) {
-                <th mat-header-cell *matHeaderCellDef [formGroup]="filter()">
-                  <mat-form-field>
-                    <input
-                      matInput
-                      autocomplete="off"
-                      [placeholder]="'Filter...'"
-                      [type]="'search'"
-                      [formControlName]="column.name"
-                      [name]="column.name"
-                    />
-                    <mat-error matTooltip [ngsxOverflowTooltip]><span> Required </span></mat-error>
-                    <mat-icon matSuffix [matMenuTriggerFor]="filter_menu">filter_list</mat-icon>
-                    <mat-menu #filter_menu="matMenu">
+            <ng-container matColumnDef="select-filter" [sticky]="true">
+              <th mat-header-cell *matHeaderCellDef></th>
+            </ng-container>
+
+            @for (column of entity().columns; track column.name; let columnIndex = $index) {
+              <ng-container
+                [matColumnDef]="column.name"
+                [sticky]="store.$pinned().get(column.name) === 'left'"
+                [stickyEnd]="store.$pinned().get(column.name) === 'right'"
+              >
+                <th
+                  style="max-width: 200px !important; min-width: 200px !important"
+                  mat-header-cell
+                  *matHeaderCellDef
+                  cdkDrag
+                  [cdkDragDisabled]="
+                    store.$pinned().get(column.name) === 'left' || store.$pinned().get(column.name) === 'right'
+                  "
+                >
+                  <div class="flex flex-row justify-between items-center">
+                    <ngsx-multi-sort-header #matSortHeader class="flex-1">
+                      {{ column.title }}
+                    </ngsx-multi-sort-header>
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                      <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                      <button mat-menu-item [matMenuTriggerFor]="sort">
+                        <mat-icon>sort</mat-icon>
+                        <span>Sort</span>
+                      </button>
+                      <mat-divider></mat-divider>
+                      <button mat-menu-item [matMenuTriggerFor]="pin">
+                        <mat-icon>keep</mat-icon>
+                        <span>Pin Column</span>
+                      </button>
+                      <mat-divider></mat-divider>
                       <button mat-menu-item (click)="resetColumns.emit()">
                         <mat-icon>undo</mat-icon>
                         <span>Reset Columns</span>
                       </button>
                     </mat-menu>
-                  </mat-form-field>
+                    <mat-menu #sort="matMenu">
+                      @if (matSortHeader._getAriaSortAttribute() !== 'ascending') {
+                        <button mat-menu-item (click)="matSortHeader.sort('ascending')">
+                          <mat-icon>arrow_upward</mat-icon>
+                          <span>Sort Ascending</span>
+                        </button>
+                      }
+                      @if (matSortHeader._getAriaSortAttribute() !== 'descending') {
+                        <button mat-menu-item (click)="matSortHeader.sort('descending')">
+                          <mat-icon>arrow_downward</mat-icon>
+                          <span>Sort Descending</span>
+                        </button>
+                      }
+                      @if (matSortHeader._getAriaSortAttribute() !== 'none') {
+                        <button mat-menu-item (click)="matSortHeader.sort('none')">
+                          <mat-icon>close_small</mat-icon>
+                          <span>Clear Sort</span>
+                        </button>
+                      }
+                    </mat-menu>
+                    <mat-menu #pin="matMenu">
+                      <button mat-menu-item (click)="pinColumn(column)">
+                        <mat-icon>{{
+                          store.$pinned().get(column.name) !== 'left' && store.$pinned().get(column.name) !== 'right'
+                            ? 'check'
+                            : ''
+                        }}</mat-icon>
+                        <span>No Pin</span>
+                      </button>
+                      <button mat-menu-item (click)="pinColumn(column, 'left')">
+                        <mat-icon>{{ store.$pinned().get(column.name) === 'left' ? 'check' : '' }}</mat-icon>
+                        <span>Pin Left</span>
+                      </button>
+                      <button mat-menu-item (click)="pinColumn(column, 'right')">
+                        <mat-icon>{{ store.$pinned().get(column.name) === 'right' ? 'check' : '' }}</mat-icon>
+                        <span>Pin Right</span>
+                      </button>
+                    </mat-menu>
+                  </div>
                 </th>
-              }
-            </ng-container>
-          }
+                <td
+                  style="max-width: 200px !important; min-width: 200px !important"
+                  mat-cell
+                  *matCellDef="let row; let rowIndex = dataIndex; table: table"
+                  [class.none]="options().rowAction === 'none'"
+                  matTooltip
+                >
+                  <a
+                    [routerLink]="options().rowAction === 'link' ? 'abc' + rowIndex : null"
+                    [tabindex]="columnIndex === 0 ? 0 : -1"
+                  >
+                    <span [ngsxOverflowTooltip]="!options().cellWrapping">
+                      {{ column | pure: getCell : row }}
+                    </span>
+                  </a>
+                </td>
+              </ng-container>
+              <ng-container
+                [matColumnDef]="column.name + '-filter'"
+                [sticky]="store.$pinned().get(column.name) === 'left'"
+                [stickyEnd]="store.$pinned().get(column.name) === 'right'"
+              >
+                @if (store.$filter; as filter) {
+                  <th mat-header-cell *matHeaderCellDef [formGroup]="filter()">
+                    <mat-form-field>
+                      <input
+                        matInput
+                        autocomplete="do-not-autofill"
+                        [placeholder]="'Filter...'"
+                        [type]="'search'"
+                        [formControlName]="column.name"
+                        [name]="column.name"
+                      />
+                      <mat-error matTooltip [ngsxOverflowTooltip]><span> Required </span></mat-error>
+                      <mat-icon matSuffix [matMenuTriggerFor]="filter_menu">filter_list</mat-icon>
+                      <mat-menu #filter_menu="matMenu">
+                        <button mat-menu-item (click)="resetColumns.emit()">
+                          <mat-icon>undo</mat-icon>
+                          <span>Reset Columns</span>
+                        </button>
+                      </mat-menu>
+                    </mat-form-field>
+                  </th>
+                }
+              </ng-container>
+            }
 
-          <ng-container matColumnDef="actions" [stickyEnd]="true">
-            <th mat-header-cell *matHeaderCellDef>
-              <button mat-icon-button color="primary" (click)="sidenav.toggle()" matTooltip="Columns">
-                <mat-icon>side_navigation</mat-icon>
-              </button>
-            </th>
-            <td mat-cell *matCellDef="let row; table: table">
-              <!-- <button mat-icon-button disabled>
+            <ng-container matColumnDef="actions" [stickyEnd]="true">
+              <th mat-header-cell *matHeaderCellDef>
+                <button mat-icon-button color="primary" (click)="sidenav.toggle()" matTooltip="Columns">
+                  <mat-icon>side_navigation</mat-icon>
+                </button>
+              </th>
+              <td mat-cell *matCellDef="let row; table: table">
+                <!-- <button mat-icon-button disabled>
                 <mat-icon>done</mat-icon>
               </button> -->
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="actions-filter" [stickyEnd]="true">
-            <th mat-header-cell *matHeaderCellDef>
-              <button mat-icon-button color="primary" matTooltip="Clear all filters" (click)="clearFilters()">
-                <mat-icon>close</mat-icon>
-              </button>
-            </th>
-          </ng-container>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="actions-filter" [stickyEnd]="true">
+              <th mat-header-cell *matHeaderCellDef>
+                <button mat-icon-button color="primary" matTooltip="Clear all filters" (click)="clearFilters()">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </th>
+            </ng-container>
 
-          <ng-container matColumnDef="filter-results">
-            <th mat-header-cell *matHeaderCellDef [attr.colspan]="displayedColumns().length">
-              <ngsx-multi-sort-chip-list [titles]="store.$titles()"></ngsx-multi-sort-chip-list>
-            </th>
-          </ng-container>
+            <ng-container matColumnDef="filter-results">
+              <th mat-header-cell *matHeaderCellDef [attr.colspan]="displayedColumns().length">
+                <ngsx-multi-sort-chip-list [titles]="store.$titles()"></ngsx-multi-sort-chip-list>
+              </th>
+            </ng-container>
 
-          <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-          <ng-container matColumnDef="expanded-detail">
-            <td mat-cell *matCellDef="let row; table: table" [attr.colspan]="displayedColumns().length" matTooltip>
-              <div
-                [class.hidden]="options().rowAction !== 'expand'"
-                [@detailExpand]="isExpanded(row) ? 'expanded' : 'collapsed'"
-                class="flex flex-row justify-start items-center"
-              >
-                <pre [ngsxOverflowTooltip]="!options().cellWrapping">
+            <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+            <ng-container matColumnDef="expanded-detail">
+              <td mat-cell *matCellDef="let row; table: table" [attr.colspan]="displayedColumns().length" matTooltip>
+                <div
+                  [class.hidden]="options().rowAction !== 'expand'"
+                  [@detailExpand]="isExpanded(row) ? 'expanded' : 'collapsed'"
+                  class="flex flex-row justify-start items-center"
+                >
+                  <pre [ngsxOverflowTooltip]="!options().cellWrapping">
                   {{ row | json }}
-                </pre>
-              </div>
-            </td>
-          </ng-container>
+                </pre
+                  >
+                </div>
+              </td>
+            </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayedColumns(); sticky: true"></tr>
-          <tr
-            mat-header-row
-            *matHeaderRowDef="filterColumns(); sticky: true"
-            [class.hidden]="!options().showFilter"
-            class="filter-row"
-          ></tr>
-          <tr mat-header-row *matHeaderRowDef="['filter-results']; sticky: true"></tr>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns(); sticky: true"></tr>
+            <tr
+              mat-header-row
+              *matHeaderRowDef="filterColumns(); sticky: true"
+              [class.hidden]="!options().showFilter"
+              class="filter-row"
+            ></tr>
+            <tr mat-header-row *matHeaderRowDef="['filter-results']; sticky: true"></tr>
 
-          <tr
-            mat-row
-            *matRowDef="let row; table: table; columns: displayedColumns()"
-            class="summary-row"
-            [class.expanded-row]="isExpanded(row)"
-            (click)="clickRow(row)"
-          ></tr>
-          <tr mat-row *matRowDef="let row; table: table; columns: ['expanded-detail']" class="detail-row"></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; table: table; columns: displayedColumns()"
+              class="summary-row"
+              [class.expanded-row]="isExpanded(row)"
+              (click)="clickRow(row)"
+            ></tr>
+            <tr mat-row *matRowDef="let row; table: table; columns: ['expanded-detail']" class="detail-row"></tr>
 
-          <tr class="mat-mdc-row" *matNoDataRow>
-            <td class="mat-mdc-cell" [attr.colspan]="displayedColumns().length">
-              <span>{{ options().emptyMessage }}</span>
-            </td>
-          </tr>
-        </table>
+            <tr class="mat-mdc-row" *matNoDataRow>
+              <td class="mat-mdc-cell" [attr.colspan]="displayedColumns().length">
+                <span>{{ options().emptyMessage }}</span>
+              </td>
+            </tr>
+          </table>
+        </cdk-virtual-scroll-viewport>
       </ng-scrollbar>
       <span
         class="footer flex flex-row justify-between items-center"

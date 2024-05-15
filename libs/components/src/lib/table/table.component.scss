@@ -9,9 +9,13 @@
   --scrollbar-border-radius: 12px;
 
   &:has(table) {
-    max-height: 400px;
-    max-width: calc(100vw - 60px);
+    height: calc(100vh - 328px);
+    width: calc(100vw - 60px);
   }
+}
+
+table {
+  width: 100%;
 }
 
 .sidenav {
@@ -65,12 +69,16 @@ td > a {
 
 tr.detail-row {
   height: 0;
+
+  // visibility: collapse;
 }
 
 tr.summary-row:not(.expanded-row) {
   &:hover,
   &:active {
-    background-color: var(--mat-table-row-item-outline-color);
+    td:not(.mat-mdc-table-sticky) {
+      background-color: var(--mat-table-row-item-outline-color);
+    }
   }
 }
 
@@ -111,7 +119,6 @@ tr.summary-row:not(.expanded-row) {
 }
 
 .column-list {
-  max-height: 70vh;
   overflow: auto;
   border-radius: 4px;
   padding: 1rem;
@@ -176,6 +183,7 @@ tr.summary-row:not(.expanded-row) {
   top: 0;
   z-index: 100;
   padding-right: 16px;
+  background-color: var(--mat-sidenav-container-background-color);
 }
 
 th:has(mat-form-field) {

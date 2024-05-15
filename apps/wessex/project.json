@@ -1,6 +1,6 @@
 {
   "name": "wessex",
-  "$schema": "../../.yarn/unplugged/nx-virtual-1a99f64b7d/node_modules/nx/schemas/project-schema.json",
+  "$schema": "../../.yarn/unplugged/nx-virtual-1c2889abf8/node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "apps/wessex/src",
@@ -16,7 +16,14 @@
         "polyfills": ["zone.js"],
         "tsConfig": "apps/wessex/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "assets": ["apps/wessex/src/favicon.ico"],
+        "assets": [
+          "apps/wessex/src/favicon.ico",
+          {
+            "glob": "cities.json",
+            "input": "libs/components/src/lib/data",
+            "output": ""
+          }
+        ],
         "styles": ["apps/wessex/src/theme.scss", "apps/wessex/src/styles.scss"],
         "stylePreprocessorOptions": {
           "includePaths": ["libs/common/src/lib/styles"]

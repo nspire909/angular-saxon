@@ -1,6 +1,7 @@
 import { assertPresent } from '@angular-saxon/common';
-import { PERIODIC_ELEMENT_DATA, TableComponent, getPeriodicElementEntity } from '@angular-saxon/components';
+import { CITIES, City, TableComponent, getCityEntity } from '@angular-saxon/components';
 import { JsonPipe } from '@angular/common';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, HostBinding, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -22,6 +23,7 @@ import { RouterModule } from '@angular/router';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    HttpClientModule,
   ],
   selector: 'ngsx-wessex',
   templateUrl: './app.component.html',
@@ -49,13 +51,19 @@ export class AppComponent {
     return this.colorMode.value === 'dark';
   }
 
-  data = signal(PERIODIC_ELEMENT_DATA);
+  constructor() {
+    inject(HttpClient)
+      .get<{ items: City[] }>('cities.json')
+      .subscribe((cities) => this.data.set(cities.items.slice(0, 10000)));
+  }
 
-  entity = signal(getPeriodicElementEntity());
+  data = signal(CITIES);
+
+  entity = signal(getCityEntity());
 
   addData() {
-    const randomElementIndex = Math.floor(Math.random() * PERIODIC_ELEMENT_DATA.length);
-    this.data.update((data) => [...data, assertPresent(PERIODIC_ELEMENT_DATA[randomElementIndex])]);
+    const randomElementIndex = Math.floor(Math.random() * CITIES.length);
+    this.data.update((data) => [...data, assertPresent(CITIES[randomElementIndex])]);
   }
 
   removeData() {
@@ -63,6 +71,6 @@ export class AppComponent {
   }
 
   resetColumns() {
-    this.entity.update(() => getPeriodicElementEntity());
+    this.entity.update(() => getCityEntity());
   }
 }
