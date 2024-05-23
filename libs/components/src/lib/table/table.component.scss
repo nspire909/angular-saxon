@@ -182,8 +182,13 @@ tr.summary-row:not(.expanded-row) {
   position: sticky;
   top: 0;
   z-index: 100;
+  padding-left: 16px;
   padding-right: 16px;
   background-color: var(--mat-sidenav-container-background-color);
+
+  > span {
+    gap: 1px;
+  }
 }
 
 th:has(mat-form-field) {

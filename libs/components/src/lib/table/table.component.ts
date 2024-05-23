@@ -5,6 +5,7 @@ import {
   TypedMatRowDefDirective,
 } from '@angular-saxon/common';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { A11yModule } from '@angular/cdk/a11y';
 import { SelectionModel } from '@angular/cdk/collections';
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
 import { CdkContextMenuTrigger, CdkMenu, CdkMenuItem } from '@angular/cdk/menu';
@@ -90,6 +91,7 @@ import { TableStore } from './table.store';
     NgStyle,
     ScrollingModule,
     TableItemSizeDirective,
+    A11yModule,
   ],
   selector: 'ngsx-table',
   styleUrl: 'table.component.scss',
@@ -379,6 +381,11 @@ export class TableComponent<T> implements AfterViewInit {
 
   toggleColumn(key: Extract<keyof T, string>, checked: boolean) {
     this.store.updateActive(key, checked);
+    this.ngAfterViewInit();
+  }
+
+  toggleAllColumns() {
+    this.store.toggleAllActive();
     this.ngAfterViewInit();
   }
 

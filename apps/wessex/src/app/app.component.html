@@ -20,8 +20,6 @@
       <mat-label>Empty Record Message</mat-label>
       <input matInput [formControl]="tableOptions.controls.emptyMessage" />
     </mat-form-field>
-    <button mat-raised-button (click)="addData()">Add data</button>
-    <button mat-raised-button [disabled]="!data().length" (click)="removeData()">Remove data</button>
   </div>
   <div>
     <mat-checkbox [formControl]="tableOptions.controls.dense">Dense</mat-checkbox>

@@ -1,8 +1,7 @@
-import { assertPresent } from '@angular-saxon/common';
-import { CITIES, City, TableComponent, getCityEntity } from '@angular-saxon/components';
+import { City, Entity, TableComponent, getCityEntity } from '@angular-saxon/components';
 import { JsonPipe } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, HostBinding, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, inject, signal, WritableSignal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -57,18 +56,10 @@ export class AppComponent {
       .subscribe((cities) => this.data.set(cities.items.slice(0, 10000)));
   }
 
-  data = signal(CITIES);
+  data: WritableSignal<unknown[]> = signal([]);
 
-  entity = signal(getCityEntity());
-
-  addData() {
-    const randomElementIndex = Math.floor(Math.random() * CITIES.length);
-    this.data.update((data) => [...data, assertPresent(CITIES[randomElementIndex])]);
-  }
-
-  removeData() {
-    this.data.update((data) => data.slice(0, -1));
-  }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  entity: WritableSignal<Entity<any>> = signal(getCityEntity());
 
   resetColumns() {
     this.entity.update(() => getCityEntity());

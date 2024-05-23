@@ -4,10 +4,19 @@
       <div class="sidenav">
         <ng-scrollbar>
           <div class="sticky-menu flex flex-row justify-between">
-            <button mat-icon-button color="primary" (click)="resetColumns.emit()" matTooltip="Reset Columns">
-              <mat-icon>undo</mat-icon>
-            </button>
-            <button mat-icon-button color="primary" (click)="sidenav.toggle()" matTooltip="Close Menu">
+            <span class="flex flex-row items-center">
+              <button mat-icon-button color="primary" (click)="resetColumns.emit()" matTooltip="Reset Columns">
+                <mat-icon>undo</mat-icon>
+              </button>
+              <mat-checkbox
+                (change)="toggleAllColumns()"
+                [checked]="store.isAllActive()"
+                [indeterminate]="store.hasActive() && !store.isAllActive()"
+              >
+                Show All
+              </mat-checkbox>
+            </span>
+            <button cdkFocusInitial mat-icon-button color="primary" (click)="sidenav.toggle()" matTooltip="Close Menu">
               <mat-icon>close</mat-icon>
             </button>
           </div>

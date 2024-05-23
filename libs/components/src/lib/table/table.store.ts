@@ -93,6 +93,19 @@ export class TableStore<T> {
     this.state.$order.update(() => [...columns]);
   }
 
+  isAllActive() {
+    return Array.from(this.state.$active().values()).every((value) => value);
+  }
+
+  hasActive() {
+    return Array.from(this.state.$active().values()).some((value) => value);
+  }
+
+  toggleAllActive() {
+    const value = !this.isAllActive();
+    this.state.$active.set(new Map(Array.from(this.state.$active().keys()).map((key) => [key, value])));
+  }
+
   private createForm(columns?: Column<T>[]) {
     return this.fb.group(
       (columns ?? ([] as Column<T>[])).reduce<{
