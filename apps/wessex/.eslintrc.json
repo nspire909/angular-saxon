@@ -3,7 +3,10 @@
   "ignorePatterns": ["!**/*"],
   "overrides": [
     {
-      "files": ["*.ts"],
+      "files": ["*.ts", "*.tsx"],
+      "parserOptions": {
+        "project": ["tsconfig.app.json"]
+      },
       "rules": {}
     },
     {

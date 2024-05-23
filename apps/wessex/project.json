@@ -1,13 +1,13 @@
 {
   "name": "wessex",
-  "$schema": "../../.yarn/unplugged/nx-virtual-1c2889abf8/node_modules/nx/schemas/project-schema.json",
+  "$schema": "../../.yarn/unplugged/nx-virtual-b0a4d08555/node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "apps/wessex/src",
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:application",
+      "executor": "@angular/build:application",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/wessex",
@@ -56,7 +56,7 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "executor": "@angular-devkit/build-angular:dev-server",
+      "executor": "@angular/build:dev-server",
       "configurations": {
         "production": {
           "buildTarget": "wessex:build:production"
@@ -70,7 +70,7 @@
       "defaultConfiguration": "development"
     },
     "extract-i18n": {
-      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "executor": "@angular/build:extract-i18n",
       "options": {
         "buildTarget": "wessex:build"
       }

@@ -9,6 +9,7 @@
   "parserOptions": {
     "ecmaVersion": "latest"
   },
+  "parser": "@angular-eslint/template-parser",
   "plugins": ["import", "@nx"],
   "overrides": [
     {

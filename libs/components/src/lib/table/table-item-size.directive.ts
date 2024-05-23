@@ -136,7 +136,7 @@ export class TableItemSizeDirective<T = unknown> implements OnChanges, AfterCont
     ])
       .pipe(takeUntil(this.destroyed$))
       .subscribe(([stickyOffset]) => {
-        if (!this.stickyPositions) {
+        if (!this.stickyPositions?.keys.length) {
           this.initStickyPositions();
         }
         if (this.stickyEnabled.header) {
