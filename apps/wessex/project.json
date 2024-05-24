@@ -13,7 +13,6 @@
         "outputPath": "dist/apps/wessex",
         "index": "apps/wessex/src/index.html",
         "browser": "apps/wessex/src/main.ts",
-        "polyfills": ["zone.js"],
         "tsConfig": "apps/wessex/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
@@ -29,6 +28,11 @@
           "includePaths": ["libs/common/src/lib/styles"]
         },
         "scripts": [],
+        "server": "apps/wessex/src/main.server.ts",
+        "prerender": true,
+        "ssr": {
+          "entry": "apps/wessex/server.ts"
+        },
         "baseHref": "/angular-saxon/"
       },
       "configurations": {

@@ -1,7 +1,7 @@
 import { City, Entity, TableComponent, getCityEntity } from '@angular-saxon/components';
 import { JsonPipe } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, HostBinding, inject, signal, WritableSignal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { ChangeDetectionStrategy, Component, HostBinding, WritableSignal, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -22,7 +22,6 @@ import { RouterModule } from '@angular/router';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    HttpClientModule,
   ],
   selector: 'ngsx-wessex',
   templateUrl: './app.component.html',
@@ -44,7 +43,9 @@ export class AppComponent {
     emptyMessage: this.fb.control<string>(''),
   });
 
-  colorMode = this.fb.control<string>(window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  colorMode = this.fb.control<string>(
+    globalThis?.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
+  );
 
   @HostBinding('class.dark') get dark() {
     return this.colorMode.value === 'dark';

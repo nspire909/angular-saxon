@@ -51,6 +51,7 @@ import { NgsxTableDataSource } from './table-data-source';
 import { TableItemSizeDirective } from './table-item-size.directive';
 import { Column, defaultTableOptions, Entity, TableOptions } from './table.models';
 import { TableStore } from './table.store';
+import { SpinnerComponent } from '../spinner/spinner.component';
 
 @Component({
   standalone: true,
@@ -92,6 +93,7 @@ import { TableStore } from './table.store';
     ScrollingModule,
     TableItemSizeDirective,
     A11yModule,
+    SpinnerComponent,
   ],
   selector: 'ngsx-table',
   styleUrl: 'table.component.scss',
@@ -244,8 +246,10 @@ export class TableComponent<T> implements AfterViewInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      const contentWrapper: HTMLElement | null = document.querySelector('.cdk-virtual-scroll-content-wrapper');
-      const spacer: HTMLElement | null = document.querySelector('.cdk-virtual-scroll-spacer');
+      const contentWrapper: HTMLElement | null = globalThis?.document?.querySelector(
+        '.cdk-virtual-scroll-content-wrapper',
+      );
+      const spacer: HTMLElement | null = globalThis?.document?.querySelector('.cdk-virtual-scroll-spacer');
 
       if (contentWrapper && spacer) {
         spacer.style.width = `${contentWrapper.clientWidth}px`;
