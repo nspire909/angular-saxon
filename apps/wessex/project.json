@@ -1,6 +1,6 @@
 {
   "name": "wessex",
-  "$schema": "../../.yarn/unplugged/nx-virtual-b0a4d08555/node_modules/nx/schemas/project-schema.json",
+  "$schema": "../../.yarn/unplugged/nx-virtual-23ff24b9e5/node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "apps/wessex/src",
@@ -28,11 +28,11 @@
           "includePaths": ["libs/common/src/lib/styles"]
         },
         "scripts": [],
-        "server": "apps/wessex/src/main.server.ts",
-        "prerender": true,
-        "ssr": {
-          "entry": "apps/wessex/server.ts"
-        },
+        // "server": "apps/wessex/src/main.server.ts",
+        // "prerender": true,
+        // "ssr": {
+        //   "entry": "apps/wessex/server.ts"
+        // },
         "baseHref": "/angular-saxon/"
       },
       "configurations": {
