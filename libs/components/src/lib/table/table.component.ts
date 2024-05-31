@@ -213,7 +213,7 @@ export class TableComponent<T> implements AfterViewInit {
 
     effect(() => {
       this.dataSource.data = this.data();
-      this.dataSource.sort = this.sort;
+      setTimeout(() => (this.dataSource.sort = this.sort));
       this.dataSource.paginator = this.options().showPaginator ? this.paginator : null;
       this.expandedElements = [];
       this.selection.clear();
