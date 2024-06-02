@@ -1,35 +1,32 @@
+// cspell:ignore wght, opsz
 @use '@angular/material' as mat;
+@use '@angular-saxon/common' as common;
 @include mat.core;
-
-$light-theme: mat.define-theme(
-  (
-    color: (
-      theme-type: light,
-      primary: mat.$cyan-palette,
-      tertiary: mat.$orange-palette,
-    ),
-    density: (
-      scale: 0,
-    ),
-  )
-);
-$dark-theme: mat.define-theme(
-  (
-    color: (
-      theme-type: dark,
-      primary: mat.$cyan-palette,
-      tertiary: mat.$orange-palette,
-    ),
-    density: (
-      scale: 0,
-    ),
-  )
-);
+@include common.layout;
 
 :root {
-  @include mat.all-component-themes($light-theme);
+  @include mat.all-component-themes(common.$light-theme);
 }
 
 body:has(ngsx-wessex.dark) {
-  @include mat.all-component-colors($dark-theme);
+  @include mat.all-component-colors(common.$dark-theme);
+}
+
+// Todo: all of this needs to be a theme, packaged with the lib or npm package won't be styled right
+.dense-table {
+  //@include mat.all-component-densities(minimum);
+
+  @include mat.form-field-density(minimum);
+  @include mat.button-density(minimum);
+  @include mat.table-density(minimum);
+  @include mat.paginator-density(minimum);
+  @include mat.checkbox-density(minimum);
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 1,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
 }
