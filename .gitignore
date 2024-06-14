@@ -38,7 +38,7 @@ testem.log
 .DS_Store
 Thumbs.db
 
-.nx/cache
+.nx
 .angular
 
 # Yarn PNP files - https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored
