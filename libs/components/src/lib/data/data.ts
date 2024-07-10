@@ -1,5 +1,5 @@
 import { Validators } from '@angular/forms';
-import { Entity } from '../table/table.models';
+import { type Entity } from '../table/table.models';
 
 export interface PeriodicElement {
   name: string;

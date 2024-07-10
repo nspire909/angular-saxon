@@ -1,5 +1,5 @@
 import { Directive, EventEmitter, Output, booleanAttribute, effect, input } from '@angular/core';
-import { MatSort, MatSortable, Sort, SortDirection } from '@angular/material/sort';
+import { MatSort, type MatSortable, type Sort, type SortDirection } from '@angular/material/sort';
 
 @Directive({
   selector: '[ngsxMultiSort]',

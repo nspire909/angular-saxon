@@ -1,4 +1,4 @@
-import { MatSort, Sort } from '@angular/material/sort';
+import { MatSort, type Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MultiSortDirective } from '../multi-sort/multi-sort.directive';
 import { BehaviorSubject, Observable, ReplaySubject, Subject, Subscription, combineLatest, map, merge, of } from 'rxjs';

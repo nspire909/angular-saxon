@@ -32,6 +32,7 @@
     "checkJs": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
+    "verbatimModuleSyntax": true,
     "jsx": "react",
     "lib": ["ESNext", "DOM"],
     "target": "ES2022",

@@ -1,4 +1,4 @@
-import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
+import { type CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
 import { AsyncPipe, JsonPipe, NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MultiSortDirective } from './multi-sort.directive';
 import { startWith } from 'rxjs';
-import { Sort } from '@angular/material/sort';
+import { type Sort } from '@angular/material/sort';
 
 @Component({
   standalone: true,

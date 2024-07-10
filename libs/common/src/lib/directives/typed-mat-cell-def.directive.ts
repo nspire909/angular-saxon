@@ -1,11 +1,11 @@
 import { CdkCellDef } from '@angular/cdk/table';
-import { Directive, input } from '@angular/core';
+import { Directive, forwardRef, input } from '@angular/core';
 import { MatCellDef, MatTable } from '@angular/material/table';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[matCellDef]',
-  providers: [{ provide: CdkCellDef, useExisting: TypedMatCellDefDirective }],
+  providers: [{ provide: CdkCellDef, useExisting: forwardRef(() => TypedMatCellDefDirective) }],
   standalone: true,
 })
 export class TypedMatCellDefDirective<T> extends MatCellDef {

@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, type PipeTransform } from '@angular/core';
 
 /**
  * This pipe allows you to call functions as a pure pipe.  Keep in mind, 'this' will not be set, so if you are using

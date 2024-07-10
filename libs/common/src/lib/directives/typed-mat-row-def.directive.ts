@@ -1,11 +1,11 @@
 import { CdkRowDef } from '@angular/cdk/table';
-import { Directive, input } from '@angular/core';
+import { Directive, forwardRef, input } from '@angular/core';
 import { MatRowDef, MatTable } from '@angular/material/table';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[matRowDef]',
-  providers: [{ provide: CdkRowDef, useExisting: TypedMatRowDefDirective }],
+  providers: [{ provide: CdkRowDef, useExisting: forwardRef(() => TypedMatRowDefDirective) }],
   standalone: true,
 })
 export class TypedMatRowDefDirective<T> extends MatRowDef<T> {

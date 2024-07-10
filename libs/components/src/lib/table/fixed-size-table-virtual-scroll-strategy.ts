@@ -1,5 +1,5 @@
-import { ListRange } from '@angular/cdk/collections';
-import { CdkVirtualScrollViewport, VirtualScrollStrategy } from '@angular/cdk/scrolling';
+import { type ListRange } from '@angular/cdk/collections';
+import { CdkVirtualScrollViewport, type VirtualScrollStrategy } from '@angular/cdk/scrolling';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subject, distinctUntilChanged } from 'rxjs';
 

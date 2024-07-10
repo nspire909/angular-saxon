@@ -1,8 +1,8 @@
-import { computed, inject, Injectable, Signal, signal } from '@angular/core';
+import { computed, inject, Injectable, type Signal, signal } from '@angular/core';
 import { FormControl, NonNullableFormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { skip, take } from 'rxjs';
-import { Column } from './table.models';
+import { type Column } from './table.models';
 
 export type FilterFormGroup<T> = ReturnType<TableStore<T>['createForm']>;
 

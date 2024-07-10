@@ -1,4 +1,4 @@
-import { ValidatorFn } from '@angular/forms';
+import { type ValidatorFn } from '@angular/forms';
 
 export interface TableOptions {
   rowAction: 'select' | 'expand' | 'link' | 'none';

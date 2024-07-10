@@ -1,4 +1,4 @@
-import { Entity } from '../table/table.models';
+import { type Entity } from '../table/table.models';
 
 export interface City {
   uuid: string;

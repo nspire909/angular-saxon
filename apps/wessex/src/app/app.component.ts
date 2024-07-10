@@ -1,7 +1,7 @@
-import { City, Entity, TableComponent, getCityEntity } from '@angular-saxon/components';
+import { type City, type Entity, TableComponent, getCityEntity } from '@angular-saxon/components';
 import { JsonPipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, HostBinding, WritableSignal, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, type WritableSignal, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';

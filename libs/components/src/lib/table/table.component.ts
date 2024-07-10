@@ -7,12 +7,12 @@ import {
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { A11yModule } from '@angular/cdk/a11y';
 import { SelectionModel } from '@angular/cdk/collections';
-import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
+import { type CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
 import { CdkContextMenuTrigger, CdkMenu, CdkMenuItem } from '@angular/cdk/menu';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { AsyncPipe, JsonPipe, NgStyle } from '@angular/common';
 import {
-  AfterViewInit,
+  type AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -49,7 +49,7 @@ import { MultiSortDirective } from '../multi-sort/multi-sort.directive';
 import { PurePipe } from './pure.pipe';
 import { NgsxTableDataSource } from './table-data-source';
 import { TableItemSizeDirective } from './table-item-size.directive';
-import { Column, defaultTableOptions, Entity, TableOptions } from './table.models';
+import { type Column, defaultTableOptions, type Entity, type TableOptions } from './table.models';
 import { TableStore } from './table.store';
 import { SpinnerComponent } from '../spinner/spinner.component';
 

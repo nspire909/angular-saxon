@@ -1,13 +1,13 @@
 import { VIRTUAL_SCROLL_STRATEGY } from '@angular/cdk/scrolling';
-import { CanStick, CdkFooterRowDef, CdkHeaderRowDef, CdkTable } from '@angular/cdk/table';
+import { type CanStick, CdkFooterRowDef, CdkHeaderRowDef, CdkTable } from '@angular/cdk/table';
 import {
-  AfterContentInit,
+  type AfterContentInit,
   ContentChild,
   Directive,
   Input,
   NgZone,
-  OnChanges,
-  OnDestroy,
+  type OnChanges,
+  type OnDestroy,
   forwardRef,
 } from '@angular/core';
 import { MatTable } from '@angular/material/table';
