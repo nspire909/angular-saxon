@@ -52,8 +52,11 @@
       "parserOptions": {
         "project": [
           "libs/components/tsconfig.lib.json",
+          "libs/components/tsconfig.spec.json",
           "libs/common/tsconfig.lib.json",
-          "apps/wessex/tsconfig.app.json"
+          "libs/common/tsconfig.spec.json",
+          "apps/wessex/tsconfig.app.json",
+          "apps/wessex/tsconfig.spec.json"
         ]
       },
       "extends": [
