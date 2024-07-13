@@ -56,7 +56,8 @@
           "libs/common/tsconfig.lib.json",
           "libs/common/tsconfig.spec.json",
           "apps/wessex/tsconfig.app.json",
-          "apps/wessex/tsconfig.spec.json"
+          "apps/wessex/tsconfig.spec.json",
+          "apps/wessex-e2e/tsconfig.json"
         ]
       },
       "extends": [
