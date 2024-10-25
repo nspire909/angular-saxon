@@ -1,6 +1,6 @@
 {
   "name": "common",
-  "$schema": "../../.yarn/unplugged/nx-virtual-5bba1c6e69/node_modules/nx/schemas/project-schema.json",
+  "$schema": "../../.yarn/unplugged/nx-virtual-4d8b480c5b/node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/common/src",
   "prefix": "ngsx",
   "projectType": "library",

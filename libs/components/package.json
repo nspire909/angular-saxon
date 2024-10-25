@@ -3,18 +3,18 @@
   "version": "0.0.1",
   "peerDependencies": {
     "@angular-saxon/common": "^0.0.1",
-    "@angular/animations": "18.1.0",
-    "@angular/cdk": "18.1.0",
-    "@angular/common": "18.1.0",
-    "@angular/core": "18.1.0",
-    "@angular/forms": "18.1.0",
-    "@angular/material": "18.1.0",
-    "@angular/router": "18.1.0",
-    "ngx-scrollbar": "^15.0.4",
-    "rxjs": "~7.8.1"
+    "@angular/animations": "^18.2.9",
+    "@angular/cdk": "^18.2.10",
+    "@angular/common": "^18.2.9",
+    "@angular/core": "^18.2.9",
+    "@angular/forms": "^18.2.9",
+    "@angular/material": "^18.2.10",
+    "@angular/router": "^18.2.9",
+    "ngx-scrollbar": "^16.0.0",
+    "rxjs": "^7.8.1"
   },
   "devDependencies": {
-    "jest-preset-angular": "~14.0.3"
+    "jest-preset-angular": "^14.0.3"
   },
   "sideEffects": false
 }
