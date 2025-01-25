@@ -8,9 +8,8 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { A11yModule } from '@angular/cdk/a11y';
 import { SelectionModel } from '@angular/cdk/collections';
 import { type CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
-import { CdkContextMenuTrigger, CdkMenu, CdkMenuItem } from '@angular/cdk/menu';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { AsyncPipe, JsonPipe, NgStyle } from '@angular/common';
+import { JsonPipe } from '@angular/common';
 import {
   type AfterViewInit,
   ChangeDetectionStrategy,
@@ -51,7 +50,7 @@ import { NgsxTableDataSource } from './table-data-source';
 import { TableItemSizeDirective } from './table-item-size.directive';
 import { type Column, defaultTableOptions, type Entity, type TableOptions } from './table.models';
 import { TableStore } from './table.store';
-import { SpinnerComponent } from '../spinner/spinner.component';
+import { MatSortModule } from '@angular/material/sort';
 
 @Component({
   standalone: true,
@@ -62,7 +61,6 @@ import { SpinnerComponent } from '../spinner/spinner.component';
     MultiSortHeaderComponent,
     OverflowTooltipDirective,
     ReactiveFormsModule,
-    AsyncPipe,
     TypedMatCellDefDirective,
     TypedMatRowDefDirective,
     RouterLink,
@@ -86,14 +84,10 @@ import { SpinnerComponent } from '../spinner/spinner.component';
     MatRadioModule,
     MatMenuModule,
     MatDividerModule,
-    CdkContextMenuTrigger,
-    CdkMenu,
-    CdkMenuItem,
-    NgStyle,
     ScrollingModule,
     TableItemSizeDirective,
     A11yModule,
-    SpinnerComponent,
+    MatSortModule,
   ],
   selector: 'ngsx-table',
   styleUrl: 'table.component.scss',
@@ -199,13 +193,11 @@ export class TableComponent<T> implements AfterViewInit {
             const sort = (filterChange.value?.sort as string)?.split(',').filter(Boolean) ?? [];
 
             void this.router.navigate([`.`], {
-              queryParams: this.removeEmpty(
-                {
-                  ...filterChange.value,
-                  sort: sort.length ? sort : '',
-                  ...(!this.options().showPaginator ? { page: '', size: '' } : {}),
-                } ?? {},
-              ),
+              queryParams: this.removeEmpty({
+                ...filterChange.value,
+                sort: sort.length ? sort : '',
+                ...(!this.options().showPaginator ? { page: '', size: '' } : {}),
+              }),
             });
           });
       });
@@ -224,12 +216,12 @@ export class TableComponent<T> implements AfterViewInit {
 
     this.route.queryParamMap.pipe(skip(1), take(1)).subscribe((queryParams) => {
       if (this.sort) {
-        this.sort.active = queryParams.getAll('sort').join(',').split('-').join('').split(',').filter(Boolean)[0] ?? '';
+        this.sort.active = queryParams.getAll('sort').join(',').split('-').join('').split(',').find(Boolean) ?? '';
         this.sort.direction =
           queryParams
             .getAll('sort')
             .map((x) => (x.startsWith('-') ? 'desc' : 'asc'))
-            .filter(Boolean)[0] ?? '';
+            .find(Boolean) ?? '';
         this.sort.actives = queryParams.getAll('sort').join(',').split('-').join('').split(',').filter(Boolean) ?? [];
         this.sort.directions =
           queryParams

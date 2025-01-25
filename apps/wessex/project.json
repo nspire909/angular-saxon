@@ -1,6 +1,6 @@
 {
   "name": "wessex",
-  "$schema": "../../.yarn/unplugged/nx-virtual-1d131d6f9e/node_modules/nx/schemas/project-schema.json",
+  "$schema": "../../.yarn/unplugged/nx-virtual-80a71f5596/node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "apps/wessex/src",

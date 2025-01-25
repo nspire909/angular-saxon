@@ -44,13 +44,13 @@ export class MultiSortHeaderComponent extends MatSortHeader {
     return this._sort.isMulti() ? this._sort.actives.findIndex((activeId) => activeId === this.id) + 1 || '' : '';
   }
 
-  override _updateArrowDirection() {
-    if (this._sort.isMulti()) {
-      this._arrowDirection = this.getSortDirection();
-    } else {
-      super._updateArrowDirection();
-    }
-  }
+  // override _updateArrowDirection() {
+  //   if (this._sort.isMulti()) {
+  //     this._arrowDirection = this.getSortDirection();
+  //   } else {
+  //     super._updateArrowDirection();
+  //   }
+  // }
 
   override _getAriaSortAttribute() {
     if (this._sort.isMulti()) {
@@ -67,9 +67,9 @@ export class MultiSortHeaderComponent extends MatSortHeader {
     }
   }
 
-  private getSortDirection() {
-    const i = this._sort.actives.findIndex((activeIds) => activeIds === this.id);
-    const direction = this._sort.directions[i] || this.start || this._sort.start;
-    return this._isSorted() ? direction : this.start || this._sort.start;
-  }
+  // private getSortDirection() {
+  //   const i = this._sort.actives.findIndex((activeIds) => activeIds === this.id);
+  //   const direction = this._sort.directions[i] || this.start || this._sort.start;
+  //   return this._isSorted() ? direction : this.start || this._sort.start;
+  // }
 }

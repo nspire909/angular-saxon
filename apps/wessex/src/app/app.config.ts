@@ -1,10 +1,15 @@
-import { APP_INITIALIZER, type ApplicationConfig, provideExperimentalZonelessChangeDetection } from '@angular/core';
+import { provideHttpClient, withFetch } from '@angular/common/http';
+import {
+  type ApplicationConfig,
+  inject,
+  provideAppInitializer,
+  provideExperimentalZonelessChangeDetection,
+} from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter } from '@angular/router';
 import { provideScrollbarOptions } from 'ngx-scrollbar';
 import { appRoutes } from './app.routes';
-import { provideHttpClient, withFetch } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,17 +26,14 @@ export const appConfig: ApplicationConfig = {
       visibility: 'hover',
       appearance: 'compact',
     }),
-    {
-      provide: APP_INITIALIZER,
-      multi: true,
-      useFactory: (iconRegistry: MatIconRegistry) => () => {
-        const defaultFontSetClasses = iconRegistry.getDefaultFontSetClass();
-        const outlinedFontSetClasses = defaultFontSetClasses
-          .filter((fontSetClass) => fontSetClass !== 'material-icons')
-          .concat(['material-symbols-outlined']);
-        iconRegistry.setDefaultFontSetClass(...outlinedFontSetClasses);
-      },
-      deps: [MatIconRegistry],
-    },
+    provideAppInitializer(() => {
+      const iconRegistry = inject(MatIconRegistry);
+
+      const defaultFontSetClasses = iconRegistry.getDefaultFontSetClass();
+      const outlinedFontSetClasses = defaultFontSetClasses
+        .filter((fontSetClass) => fontSetClass !== 'material-icons')
+        .concat(['material-symbols-outlined']);
+      iconRegistry.setDefaultFontSetClass(...outlinedFontSetClasses);
+    }),
   ],
 };

@@ -1,5 +1,5 @@
 {
-  "$schema": ".yarn/unplugged/nx-virtual-1d131d6f9e/node_modules/nx/schemas/nx-schema.json",
+  "$schema": ".yarn/unplugged/nx-virtual-80a71f5596/node_modules/nx/schemas/nx-schema.json",
   "defaultBase": "main",
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],

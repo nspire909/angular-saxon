@@ -1,14 +1,14 @@
 import { type CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
-import { AsyncPipe, JsonPipe, NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { MultiSortDirective } from './multi-sort.directive';
-import { startWith } from 'rxjs';
 import { type Sort } from '@angular/material/sort';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { startWith } from 'rxjs';
+import { MultiSortDirective } from './multi-sort.directive';
 
 @Component({
   standalone: true,
@@ -19,14 +19,12 @@ import { type Sort } from '@angular/material/sort';
   imports: [
     MatChipsModule,
     DragDropModule,
-    NgTemplateOutlet,
     MatTooltipModule,
     MatCheckboxModule,
     FormsModule,
     MatIconModule,
-    AsyncPipe,
-    JsonPipe,
-  ],
+    AsyncPipe
+],
 })
 export class MultiSortChipListComponent<T> {
   public readonly sort = inject(MultiSortDirective);

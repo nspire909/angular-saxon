@@ -108,9 +108,9 @@ export class TableStore<T> {
 
   private createForm(columns?: Column<T>[]) {
     return this.fb.group(
-      (columns ?? ([] as Column<T>[])).reduce<{
-        [K in Extract<keyof T, string> | 'sort' | 'page' | 'size']: FormControl<string>;
-      }>(
+      (columns ?? ([] as Column<T>[])).reduce<
+        Record<Extract<keyof T, string> | 'sort' | 'page' | 'size', FormControl<string>>
+      >(
         (p, c) => ({
           ...p,
           [c.name]: this.fb.control<string>(
@@ -122,7 +122,7 @@ export class TableStore<T> {
           sort: this.fb.control<string>(''),
           page: this.fb.control<string>(''),
           size: this.fb.control<string>(''),
-        } as { [K in Extract<keyof T, string> | 'sort' | 'page' | 'size']: FormControl<string> },
+        } as Record<Extract<keyof T, string> | 'sort' | 'page' | 'size', FormControl<string>>,
       ),
     );
   }

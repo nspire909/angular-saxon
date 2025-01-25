@@ -1,5 +1,4 @@
 import { type City, type Entity, TableComponent, getCityEntity } from '@angular-saxon/components';
-import { JsonPipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, HostBinding, type WritableSignal, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
@@ -17,12 +16,11 @@ import { RouterModule } from '@angular/router';
     TableComponent,
     MatButtonToggleModule,
     ReactiveFormsModule,
-    JsonPipe,
     MatCheckboxModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule,
-  ],
+    MatButtonModule
+],
   selector: 'ngsx-wessex',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
